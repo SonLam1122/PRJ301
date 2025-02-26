@@ -78,6 +78,30 @@ VALUES
 ('user1', 'hashed_password2', 'user1@example.com', 'User One', '456 Elm St', 'user'),
 ('user2', 'hashed_password3', 'user2@example.com', 'User Two', '789 Oak St', 'user');
 
+
+
+INSERT INTO Users (username, password, email, full_name, address, role)
+VALUES 
+
+('user1', 'hashed_password1', 'user1@example.com', 'User One', '123 Main St', 'user'),
+('user2', 'hashed_password2', 'user2@example.com', 'User Two', '456 Elm St', 'user'),
+('user3', 'hashed_password3', 'user3@example.com', 'User Three', '789 Oak St', 'user'),
+('user4', 'hashed_password4', 'user4@example.com', 'User Four', '101 Maple St', 'user'),
+('user5', 'hashed_password5', 'user5@example.com', 'User Five', '555 Birch St', 'user'),
+('user6', 'hashed_password6', 'user6@example.com', 'User Six', '789 Pine St', 'user'),
+('user7', 'hashed_password7', 'user7@example.com', 'User Seven', '102 Cedar St', 'user'),
+('user8', 'hashed_password8', 'user8@example.com', 'User Eight', '203 Spruce St', 'user'),
+('user9', 'hashed_password9', 'user9@example.com', 'User Nine', '304 Willow St', 'user'),
+('user10', 'hashed_password10', 'user10@example.com', 'User Ten', '405 Oakwood St', 'user'),
+('user11', 'hashed_password11', 'user11@example.com', 'User Eleven', '506 Palm St', 'user'),
+('user12', 'hashed_password12', 'user12@example.com', 'User Twelve', '607 Redwood St', 'user'),
+('user13', 'hashed_password13', 'user13@example.com', 'User Thirteen', '708 Cherry St', 'user'),
+('user14', 'hashed_password14', 'user14@example.com', 'User Fourteen', '809 Cypress St', 'user'),
+('user15', 'hashed_password15', 'user15@example.com', 'User Fifteen', '910 Elmwood St', 'user');
+
+
+
+
 -- 1. Tiểu thuyết
 INSERT INTO Books (title, author, publisher, category, description, image, quantity)
 VALUES
@@ -134,24 +158,89 @@ VALUES
 
 INSERT INTO Borrow (user_id, book_id, borrow_date, due_date, return_date, status)
 VALUES 
-(2, 1, '2025-02-20', '2025-03-05', NULL, 'borrowed'),
-(3, 2, '2025-02-18', '2025-03-03', '2025-02-28', 'returned'),
-(2, 3, '2025-02-15', '2025-03-01', NULL, 'late');
+
+(1, 3, '2025-02-20', '2025-03-05', NULL, 'borrowed'),
+(2, 3, '2025-02-18', '2025-03-03', '2025-02-28', 'returned'),
+(3, 2, '2025-02-15', '2025-03-01', NULL, 'late'),
+(4, 1, '2025-02-20', '2025-03-05', NULL, 'borrowed'),
+(5, 2, '2025-02-18', '2025-03-03', '2025-02-28', 'returned'),
+(6, 3, '2025-02-15', '2025-03-01', NULL, 'late'),
+(7, 1, '2025-02-20', '2025-03-05', NULL, 'borrowed'),
+(8, 2, '2025-02-18', '2025-03-03', '2025-02-28', 'returned'),
+(9, 3, '2025-02-15', '2025-03-01', NULL, 'late'),
+(10, 1, '2025-02-20', '2025-03-05', NULL, 'borrowed'),
+(11, 2, '2025-02-18', '2025-03-03', '2025-02-28', 'returned'),
+(12, 3, '2025-02-15', '2025-03-01', NULL, 'late'),
+(13, 1, '2025-02-20', '2025-03-05', NULL, 'borrowed'),
+(14, 2, '2025-02-18', '2025-03-03', '2025-02-28', 'returned'),
+(15, 3, '2025-02-15', '2025-03-01', NULL, 'late');
+
+
+
 
 -- 4. Thêm lịch sử mượn/trả sách
-INSERT INTO Borrow_History (borrow_id, user_full_name, user_address, book_title, status)
+INSERT INTO Borrow (user_id, book_id, borrow_date, due_date, return_date, status)
 VALUES 
-(1, 'User One', '456 Elm St', 'Clean Code', 'borrowed'),
-(2, 'User Two', '789 Oak St', 'The Pragmatic Programmer', 'returned'),
-(3, 'User One', '456 Elm St', 'Introduction to Algorithms', 'borrowed');
+(1, 1, '2025-02-20', '2025-03-05', NULL, 'borrowed'),
+(1, 3, '2025-02-20', '2025-03-05', NULL, 'borrowed'),
+(2, 3, '2025-02-18', '2025-03-03', '2025-02-28', 'returned'),
+(3, 2, '2025-02-15', '2025-03-01', NULL, 'late'),
+(4, 1, '2025-02-20', '2025-03-05', NULL, 'borrowed'),
+(5, 2, '2025-02-18', '2025-03-03', '2025-02-28', 'returned'),
+(6, 3, '2025-02-15', '2025-03-01', NULL, 'late'),
+(7, 1, '2025-02-20', '2025-03-05', NULL, 'borrowed'),
+(8, 2, '2025-02-18', '2025-03-03', '2025-02-28', 'returned'),
+(9, 3, '2025-02-15', '2025-03-01', NULL, 'late'),
+(10, 1, '2025-02-20', '2025-03-05', NULL, 'borrowed'),
+(11, 2, '2025-02-18', '2025-03-03', '2025-02-28', 'returned'),
+(12, 3, '2025-02-15', '2025-03-01', NULL, 'late'),
+(13, 1, '2025-02-20', '2025-03-05', NULL, 'borrowed'),
+(14, 2, '2025-02-18', '2025-03-03', '2025-02-28', 'returned'),
+(15, 3, '2025-02-15', '2025-03-01', NULL, 'late');
+
+
+
+
+
+
+
 
 -- 5. Thêm tiền phạt cho các lượt mượn quá hạn
 INSERT INTO Fines (borrow_id, amount, status, status_date)
 VALUES 
-(3, 5.00, 0, '2025-03-02');
+(1, 5.00, 0, '2025-03-02'),
+(2, 4.50, 0, '2025-03-04'),
+(3, 6.75, 0, '2025-03-06'),
+(4, 3.25, 0, '2025-03-08'),
+(5, 7.80, 0, '2025-03-10'),
+(6, 2.90, 0, '2025-03-12'),
+(7, 4.10, 0, '2025-03-14'),
+(8, 5.30, 0, '2025-03-16'),
+(9, 8.50, 0, '2025-03-18'),
+(10, 6.40, 0, '2025-03-20'),
+(11, 7.95, 0, '2025-03-22'),
+(12, 9.20, 0, '2025-03-24'),
+(13, 3.70, 0, '2025-03-26'),
+(14, 5.55, 0, '2025-03-28'),
+(15, 4.90, 0, '2025-03-30');  
+
 
 -- 6. Thêm thông tin thanh toán tiền phạt
 INSERT INTO Payments (user_id, fine_id, amount, payment_date)
 VALUES 
-(2, 1, 5.00, '2025-03-05');
+(1, 3, 15.00, '2025-03-05'),
+(2, 1, 15.00, '2025-03-05'),
+(3, 5, 55.00, '2025-03-05'),
+(4, 4, 15.00, '2025-03-05'),
+(5, 2, 45.00, '2025-03-05'),
+(6, 9, 55.00, '2025-03-05'),
+(7, 7, 50.00, '2025-03-05'),
+(8, 6, 25.00, '2025-03-05'),
+(9, 8, 30.00, '2025-03-05'),
+(10, 11, 35.00, '2025-03-05'),
+(11, 14, 5.00, '2025-03-05'),
+(12, 10, 10.00, '2025-03-05'),
+(13, 12, 20.00, '2025-03-05'),
+(14, 15, 25.00, '2025-03-05'),
+(15, 13, 50.00, '2025-03-05');
 
