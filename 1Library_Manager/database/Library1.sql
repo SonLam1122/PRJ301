@@ -170,8 +170,8 @@ UPDATE Payments
 SET status = 1
 WHERE payment_id = 3;
 
-SELECT * FROM Payments;
-SELECT * FROM Fines;
-SELECT * FROM Borrow;
-SELECT * FROM Books;
-SELECT * FROM Users;
+--SELECT * FROM Payments;
+--SELECT * FROM Fines;
+--SELECT * FROM Borrow;
+--SELECT * FROM Books;
+--SELECT * FROM Users;
