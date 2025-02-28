@@ -101,11 +101,11 @@ public class loginServlet extends HttpServlet {
             request.setAttribute("error", "Username or Password is invalid!");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         } else {
-            session.setAttribute("account", a);
+            session.setAttribute("user", a);
             if ("admin".equalsIgnoreCase(a.getRole())) { 
                 request.getRequestDispatcher("crud.jsp").forward(request, response);
             } else {
-                response.sendRedirect("home.jsp");
+                response.sendRedirect("home_1.jsp");
             }
         }
 

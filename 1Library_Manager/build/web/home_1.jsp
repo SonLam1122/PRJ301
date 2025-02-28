@@ -71,10 +71,16 @@
                                             </a>
                                         </div>
                                         <div class="search_icon">
-                                            <a href="#" onclick="showProfile()">
+                                            <a href="#" onclick="toggleProfile()">
                                                 <img src="images/eye-icon.png">
                                                 <span class="padding_left_25">Profile</span>
                                             </a>
+                                            <!-- Thông tin Profile -->
+                                            <div id="profile" style="display: none; padding-left: 10px;">
+                                                <p><strong>Username:</strong> ${sessionScope.user.username}</p>
+                                                <p><strong>Full Name:</strong> ${sessionScope.user.name}</p>
+                                                <p><strong>Email:</strong> ${sessionScope.user.email}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </c:if>
@@ -91,6 +97,31 @@
                                 </div>
                             </div><!--top-right-->
                         </div>
+
+                        <!-- JavaScript để toggle hiển thị thông tin profile -->
+                        <script>
+                            function toggleProfile() {
+                                var profile = document.getElementById("profile");
+                                if (profile.style.display === "none") {
+                                    profile.style.display = "block";
+                                } else {
+                                    profile.style.display = "none";
+                                }
+                            }
+                        </script>
+
+
+                        <!-- JavaScript để toggle hiển thị thông tin profile -->
+                        <script>
+                            function toggleProfile() {
+                                var profile = document.getElementById("profile");
+                                if (profile.style.display === "none") {
+                                    profile.style.display = "block";
+                                } else {
+                                    profile.style.display = "none";
+                                }
+                            }
+                        </script>
                     </div>
                 </div>
             </div><!--top-content-->
