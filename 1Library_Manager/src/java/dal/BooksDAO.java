@@ -312,7 +312,7 @@ public class BooksDAO extends DBContext {
 //    }
     public List<Books> getBooksPerPage(int startIndex, int booksPerPage) {
         List<Books> books = new ArrayList<>();
-        String sql = "SELECT [book_id], [title], [author], [publisher], [quantity] "
+        String sql = "SELECT [book_id], [title], [author], [publisher],[description],[image], [quantity] "
                 + "FROM [dbo].[Books] "
                 + "ORDER BY book_id "
                 + "OFFSET ? ROWS "
@@ -328,6 +328,7 @@ public class BooksDAO extends DBContext {
                 Books book = new Books();
                 book.setBookId(rs.getInt("book_id"));
                 book.setTitle(rs.getString("title"));
+                book.setImage(rs.getString("image"));
                 book.setAuthor(rs.getString("author"));
                 book.setPublisher(rs.getString("publisher"));
                 book.setQuantity(rs.getInt("quantity"));
@@ -343,7 +344,7 @@ public class BooksDAO extends DBContext {
 
     public int getTotalProducts() {
         int total = 0;
-        String sql = "SELECT COUNT(*) AS total FROM [dbo].[Product]";
+        String sql = "SELECT COUNT(*) AS total FROM [dbo].[Books]";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();

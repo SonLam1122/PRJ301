@@ -80,18 +80,11 @@
                         <div class="col-md-6">
                             <div class="social-links">
                                 <ul>
-                                    <li>
-                                        <a href="#"><i class="icon icon-facebook"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icon icon-twitter"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icon icon-youtube-play"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icon icon-behance-square"></i></a>
-                                    </li>
+                                   
+                                     <form id="f1" action="search">
+                                        <input type="text" name="key" placeholder="SEARCH"/><br/>
+                                        <input type="submit" value="Search"/>
+                                    </form>
                                 </ul>
                             </div><!--social-links-->
                         </div>
@@ -106,6 +99,7 @@
                                 <a href="login.jsp" class="user-account for-buy">
                                     <i class="icon icon-user"></i><span>Login</span>
                                 </a>
+
                                 <% } else { %>
                                 <!-- Nếu đã đăng nhập -->
                                 <div class="user-info-container d-flex align-items-center">
@@ -128,13 +122,11 @@
                                         <img src="images/logout.png">
                                         <span>Logout</span>
                                     </a>
+                                   
                                 </div>
                                 <% } %>
                             </div><!-- right-element -->
                         </div>
-
-
-
 
                     </div>
                 </div>
@@ -161,7 +153,7 @@
 
 
                                         </li>
-                                        <li class="menu-item"><a href="#featured-books" class="nav-link">Library Book</a></li>
+                                        <li class="menu-item"><a href="library" class="nav-link">Library Book</a></li>
                                         <li class="menu-item"><a href="#popular-books" class="nav-link">Borrow Book</a></li>
                                         <li class="menu-item"><a href="#special-offer" class="nav-link">Borrow History</a></li>
                                         <li class="menu-item"><a href="#latest-blog" class="nav-link">Fines</a></li>
