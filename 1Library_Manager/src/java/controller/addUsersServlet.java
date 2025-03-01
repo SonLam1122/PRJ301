@@ -18,7 +18,7 @@ import model.Users;
  *
  * @author BUI TUAN DAT
  */
-@WebServlet(name = "addAccoumtServlet", urlPatterns = {"/add"})
+@WebServlet(name = "addUsersServlet", urlPatterns = {"/add"})
 public class addUsersServlet extends HttpServlet {
 
     /**
@@ -59,34 +59,34 @@ public class addUsersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id_raw = request.getParameter("id");
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
         String username = request.getParameter("user");
         String password = request.getParameter("pass");
-        String role = request.getParameter("role");
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
 
-        int id;
         UsersDAO userDao = new UsersDAO();
+        String role = "user"; // Mặc định vai trò là "user"
 
         try {
-            id = Integer.parseInt(id_raw);
+            // Kiểm tra tài khoản hoặc email đã tồn tại chưa
+            boolean isUsernameExisted = userDao.existedUserCheck(username);
+            boolean isEmailExisted = userDao.existedEmailCheck(email);
 
-            // Kiểm tra ID đã tồn tại chưa
-            Users existingUser = userDao.getAccountById(id);
-            if (existingUser == null) {
-                // Tạo tài khoản mới
-                Users newUser = new Users(id, name, username, password, email, role);
-                userDao.insert(newUser);
-
-                response.sendRedirect("acrud");  // Chuyển hướng về trang danh sách tài khoản
+            if (isUsernameExisted || isEmailExisted) {
+                request.setAttribute("error", "Tên đăng nhập hoặc email đã tồn tại!");
+                request.getRequestDispatcher("acrud").forward(request, response);
             } else {
-                request.setAttribute("error", "ID " + id + " đã tồn tại!");
-                request.getRequestDispatcher("accountcrud.jsp").forward(request, response);
+                // Đăng ký tài khoản mới
+                Users newUser = new Users(name, username, password, email, role);
+                userDao.register(newUser);
+
+                // Chuyển hướng về trang đăng nhập sau khi đăng ký thành công
+                request.getRequestDispatcher("acrud").forward(request, response);
             }
-        } catch (NumberFormatException e) {
-            request.setAttribute("error", "ID không hợp lệ!");
-            request.getRequestDispatcher("accountcrud.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace(); // Log lỗi để debug
+            request.setAttribute("error", "Lỗi hệ thống, vui lòng thử lại!");
+            request.getRequestDispatcher("acrud").forward(request, response);
         }
     }
 

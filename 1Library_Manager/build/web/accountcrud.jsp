@@ -269,7 +269,7 @@
                 $('#add' + entityType + 'Modal').modal('show');
             }
             function toDelete(aid) {
-                if (confirm("Bạn có muốn xóa account với aid=" + aid + " không?")) {
+                if (confirm("Bạn có muốn xóa user với id=" + aid + " không?")) {
                     window.location = "deleteaccount?aid=" + aid;
                 }
             }
@@ -287,10 +287,10 @@
                                     <a href="acrud"><button class="btn btn-secondary"  >Account(${requestScope.size})</button></a>
                                 </div>
                                 <div class="col">
-                                    <a href="pcrud"><button class="btn btn-secondary"  >Product</button></a>
+                                    <a href="lcrud"><button class="btn btn-secondary"  >Library</button></a>
                                 </div>
                                 <div class="col">
-                                    <a href="ccrud"><button class="btn btn-secondary"  >Category</button></a>
+                                    <a href="bcrud"><button class="btn btn-secondary"  >Borrow</button></a>
                                 </div>
                             </div>
 
@@ -304,65 +304,44 @@
                         </div>
                     </div>
                     <!--                    su dung for-->
+
+
                     <table class="table table-striped table-hover">
-                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Action</th>
+                        </tr>
+
+                        <c:forEach var="al" items="${userlist}">
                             <tr>
-                                <th>
-                                    <span class="custom-checkbox">
-                                        <input type="checkbox" id="selectAll">
-                                        <label for="selectAll"></label>
-                                    </span>
-                                </th>
-
-                                <th>id</th>
-                                <th>name</th>
-                                <th>amount</th>
-                                <th>username</th>
-                                <th>password</th>
-                                <th>role</th>
-                                <th>action</th>
-
+                                <td>${al.userId}</td>
+                                <td>${al.name}</td>
+                                <td>${al.username}</td>
+                                <td>${al.password}</td>
+                                <td>${al.email}</td>
+                                <td>${al.role}</td>
+                                <td>
+                                    <a href="update?id=${al.userId}">Update</a>
+                                    <a href="#" onclick="toDelete('${al.userId}')">Delete</a>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-
-                            <!--do du lieu vao bang account-->
-                            <c:forEach var="al" items="${requestScope.accountlist}">
-
-                                <tr>
-                                    <td>
-                                        <span class="custom-checkbox">
-                                            <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                            <label for="checkbox1"></label>
-                                        </span>
-                                    </td>
-                                    <c:set var="aid" value="${al.aid}"/>
-                                    <td>${aid}</td>
-                                    <td>${al.name}</td>
-                                    <td>${al.amount}</td>
-                                    <td>${al.username}</td>
-                                    <td>${al.password}</td>
-                                    <td>${al.role}</td>
-
-                                    <td>
-                                        <a href="update?id=${aid}">Update</a>
-                                        <a href="#" onclick="toDelete('${aid}')">Delete</a>
-                                    </td>
-
-                                </tr>
-
-                            </c:forEach>
+                        </c:forEach>
 
 
                         </tbody>
                     </table>
                     <div class="clearfix">
-                        <div class="hint-text"><a href="home">Back to home</a></div>
+                        <div class="hint-text"><a href="home.jsp">Back to home</a></div>
                         <ul class="pagination">
                             <li class="page-item disabled"><a href="#">Previous</a></li>
-                            <li class="page-item"><a href="#" class="page-link">1</a></li>
+                            <li class="page-item active"><a href="#" class="page-link">1</a></li>
                             <li class="page-item"><a href="#" class="page-link">2</a></li>
-                            <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                            <li class="page-item"><a href="#" class="page-link">3</a></li>
                             <li class="page-item"><a href="#" class="page-link">4</a></li>
                             <li class="page-item"><a href="#" class="page-link">5</a></li>
                             <li class="page-item"><a href="#" class="page-link">Next</a></li>
@@ -385,16 +364,8 @@
                         <!--do dulieu vao de add-->
                         <div class="modal-body">					
                             <div class="form-group">
-                                <label>Id</label>
-                                <input type="number" class="form-control" required name="id">
-                            </div>
-                            <div class="form-group">
                                 <label>Name</label>
                                 <input type="text" class="form-control" required name="name">
-                            </div>
-                            <div class="form-group">
-                                <label>Amount</label>
-                                <input type="number" class="form-control" required name="amount">
                             </div>
                             <div class="form-group">
                                 <label>Username</label>
@@ -405,8 +376,15 @@
                                 <input type="text" class="form-control" required name="pass">
                             </div>
                             <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" class="form-control" required name="email">
+                            </div>
+                            <div class="form-group">
                                 <label>Role</label>
-                                <input type="number" class="form-control" required name="role">
+                                <select class="form-control" required name="role">
+                                    <option value="user" ${a.role == 'user' ? 'selected' : ''}>User</option>
+                                    <option value="admin" ${a.role == 'admin' ? 'selected' : ''}>Admin</option>
+                                </select>
                             </div>
                         </div>
 

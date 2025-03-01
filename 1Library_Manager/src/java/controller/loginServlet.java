@@ -103,9 +103,9 @@ public class loginServlet extends HttpServlet {
         } else {
             session.setAttribute("user", a);
             if ("admin".equalsIgnoreCase(a.getRole())) { 
-                request.getRequestDispatcher("crud.jsp").forward(request, response);
+                request.getRequestDispatcher("home.jsp").forward(request, response);
             } else {
-                response.sendRedirect("home_1.jsp");
+                response.sendRedirect("home.jsp");
             }
         }
 

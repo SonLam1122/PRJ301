@@ -25,12 +25,39 @@ public class UsersDAO extends DBContext {
         }
     }
 
+    public boolean isNameExist(String name) {
+        String sql = "SELECT user_id FROM Users WHERE name = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, name);  // Giả sử bạn muốn kiểm tra tên người dùng trong bảng Users
+            ResultSet rs = st.executeQuery();
+            return rs.next();  // Nếu có kết quả trả về thì tên tồn tại
+        } catch (SQLException e) {
+            System.out.println(e);  // In ra lỗi nếu có
+        }
+        return false;  // Nếu không tìm thấy tên người dùng
+    }
+
     // Kiểm tra tài khoản tồn tại
     public boolean existedUserCheck(String username) {
         String sql = "SELECT user_id FROM Users WHERE username = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    // Kiểm tra mail tồn tại
+    public boolean existedEmailCheck(String email) {
+        String sql = "SELECT user_id FROM Users WHERE email = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, email);
             ResultSet rs = st.executeQuery();
             return rs.next();
         } catch (SQLException e) {
@@ -156,15 +183,19 @@ public class UsersDAO extends DBContext {
             System.out.println(e);
         }
     }
+    
+    public int getUserIdByName(String nameUser) {
+        String sql = "SELECT user_id FROM Users WHERE name = ?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, nameUser);  // Thiết lập tên người dùng vào câu truy vấn
 
-    public static void main(String[] args) {
-        int id = 1;
-        UsersDAO userDao = new UsersDAO();
-        Users user = userDao.getAccountById(id);
-        if (user != null) {
-            System.out.println(user.getName());
-        } else {
-            System.out.println("User not found.");
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("user_id");  // Trả về user_id nếu tìm thấy
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in getUserIdByName: " + e.getMessage());
         }
+        return -1;  // Trả về -1 nếu không tìm thấy người dùng
     }
 }

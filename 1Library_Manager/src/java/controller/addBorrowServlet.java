@@ -1,0 +1,145 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
+package controller;
+
+import dal.BooksDAO;
+import dal.UsersDAO;
+import dal.BorrowDAO;
+import java.io.IOException;
+import java.io.PrintWriter;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.util.Calendar;
+import model.Borrow;
+
+/**
+ *
+ * @author BUI TUAN DAT
+ */
+@WebServlet(name = "addCategoryServlet", urlPatterns = {"/addcategory"})
+public class addBorrowServlet extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet addCategoryServlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet addCategoryServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String nameUser = request.getParameter("nameUser");
+        String nameBook = request.getParameter("nameBook");
+        String borrowDateStr = request.getParameter("borrowDate");
+        String numberOfDaysStr = request.getParameter("numberOfDays");  // Số ngày cho thuê từ form
+
+        int id;
+        BorrowDAO borrowDAO = new BorrowDAO();
+        UsersDAO userDAO = new UsersDAO(); // Giả sử bạn có lớp UserDAO để thao tác với bảng users
+        BooksDAO bookDAO = new BooksDAO(); // Giả sử bạn có lớp BookDAO để thao tác với bảng books
+
+        try {
+
+            // Kiểm tra xem người dùng và sách có tồn tại không
+            boolean userExists = userDAO.isNameExist(nameUser);
+            boolean bookExists = bookDAO.isBookExist(nameBook);
+
+            if (!userExists) {
+                request.setAttribute("error", "User with name '" + nameUser + "' does not exist.");
+                request.getRequestDispatcher("bcrud").forward(request, response);
+                return;
+            }
+
+            if (!bookExists) {
+                request.setAttribute("error", "Book with name '" + nameBook + "' does not exist.");
+                request.getRequestDispatcher("bcrud").forward(request, response);
+                return;
+            }
+
+            // Chuyển đổi borrowDate và numberOfDays
+            Date borrowDate = Date.valueOf(borrowDateStr);  // Chuyển borrowDate từ chuỗi sang Date
+            int numberOfDays = Integer.parseInt(numberOfDaysStr);  // Chuyển numberOfDays từ chuỗi sang int
+
+            // Tính toán dueDate bằng cách thêm numberOfDays vào borrowDate
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(borrowDate);
+            cal.add(Calendar.DAY_OF_YEAR, numberOfDays);  // Thêm số ngày mượn vào borrowDate
+            Date dueDate = new Date(cal.getTimeInMillis());
+
+            Borrow newBorrow = new Borrow(userDAO.getUserIdByName(nameUser), bookDAO.getBookIdByTitle(nameBook), borrowDate, dueDate, null, "borrowed");
+            borrowDAO.insert(newBorrow);  // Gọi phương thức insert để thêm bản ghi mới
+
+            // Chuyển hướng sau khi thành công
+            response.sendRedirect("bcrud");
+        } catch (NumberFormatException e) {
+            // Xử lý lỗi khi không thể chuyển đổi id hoặc numberOfDays thành số nguyên
+            request.setAttribute("error", "Invalid input format.");
+            request.getRequestDispatcher("bcrud").forward(request, response);
+        } catch (Exception e) {
+            // Xử lý các lỗi khác
+            e.printStackTrace();
+            request.setAttribute("error", "An unexpected error occurred.");
+            request.getRequestDispatcher("bcrud").forward(request, response);
+        }
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}

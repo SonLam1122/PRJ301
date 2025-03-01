@@ -5,7 +5,7 @@ CREATE TABLE Users (
     user_id INT PRIMARY KEY IDENTITY(1,1),
     username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(100) NOT NULL,
     name VARCHAR(100) NOT NULL,
     role VARCHAR(10) CHECK (role IN ('admin', 'user')) NOT NULL DEFAULT 'user',
     created_at DATETIME DEFAULT GETDATE()
@@ -170,8 +170,8 @@ UPDATE Payments
 SET status = 1
 WHERE payment_id = 3;
 
---SELECT * FROM Payments;
---SELECT * FROM Fines;
---SELECT * FROM Borrow;
---SELECT * FROM Books;
---SELECT * FROM Users;
+SELECT * FROM Payments;
+SELECT * FROM Fines;
+SELECT * FROM Borrow;
+SELECT * FROM Books;
+SELECT * FROM Users;

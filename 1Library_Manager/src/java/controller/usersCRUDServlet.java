@@ -55,7 +55,7 @@ public class usersCRUDServlet extends HttpServlet {
         
         List<Users> list = ad.getAllAccount();
         
-        request.setAttribute("accountlist", list);
+        request.setAttribute("userlist", list);
         int n;
         if(list.size()>0){
             n=list.size();

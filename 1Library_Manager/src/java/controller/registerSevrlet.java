@@ -68,26 +68,27 @@ public class registerSevrlet extends HttpServlet {
         String role = "user"; // Mặc định vai trò là "user"
 
         try {
-            // Kiểm tra tài khoản đã tồn tại chưa
-            Users existingUser = userDao.check(username, password);
-            boolean isExisted = userDao.existedUserCheck(username);
+            // Kiểm tra tài khoản hoặc email đã tồn tại chưa
+            boolean isUsernameExisted = userDao.existedUserCheck(username);
+            boolean isEmailExisted = userDao.existedEmailCheck(email);
 
-            if (existingUser != null || isExisted) {
-                request.setAttribute("error", "Tài khoản đã tồn tại!");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
+            if (isUsernameExisted || isEmailExisted) {
+                request.setAttribute("error", "Tên đăng nhập hoặc email đã tồn tại!");
+                request.getRequestDispatcher("register.jsp").forward(request, response);
             } else {
                 // Đăng ký tài khoản mới
                 Users newUser = new Users(name, username, password, email, role);
                 userDao.register(newUser);
 
-                // Sau khi đăng ký thành công, chuyển hướng về trang chủ
-                request.getRequestDispatcher("home.jsp").forward(request, response);
+                // Chuyển hướng về trang đăng nhập sau khi đăng ký thành công
+                request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace(); // Log lỗi để debug
             request.setAttribute("error", "Lỗi hệ thống, vui lòng thử lại!");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("register.jsp").forward(request, response);
         }
+
     }
 
     /**

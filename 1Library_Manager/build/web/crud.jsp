@@ -286,10 +286,10 @@
                                     <a href="acrud"><button class="btn btn-secondary"  >Account</button></a>
                                 </div>
                                 <div class="col">
-                                    <a href="pcrud"><button class="btn btn-secondary"  >Product</button></a>
+                                    <a href="lcrud"><button class="btn btn-secondary"  >Library</button></a>
                                 </div>
                                 <div class="col">
-                                    <a href="ccrud"><button class="btn btn-secondary"  >Category</button></a>
+                                    <a href="bcrud"><button class="btn btn-secondary"  >Borrow</button></a>
                                 </div>
                             </div>
                             
