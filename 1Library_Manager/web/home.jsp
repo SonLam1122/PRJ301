@@ -67,6 +67,29 @@
             .dropdown:hover .dropdown-content {
                 display: block;
             }
+            .product-item figure img {
+    width: 100%; /* Chiều rộng đầy đủ */
+    height: 400px; /* Đặt chiều cao cố định */
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+    border-radius: 10px; /* Bo góc hình ảnh (tùy chỉnh) */
+}
+
+.product-style img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    
+}
+.grid {
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    flex-wrap: wrap; /* Đảm bảo các phần tử không bị tràn */
+    gap: 20px; /* Tạo khoảng cách giữa các phần tử */
+    text-align: center; /* Căn giữa nội dung bên trong */
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+}
+
         </style>
     </head>
 
@@ -80,8 +103,8 @@
                         <div class="col-md-6">
                             <div class="social-links">
                                 <ul>
-                                   
-                                     <form id="f1" action="search">
+
+                                    <form id="f1" action="search">
                                         <input type="text" name="key" placeholder="SEARCH"/><br/>
                                         <input type="submit" value="Search"/>
                                     </form>
@@ -99,14 +122,13 @@
                                 <a href="login.jsp" class="user-account for-buy">
                                     <i class="icon icon-user"></i><span>Login</span>
                                 </a>
-
                                 <% } else { %>
                                 <!-- Nếu đã đăng nhập -->
                                 <div class="user-info-container d-flex align-items-center">
                                     <div class="user-details">
-                                        <span>👤<%= user.getUsername() %></span>
-                                        <span>📧<%= user.getEmail() %></span>
-                                        <span>📖<%= user.getName() %></span>
+                                        <span>👤 <%= user.getUsername() %></span>
+                                        <span>📧 <%= user.getEmail() %></span>
+                                        <span>📖 <%= user.getName() %></span>
                                     </div>
 
                                     <% if ("admin".equals(user.getRole())) { %>
@@ -122,10 +144,10 @@
                                         <img src="images/logout.png">
                                         <span>Logout</span>
                                     </a>
-                                   
                                 </div>
                                 <% } %>
-                            </div><!-- right-element -->
+                            </div>
+                            <!-- right-element -->
                         </div>
 
                     </div>
@@ -148,16 +170,15 @@
                             <nav id="navbar">
                                 <div class="main-menu stellarnav">
                                     <ul class="menu-list">
-                                        <li class="menu-item active"><a href="#home">Home</a></li>
-                                        <li class="menu-item has-sub">
+                                        <li class="menu-item active"><a href="home.jsp">Home</a></li>
+                                        <li class="menu-item"><a href="library" class="nav-link">Library</a></li>
 
-
-                                        </li>
-                                        <li class="menu-item"><a href="library" class="nav-link">Library Book</a></li>
-                                        <li class="menu-item"><a href="#popular-books" class="nav-link">Borrow Book</a></li>
-                                        <li class="menu-item"><a href="#special-offer" class="nav-link">Borrow History</a></li>
-                                        <li class="menu-item"><a href="#latest-blog" class="nav-link">Fines</a></li>
-                                        <li class="menu-item"><a href="#download-app" class="nav-link"> Payments</a></li>
+                                        <% if (user != null) { %>  <!-- Kiểm tra nếu đã đăng nhập -->
+                                        <li class="menu-item"><a href="borrow" class="nav-link">Borrow</a></li>
+                                        <li class="menu-item"><a href="borrowHistory" class="nav-link">Borrow History</a></li>
+                                        <li class="menu-item"><a href="fines" class="nav-link">Fines</a></li>
+                                        <li class="menu-item"><a href="payment" class="nav-link">Payments</a></li>
+                                        <% } %>  <!-- Nếu chưa đăng nhập, chỉ hiển thị Home & Library -->
                                     </ul>
 
                                     <div class="hamburger">
@@ -165,9 +186,9 @@
                                         <span class="bar"></span>
                                         <span class="bar"></span>
                                     </div>
-
                                 </div>
                             </nav>
+
 
                         </div>
 
@@ -331,7 +352,7 @@
                     <div class="col-md-12">
 
                         <div class="btn-wrap align-right">
-                            <a href="#" class="btn-accent-arrow">View all products <i
+                            <a href="library" class="btn-accent-arrow">View all products <i
                                     class="icon icon-ns-arrow-right"></i></a>
                         </div>
 
@@ -398,7 +419,7 @@
                             <li data-tab-target="#technology" class="tab">Tâm Linh</li>
                             <li data-tab-target="#romantic" class="tab">Tư Duy</li>
                             <li data-tab-target="#adventure" class="tab">Truyện Tranh</li>
-                            <li data-tab-target="#fictional" class="tab">Kỹ Năng Sống</li>
+                            <li data-tab-target="#fictional" class="tab">Tiểu Thuyết</li>
                         </ul>
 
                         <div class="tab-content">
@@ -536,14 +557,14 @@
                                     <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
-                                                <img src="images/tab-item2.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                                    Cart</button>
+                                                <img src="images/book/khoinghiemtinhgon.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                </button>
                                             </figure>
                                             <figcaption>
-                                                <h3>Peaceful Enlightment</h3>
-                                                <span>Marmik Lama</span>
-                                                <div class="item-price">$ 40.00</div>
+                                                <h3>Khởi nghiệp tinh gọn</h3>
+                                                <span>Eric Ries</span>
+
                                             </figcaption>
                                         </div>
                                     </div>
@@ -551,14 +572,14 @@
                                     <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
-                                                <img src="images/tab-item4.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                                    Cart</button>
+                                                <img src="images/book/zerotoone.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                </button>
                                             </figure>
                                             <figcaption>
-                                                <h3>Great travel at desert</h3>
-                                                <span>Sanchit Howdy</span>
-                                                <div class="item-price">$ 40.00</div>
+                                                <h3>Zero to One</h3>
+                                                <span>Peter Thiel</span>
+
                                             </figcaption>
                                         </div>
                                     </div>
@@ -566,14 +587,14 @@
                                     <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
-                                                <img src="images/tab-item6.jpg" alt="Books" class="product-item">
+                                                <img src="images/book/nghigiaulamgiau.jpg" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
                                                     Cart</button>
                                             </figure>
                                             <figcaption>
-                                                <h3>Life among the pirates</h3>
-                                                <span>Armor Ramsey</span>
-                                                <div class="item-price">$ 40.00</div>
+                                                <h3>Nghĩ giàu làm giàu</h3>
+                                                <span>Napoleon Hill</span>
+
                                             </figcaption>
                                         </div>
                                     </div>
@@ -581,34 +602,68 @@
                                     <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
-                                                <img src="images/tab-item8.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                                    Cart</button>
+                                                <img src="images/book/cachmangcongnghiep.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                </button>
                                             </figure>
                                             <figcaption>
-                                                <h3>Simple way of piece life</h3>
-                                                <span>Armor Ramsey</span>
-                                                <div class="item-price">$ 40.00</div>
+                                                <h3>Cách mạng công nghiệp 4.0</h3>
+                                                <span>Klaus Schwab</span>
+
                                             </figcaption>
                                         </div>
                                     </div>
 
+                               
+
+                                <div class="col-md-3">
+                                    <div class="product-item">
+                                        <figure class="product-style">
+                                            <img src="images/book/damthatbai.jpg" alt="Books" class="product-item">
+                                            <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                            </button>
+                                        </figure>
+                                        <figcaption>
+                                            <h3>Dám thất bại</h3>
+                                            <span>Billi P.S. Lim</span>
+
+                                        </figcaption>
+                                    </div>
                                 </div>
+                                     </div>
                             </div>
+
+
 
                             <div id="technology" data-tab-content>
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
-                                                <img src="images/tab-item1.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                                    Cart</button>
+                                                <img src="images/book/hanhtrinhvephuongdong.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                </button>
                                             </figure>
                                             <figcaption>
-                                                <h3>Peaceful Enlightment</h3>
-                                                <span>Marmik Lama</span>
-                                                <div class="item-price">$ 40.00</div>
+                                                <h3>Hành trình về phương Đông</h3>
+                                                <span>Baird T. Spalding</span>
+
+                                            </figcaption>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <div class="product-item">
+                                            <figure class="product-style">
+                                                <img src="images/book/muonkiepnhansinh.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                </button>
+                                            </figure>
+                                            <figcaption>
+                                                <h3>Muôn kiếp nhân sinh</h3>
+                                                <span>Nguyên Phong</span>
+                                                
                                             </figcaption>
                                         </div>
                                     </div>
@@ -616,14 +671,14 @@
                                     <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
-                                                <img src="images/tab-item3.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                                    Cart</button>
+                                                <img src="images/book/bimatcuanuoc.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                 </button>
                                             </figure>
                                             <figcaption>
-                                                <h3>Great travel at desert</h3>
-                                                <span>Sanchit Howdy</span>
-                                                <div class="item-price">$ 40.00</div>
+                                                <h3>Bí mật của nước</h3>
+                                                <span>Masaru Emoto</span>
+                                               
                                             </figcaption>
                                         </div>
                                     </div>
@@ -631,29 +686,14 @@
                                     <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
-                                                <img src="images/tab-item5.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
+                                                <img src="images/book/tutotdenvidai.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
                                                     Cart</button>
                                             </figure>
                                             <figcaption>
-                                                <h3>Life among the pirates</h3>
-                                                <span>Armor Ramsey</span>
-                                                <div class="item-price">$ 40.00</div>
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/tab-item7.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                                    Cart</button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Simple way of piece life</h3>
-                                                <span>Armor Ramsey</span>
-                                                <div class="item-price">$ 40.00</div>
+                                                <h3>Sức mạnh của hiện tại</h3>
+                                                <span>Eckhart Tolle</span>
+                                               
                                             </figcaption>
                                         </div>
                                     </div>
@@ -665,14 +705,14 @@
                                     <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
-                                                <img src="images/tab-item1.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                                    Cart</button>
+                                                <img src="images/book/tuduynhanhvacham.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                    </button>
                                             </figure>
                                             <figcaption>
-                                                <h3>Peaceful Enlightment</h3>
-                                                <span>Marmik Lama</span>
-                                                <div class="item-price">$ 40.00</div>
+                                                <h3>Tư duy nhanh và chậm</h3>
+                                                <span>Daniel Kahneman</span>
+                                                
                                             </figcaption>
                                         </div>
                                     </div>
@@ -680,14 +720,14 @@
                                     <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
-                                                <img src="images/tab-item3.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                                    Cart</button>
+                                                <img src="images/book/loituduycuanguoithanhcong.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                    </button>
                                             </figure>
                                             <figcaption>
-                                                <h3>Great travel at desert</h3>
-                                                <span>Sanchit Howdy</span>
-                                                <div class="item-price">$ 40.00</div>
+                                                <h3>Lối tư duy của người thành công</h3>
+                                                <span>Carol S. Dweck</span>
+                                                
                                             </figcaption>
                                         </div>
                                     </div>
@@ -695,14 +735,14 @@
                                     <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
-                                                <img src="images/tab-item5.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                                    Cart</button>
+                                                <img src="images/book/bancosthedamphanbatcudieugi.png" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                    </button>
                                             </figure>
                                             <figcaption>
-                                                <h3>Life among the pirates</h3>
-                                                <span>Armor Ramsey</span>
-                                                <div class="item-price">$ 40.00</div>
+                                                <h3>Bạn có thể đàm phán bất cứ điều gì</h3>
+                                                <span>Herb Cohen</span>
+                                               
                                             </figcaption>
                                         </div>
                                     </div>
@@ -710,17 +750,33 @@
                                     <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
-                                                <img src="images/tab-item7.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                                    Cart</button>
+                                                <img src="images/book/sucmanhcuathoiquen.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                    </button>
                                             </figure>
                                             <figcaption>
-                                                <h3>Simple way of piece life</h3>
-                                                <span>Armor Ramsey</span>
-                                                <div class="item-price">$ 40.00</div>
+                                                <h3>Sức mạnh của thói quen</h3>
+                                                <span>Charles Duhigg</span>
+                                               
                                             </figcaption>
                                         </div>
                                     </div>
+                                    
+                                     <div class="col-md-3">
+                                        <div class="product-item">
+                                            <figure class="product-style">
+                                                <img src="images/book/tamlyhocdamdong.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                    </button>
+                                            </figure>
+                                            <figcaption>
+                                                <h3>Tâm lý học đám đông</h3>
+                                                <span>Gustave Le Bon</span>
+                                               
+                                            </figcaption>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                             </div>
 
@@ -729,29 +785,74 @@
                                     <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
-                                                <img src="images/tab-item5.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                                    Cart</button>
+                                                <img src="images/book/onpiec.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                    </button>
                                             </figure>
                                             <figcaption>
-                                                <h3>Life among the pirates</h3>
-                                                <span>Armor Ramsey</span>
-                                                <div class="item-price">$ 40.00</div>
+                                                <h3>One Piece</h3>
+                                                <span>Eiichiro Oda</span>
+                                               
                                             </figcaption>
                                         </div>
                                     </div>
+                                     <div class="col-md-3">
+                                        <div class="product-item">
+                                            <figure class="product-style">
+                                                <img src="images/book/doremon.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                    </button>
+                                            </figure>
+                                            <figcaption>
+                                                <h3>Doraemon</h3>
+                                                <span>Fujiko F. Fujio</span>
+                                               
+                                            </figcaption>
+                                        </div>
+                                    </div>
+                                    
+                                      <div class="col-md-3">
+                                        <div class="product-item">
+                                            <figure class="product-style">
+                                                <img src="images/book/titan.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                    </button>
+                                            </figure>
+                                            <figcaption>
+                                                <h3>Attack on Titan</h3>
+                                                <span>Hajime Isayama</span>
+                                               
+                                            </figcaption>
+                                        </div>
+                                    </div>
+                                    
+                                       <div class="col-md-3">
+                                        <div class="product-item">
+                                            <figure class="product-style">
+                                                <img src="images/book/daragon.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                    </button>
+                                            </figure>
+                                            <figcaption>
+                                                <h3>Dragon Ball</h3>
+                                                <span>Akira Toriyama</span>
+                                               
+                                            </figcaption>
+                                        </div>
+                                    </div>
+                                    
 
                                     <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
-                                                <img src="images/tab-item7.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                                    Cart</button>
+                                                <img src="images/book/naruto.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                 </button>
                                             </figure>
                                             <figcaption>
-                                                <h3>Simple way of piece life</h3>
-                                                <span>Armor Ramsey</span>
-                                                <div class="item-price">$ 40.00</div>
+                                                <h3>Naruto</h3>
+                                                <span>Masashi Kishimoto</span>
+                                               
                                             </figcaption>
                                         </div>
                                     </div>
@@ -763,14 +864,14 @@
                                     <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
-                                                <img src="images/tab-item5.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                                    Cart</button>
+                                                <img src="images/book/doremon.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                   </button>
                                             </figure>
                                             <figcaption>
-                                                <h3>Life among the pirates</h3>
-                                                <span>Armor Ramsey</span>
-                                                <div class="item-price">$ 40.00</div>
+                                                <h3>Harry Potter và Hòn Đá Phù Thủy</h3>
+                                                <span>J.K. Rowling</span>
+                                            
                                             </figcaption>
                                         </div>
                                     </div>
@@ -778,17 +879,62 @@
                                     <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
-                                                <img src="images/tab-item7.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                                    Cart</button>
+                                                <img src="images/book/holmes.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                    </button>
                                             </figure>
                                             <figcaption>
-                                                <h3>Simple way of piece life</h3>
-                                                <span>Armor Ramsey</span>
-                                                <div class="item-price">$ 40.00</div>
+                                                <h3>Sherlock Holmes: Tập Truyện Ngắn</h3>
+                                                <span>Arthur Conan Doyle</span>
+                                              
                                             </figcaption>
                                         </div>
                                     </div>
+                                     <div class="col-md-3">
+                                        <div class="product-item">
+                                            <figure class="product-style">
+                                                <img src="images/book/doigiohu.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                    </button>
+                                            </figure>
+                                            <figcaption>
+                                                <h3>Đồi Gió Hú</h3>
+                                                <span>Emily Brontë</span>
+                                              
+                                            </figcaption>
+                                        </div>
+                                    </div>
+                                    
+                                     <div class="col-md-3">
+                                        <div class="product-item">
+                                            <figure class="product-style">
+                                                <img src="images/book/kedocsach.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                    </button>
+                                            </figure>
+                                            <figcaption>
+                                                <h3>Kẻ Đọc Sách (The Reader)</h3>
+                                                <span>Bernhard Schlink</span>
+                                              
+                                            </figcaption>
+                                        </div>
+                                    </div>
+                                    
+                                     <div class="col-md-3">
+                                        <div class="product-item">
+                                            <figure class="product-style">
+                                                <img src="images/book/changvang.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                    </button>
+                                            </figure>
+                                            <figcaption>
+                                                <h3>Chạng Vạng (Twilight)</h3>
+                                                <span>Stephenie Meyer</span>
+                                              
+                                            </figcaption>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                             </div>
 
@@ -807,7 +953,7 @@
 
                         <div class="footer-item">
                             <div class="company-brand">
-                                <img src="images/banner/logosach.png" alt="logo" class="footer-logo">
+                                <img src="images/iconbook.png" alt="logo" class="footer-logo">
 
                             </div>
                         </div>

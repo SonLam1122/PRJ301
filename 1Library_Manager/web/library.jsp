@@ -37,7 +37,7 @@
         <!-- header section start -->
         <div class="header_section">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="logo" href="home"><img src="images/iconbook.png"></a>
+                <a class="logo" href="home.jsp"><img src="images/iconbook.png"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -141,4 +141,26 @@
                         display: flex;
                         flex-wrap: wrap;
                     }
+                    .image_3 img {
+    width: 200px; /* Đặt chiều rộng cố định */
+    height: 300px; /* Đặt chiều cao cố định */
+    object-fit: cover; /* Giữ nguyên tỷ lệ và cắt ảnh để vừa khung */
+    border-radius: 10px; /* Bo góc ảnh (tùy chỉnh) */
+    display: block;
+    margin: 0 auto; /* Căn giữa hình ảnh */
+}
+
+.iamge_movies {
+    text-align: center; /* Căn giữa tiêu đề sách */
+    padding: 10px;
+    max-width: 220px; /* Đảm bảo không quá to */
+}
+
+.iamge_movies_main {
+    display: flex;
+    justify-content: center; /* Căn giữa hình ảnh */
+    flex-wrap: wrap;
+    gap: 20px; /* Tạo khoảng cách giữa các mục */
+}
+
                 </style>

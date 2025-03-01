@@ -58,7 +58,7 @@ public class changePassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-       String user=request.getParameter("user");
+           String user=request.getParameter("user");
        String pass= request.getParameter("pass");
        String opass= request.getParameter("opass");
        UsersDAO ad = new UsersDAO();
@@ -69,12 +69,12 @@ public class changePassServlet extends HttpServlet {
            request.setAttribute("error", ms);
            request.getRequestDispatcher("changepassword.jsp").forward(request, response);
        }else{
-           Users a1= new Users(a.getUserId(), a.getName(), user, pass, a.getName(), a.getRole());
+         Users a1 = new Users(a.getUserId(), a.getName(), a.getUsername(), pass, a.getEmail(), a.getRole());
            ad.change(a1);
            HttpSession session =request.getSession();
            session.setAttribute("account", a1);
            
-           response.sendRedirect("home_1.jsp");
+           response.sendRedirect("home.jsp");
        }
     } 
 
@@ -88,7 +88,7 @@ public class changePassServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+    
     }
 
     /** 

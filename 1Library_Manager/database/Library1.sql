@@ -89,6 +89,20 @@ VALUES
 
 INSERT INTO Books (title, author, publisher, category, description, image, quantity)
 VALUES
+
+-- Truyện tranh
+(N'One Piece', N'Eiichiro Oda', N'Shueisha', N'Truyện tranh', N'Hành trình trở thành Vua Hải Tặc của Luffy và đồng đội.', 'images/book/onpiec.jpg', 10),
+(N'Naruto', N'Masashi Kishimoto', N'Shueisha', N'Truyện tranh', N'Câu chuyện về ninja Naruto và hành trình trưởng thành.', 'images/book/naruto.jpg', 8),
+(N'Doraemon', N'Fujiko F. Fujio', N'Shogakukan', N'Truyện tranh', N'Chú mèo máy Doraemon giúp đỡ Nobita với các bảo bối thần kỳ.', 'images/book/doremon.jpg', 12),
+(N'Attack on Titan', N'Hajime Isayama', N'Kodansha', N'Truyện tranh', N'Cuộc chiến chống lại Titan của nhân loại.', 'images/book/titan.jpg', 7),
+(N'Dragon Ball', N'Akira Toriyama', N'Shueisha', N'Truyện tranh', N'Câu chuyện về Goku và hành trình tìm ngọc rồng.', 'images/book/daragon.jpg', 15),
+
+-- Tiểu thuyết
+(N'Harry Potter và Hòn Đá Phù Thủy', N'J.K. Rowling', N'Nhà xuất bản Trẻ', N'Tiểu thuyết', N'Cuộc hành trình đầu tiên của Harry Potter tại trường Hogwarts.', 'images/book/harrypotter.jpg', 20),
+(N'Sherlock Holmes: Tập Truyện Ngắn', N'Arthur Conan Doyle', N'Nhà xuất bản Văn học', N'Tiểu thuyết', N'Tuyển tập các vụ án nổi tiếng của thám tử Sherlock Holmes.', 'images/book/holmes.jpg', 18),
+(N'Chạng Vạng (Twilight)', N'Stephenie Meyer', N'Nhà xuất bản Trẻ', N'Tiểu thuyết', N'Câu chuyện tình yêu giữa Bella và ma cà rồng Edward.', 'images/book/changvang.jpg', 15),
+(N'Đồi Gió Hú', 'Emily Brontë', N'Nhà xuất bản Văn học', N'Tiểu thuyết', N'Câu chuyện tình yêu mãnh liệt giữa Heathcliff và Catherine.', 'images/book/doigiohu.jpg', 12),
+(N'Kẻ Đọc Sách (The Reader)', N'Bernhard Schlink', N'Nhà xuất bản Thế giới', N'Tiểu thuyết', N'Một câu chuyện cảm động về tình yêu và trách nhiệm.', 'images/book/kedocsach.jpg', 17),
 -- Tâm linh
 (N'Hành trình về phương Đông', N'Baird T. Spalding', N'Nhà xuất bản Văn hóa - Văn nghệ', N'Tâm linh', N'Câu chuyện về cuộc hành trình tìm kiếm tâm linh.', 'images/book/hanhtrinhvephuongdong.jpg', 9),
 (N'Muôn kiếp nhân sinh', N'Nguyên Phong', N'Nhà xuất bản Tổng hợp TP.HCM', N'Tâm linh', N'Bài học về luật nhân quả và luân hồi.', 'images/book/muonkiepnhansinh.jpg', 11),
