@@ -4,6 +4,7 @@
  */
 package dal;
 
+import com.sun.jdi.connect.spi.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +19,59 @@ import java.sql.Timestamp;
  * @author BUI TUAN DAT
  */
 public class BooksDAO extends DBContext {
+
+    public List<String> getAllCategories() {
+        List<String> categories = new ArrayList<>();
+        String sql = "SELECT DISTINCT category FROM Books WHERE category IS NOT NULL";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                categories.add(rs.getString("category"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in getAllCategories: " + e.getMessage());
+        }
+        return categories;
+    }
+
+    public List<Books> searchBooks(String keyword, String category) {
+        List<Books> books = new ArrayList<>();
+        String sql = "SELECT book_id, title, author, publisher, category, description, image, quantity "
+                + "FROM Books WHERE (title LIKE ? or description LIKE ? )";
+
+        if (category != null && !category.isEmpty()) {
+            sql += " AND category = ?";
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, "%" + keyword + "%");
+            stmt.setString(2, "%" + keyword + "%");
+
+            if (category != null && !category.isEmpty()) {
+                stmt.setString(3, category);
+            }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Books book = new Books();
+                    book.setBookId(rs.getInt("book_id"));
+                    book.setTitle(rs.getString("title"));
+                    book.setAuthor(rs.getString("author"));
+                    book.setPublisher(rs.getString("publisher"));
+                    book.setCategory(rs.getString("category"));
+                    book.setDescription(rs.getString("description"));
+                    book.setImage(rs.getString("image"));
+                    book.setQuantity(rs.getInt("quantity"));
+
+                    books.add(book);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in searchBooks: " + e.getMessage());
+        }
+        return books;
+    }
 
     // lay sach theo the loai
     public List<Books> getBooksByCid(String category) {
@@ -356,7 +410,7 @@ public class BooksDAO extends DBContext {
         }
         return total;
     }
-    
+
     public int getBookIdByTitle(String title) {
         String sql = "SELECT book_id FROM Books WHERE title = ?";
         try (PreparedStatement st = connection.prepareStatement(sql)) {

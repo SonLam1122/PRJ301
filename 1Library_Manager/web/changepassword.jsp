@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -36,27 +38,48 @@
     </head>
     <body>
         <div class="login-form">
-            <h2 style="color: red">${requestScope.ms}</h2>
+            <!-- Ẩn thông báo lỗi, chỉ hiện nếu có lỗi -->
+            <h2 id="server-error" style="color: red; text-align: center; font-weight: bold; display: none;">
+                ${requestScope.error}
+            </h2>
+
+            <div id="error-message" style="color: red; text-align: center; font-weight: bold;"></div> 
+
             <form name="changeForm" action="change" onsubmit="return validateForm()">
                 <h2 class="text-center">Change Password</h2>       
+
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Old Password" required="required" name="opass">
+                    <input type="text" id="opass" class="form-control" placeholder="Old Password" required="required" name="opass">
                 </div>
-                <input type="hidden" name="user" value="${sessionScope.account.username}"/>
+
+                <input type="hidden" name="user" value="${cookie.cuser.value}"/>
+
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="New Password" required="required" name="pass">
+                    <input type="password" id="pass" class="form-control" placeholder="New Password" required="required" name="pass">
                 </div>
+
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Confirm Password" required="required" name="rpass">
+                    <input type="password" id="rpass" class="form-control" placeholder="Confirm Password" required="required" name="rpass">
                 </div>
+
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">Change</button>
                 </div>
+
                 <div class="clearfix">
                     <a href="#" class="float-right">Forgot Password?</a>
                 </div>        
             </form>
         </div>
+
+        <script type="text/javascript">
+            window.onload = function () {
+                var serverError = document.getElementById("server-error");
+                if (serverError.innerText.trim() !== "") {
+                    serverError.style.display = "block";
+                }
+            };
+        </script>
     </body>
     <script type="text/javascript">
         function validateForm() {

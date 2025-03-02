@@ -4,7 +4,6 @@
  */
 package controller;
 
-import dal.UsersDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +12,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Users;
 
 /**
  *
- * @author BUI TUAN DAT
+ * @author SonLam29
  */
-@WebServlet(name = "changePassServlet", urlPatterns = {"/change"})
-public class changePassServlet extends HttpServlet {
+@WebServlet(name = "HomeServlet", urlPatterns = {"/home"})
+public class HomeServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +37,10 @@ public class changePassServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet changePassServlet</title>");
+            out.println("<title>Servlet HomeServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet changePassServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet HomeServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,23 +58,14 @@ public class changePassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String user = request.getParameter("user");
-        String pass = request.getParameter("pass");
-        String opass = request.getParameter("opass");
-        UsersDAO ad = new UsersDAO();
-        Users a = ad.check(user, opass);
+        HttpSession session = request.getSession(false); // Lấy session nhưng không tạo mới
 
-        if (a == null) {
-            String ms = "Sai mk nhé!!Định bịp à";
-            request.setAttribute("error", ms);
-            request.getRequestDispatcher("changepassword.jsp").forward(request, response);
+        if (session != null && session.getAttribute("user") != null) {
+            // Đã đăng nhập -> chuyển hướng đến trang chính
+            request.getRequestDispatcher("home.jsp").forward(request, response);
         } else {
-            Users a1 = new Users(a.getUserId(), a.getName(), a.getUsername(), pass, a.getEmail(), a.getRole());
-            ad.change(a1);
-            HttpSession session = request.getSession();
-            session.setAttribute("account", a1);
-
-            response.sendRedirect("home.jsp");
+            // Chưa đăng nhập -> chuyển hướng đến trang login
+            response.sendRedirect("login.jsp");
         }
     }
 
@@ -91,7 +80,7 @@ public class changePassServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 
     /**

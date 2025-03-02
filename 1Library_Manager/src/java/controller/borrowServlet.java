@@ -4,7 +4,6 @@
  */
 package controller;
 
-import dal.UsersDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,15 +11,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import dal.BorrowDAO;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpSession;
-import model.Users;
+import java.util.List;
+import model.Borrow;
 
 /**
  *
- * @author BUI TUAN DAT
+ * @author SonLam29
  */
-@WebServlet(name = "changePassServlet", urlPatterns = {"/change"})
-public class changePassServlet extends HttpServlet {
+@WebServlet(name = "borrowServlet", urlPatterns = {"/borrow"})
+public class borrowServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +41,10 @@ public class changePassServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet changePassServlet</title>");
+            out.println("<title>Servlet borrowServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet changePassServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet borrowServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,24 +62,25 @@ public class changePassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String user = request.getParameter("user");
-        String pass = request.getParameter("pass");
-        String opass = request.getParameter("opass");
-        UsersDAO ad = new UsersDAO();
-        Users a = ad.check(user, opass);
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
 
-        if (a == null) {
-            String ms = "Sai mk nhé!!Định bịp à";
-            request.setAttribute("error", ms);
-            request.getRequestDispatcher("changepassword.jsp").forward(request, response);
-        } else {
-            Users a1 = new Users(a.getUserId(), a.getName(), a.getUsername(), pass, a.getEmail(), a.getRole());
-            ad.change(a1);
-            HttpSession session = request.getSession();
-            session.setAttribute("account", a1);
-
-            response.sendRedirect("home.jsp");
+        // Nếu chưa đăng nhập, chuyển hướng về login
+        if (username == null || username.isEmpty()) {
+            response.sendRedirect("login.jsp");
+            return;
         }
+
+        // Lấy danh sách lịch sử mượn từ DAO
+        BorrowDAO borrowDao = new BorrowDAO();
+        List<Borrow> borrowList = borrowDao.getAllBorrowsByUsername(username);
+
+        // Đặt dữ liệu vào session để hiển thị trên JSP
+        session.setAttribute("borrowList", borrowList);
+
+        // Chuyển hướng đến trang borrow.jsp
+        //response.sendRedirect("borrow.jsp");
+        request.getRequestDispatcher("borrow.jsp").forward(request, response);
     }
 
     /**
@@ -91,7 +94,7 @@ public class changePassServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 
     /**

@@ -4,9 +4,17 @@
         <servlet-name>libraryServlet</servlet-name>
         <servlet-class>controller.libraryServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchServlet</servlet-name>
+        <servlet-class>controller.SearchServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>libraryServlet</servlet-name>
         <url-pattern>/library</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchServlet</servlet-name>
+        <url-pattern>/search</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>home.jsp</welcome-file>

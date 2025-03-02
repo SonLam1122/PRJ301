@@ -13,12 +13,13 @@ import java.sql.SQLException;
  * @author MSI
  */
 public class DBContext {
-       protected Connection connection;
+
+    protected Connection connection;
 
     public DBContext() {
         try {
             // Edit URL , username, password to authenticate with your MS SQL Server
-            String url = "jdbc:sqlserver://localhost:1433;databaseName=Library4";
+            String url = "jdbc:sqlserver://localhost:1433;databaseName=Library1";
             String username = "sa";
             String password = "123";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -27,9 +28,13 @@ public class DBContext {
             System.out.println(ex);
         }
     }
-    
+
+    public Connection getConnection() {
+        return connection;
+    }
+
     public static void main(String[] args) {
-        DBContext conn=new DBContext();
+        DBContext conn = new DBContext();
         System.out.println(conn.connection);
     }
 }

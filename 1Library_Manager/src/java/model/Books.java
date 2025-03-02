@@ -49,6 +49,19 @@ public class Books {
         this.updatedAt = updatedAt;
     }
 
+    public Books(int bookId, String title, String author, String publisher, String category, String description, String image, int quantity) {
+        this.bookId = bookId;
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.category = category;
+        this.description = description;
+        this.image = image;
+        this.quantity = quantity;
+    }
+    
+    
+
     public int getBookId() {
         return bookId;
     }

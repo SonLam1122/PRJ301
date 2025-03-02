@@ -4,6 +4,7 @@
  */
 package dal;
 
+import com.sun.jdi.connect.spi.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ import java.util.List;
 import model.Users;
 import model.Borrow;
 import java.sql.Timestamp;
-
+import model.BorrowHistory;
 
 /**
  *
@@ -41,27 +42,26 @@ public class BorrowDAO extends DBContext {
     }
 
     public void update(Borrow borrow) {
-    // Cập nhật câu lệnh SQL không bao gồm trường updated_at
-    String sql = "UPDATE [dbo].[Borrow] "
-               + "SET [borrow_date] = ?, [due_date] = ?, [return_date] = ?, "
-               + "[status] = ? "
-               + "WHERE [borrow_id] = ?";
+        // Cập nhật câu lệnh SQL không bao gồm trường updated_at
+        String sql = "UPDATE [dbo].[Borrow] "
+                + "SET [borrow_date] = ?, [due_date] = ?, [return_date] = ?, "
+                + "[status] = ? "
+                + "WHERE [borrow_id] = ?";
 
-    try (PreparedStatement st = connection.prepareStatement(sql)) {
-        // Set giá trị cho các tham số trong câu lệnh SQL
-        st.setDate(1, borrow.getBorrowDate());  // Cập nhật ngày mượn
-        st.setDate(2, borrow.getDueDate());     // Cập nhật ngày đến hạn
-        st.setDate(3, borrow.getReturnDate() != null ? borrow.getReturnDate() : null);  // Nếu có ngày trả, cập nhật; nếu không thì gán null
-        st.setString(4, borrow.getStatus());    // Cập nhật trạng thái
-        st.setInt(5, borrow.getBorrowId());     // Cập nhật theo borrowId
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            // Set giá trị cho các tham số trong câu lệnh SQL
+            st.setDate(1, borrow.getBorrowDate());  // Cập nhật ngày mượn
+            st.setDate(2, borrow.getDueDate());     // Cập nhật ngày đến hạn
+            st.setDate(3, borrow.getReturnDate() != null ? borrow.getReturnDate() : null);  // Nếu có ngày trả, cập nhật; nếu không thì gán null
+            st.setString(4, borrow.getStatus());    // Cập nhật trạng thái
+            st.setInt(5, borrow.getBorrowId());     // Cập nhật theo borrowId
 
-        // Thực thi câu lệnh SQL
-        st.executeUpdate();
-    } catch (SQLException e) {
-        System.out.println("Error in update: " + e.getMessage());
+            // Thực thi câu lệnh SQL
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error in update: " + e.getMessage());
+        }
     }
-}
-
 
 //xoa Category
     public void delete(int id) {
@@ -135,20 +135,30 @@ public class BorrowDAO extends DBContext {
         return null;
     }
 
-    public List<Borrow> getAllBorrowsWithUserNames() {
+    public List<Borrow> getAllBorrowsByUsername(String username) {
         List<Borrow> borrowList = new ArrayList<>();
-        String sql = "SELECT b.borrowId, b.bookId, b.userId, u.name AS userName "
-                + "FROM Borrow b JOIN User u ON b.userId = u.userId";
+        String sql = "SELECT b.borrow_id, b.user_id, b.book_id, b.borrow_date, b.due_date, "
+                + "b.return_date, b.status, u.name AS nameUser, b1.title AS nameBook "
+                + "FROM Borrow b "
+                + "JOIN Users u ON b.user_id = u.user_id "
+                + "JOIN Books b1 ON b.book_id = b1.book_id "
+                + "WHERE u.username = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, username); // Gán giá trị tham số username
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Borrow borrow = new Borrow();
-                borrow.setBorrowId(rs.getInt("borrowId"));
-                borrow.setBookId(rs.getInt("bookId"));
-                borrow.setUserId(rs.getInt("userId"));
-                borrow.setNameUser(rs.getString("userName"));  // Lấy tên người dùng từ User
+                borrow.setBorrowId(rs.getInt("borrow_id"));
+                borrow.setUserId(rs.getInt("user_id"));
+                borrow.setBookId(rs.getInt("book_id"));
+                borrow.setBorrowDate(rs.getDate("borrow_date"));
+                borrow.setDueDate(rs.getDate("due_date"));
+                borrow.setReturnDate(rs.getDate("return_date"));
+                borrow.setStatus(rs.getString("status"));
+                borrow.setNameUser(rs.getString("nameUser"));
+                borrow.setNameBook(rs.getString("nameBook"));
 
                 borrowList.add(borrow);
             }
@@ -158,4 +168,5 @@ public class BorrowDAO extends DBContext {
 
         return borrowList;
     }
+
 }

@@ -11,7 +11,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1">
         <!-- site metas -->
-        <title>Movies</title>
+        <title>Library</title>
         <meta name="keywords" content="">
         <meta name="description" content="">
         <meta name="author" content="">
@@ -37,25 +37,35 @@
         <!-- header section start -->
         <div class="header_section">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="logo" href="home.jsp"><img src="images/iconbook.png"></a>
+                <a class="logo" href="home"><img src="images/iconbook.png"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="home.jsp">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="library">Library</a>
+                            <a class="nav-link" href="home">Home</a>
                         </li>
                     </ul>
-                    <form id="f1" action="search">
-                        <input type="text" name="key" placeholder="Nhập tên, miêu tả"/><br/>
-                        <input type="submit" value="Search"/>
+                    <form id="f1" action="search" method="GET" style="display: flex; gap: 10px;">
+                        <input type="text" name="key" placeholder="Nhập tên, miêu tả"
+                               style="height: 40px; font-size: 14px; padding: 0 10px; width: 200px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 5px;" />
+
+                        <select name="category" style="height: 40px; font-size: 14px; padding: 0 10px; border: 1px solid #ccc; border-radius: 5px;">
+                            <option value="">Tất cả thể loại</option>
+                            <c:if test="${not empty categories}">
+                                <c:forEach items="${categories}" var="cat">
+                                    <option value="${cat}">${cat}</option>
+                                </c:forEach>
+                            </c:if>
+                        </select>
+
+                        <input type="submit" value="Search"
+                               style="height: 40px; font-size: 14px; padding: 0 15px; box-sizing: border-box; border: 1px solid #007bff; border-radius: 5px; background-color: #007bff; color: white; cursor: pointer; font-weight: bold; text-align: center;" />
                     </form>
 
-                 
+
+
 
                     <c:if test="${not empty sessionScope.account}">
                         <div class="search_icon"><a href="changepassword.jsp"><img src="images/notification-icon.png"><span class="padding_left_15">Change Password</span></a></div>
@@ -69,7 +79,7 @@
                         <br/>
                         Amount:${sessionScope.account.amount}
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" style="margin-left: 30px" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">                    
+
                     <a href="show">
                         <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
                     </a>
@@ -79,7 +89,7 @@
         </div>
         <!-- header section end -->
         <!-- movies section start -->
-        <div class="movies_section layout_padding">
+        <div class="movies_section layout_padding" style="background-color: #c43131">
             <div class="container">                      
                 <div class="movies_section_2 layout_padding">
                     <div class="movies_main">
@@ -113,7 +123,7 @@
                     <ul class="pagination">                          
                         <c:forEach begin="1" end="${totalPages}" var="pageNumber">
                             <li class="page-item"><a class="page-link" href="library?page=${pageNumber}">${pageNumber}</a></li>
-                        </c:forEach>   
+                            </c:forEach>   
                     </ul>
                 </div>
                 <script>
@@ -142,25 +152,25 @@
                         flex-wrap: wrap;
                     }
                     .image_3 img {
-    width: 200px; /* Đặt chiều rộng cố định */
-    height: 300px; /* Đặt chiều cao cố định */
-    object-fit: cover; /* Giữ nguyên tỷ lệ và cắt ảnh để vừa khung */
-    border-radius: 10px; /* Bo góc ảnh (tùy chỉnh) */
-    display: block;
-    margin: 0 auto; /* Căn giữa hình ảnh */
-}
+                        width: 200px; /* Đặt chiều rộng cố định */
+                        height: 300px; /* Đặt chiều cao cố định */
+                        object-fit: cover; /* Giữ nguyên tỷ lệ và cắt ảnh để vừa khung */
+                        border-radius: 10px; /* Bo góc ảnh (tùy chỉnh) */
+                        display: block;
+                        margin: 0 auto; /* Căn giữa hình ảnh */
+                    }
 
-.iamge_movies {
-    text-align: center; /* Căn giữa tiêu đề sách */
-    padding: 10px;
-    max-width: 220px; /* Đảm bảo không quá to */
-}
+                    .iamge_movies {
+                        text-align: center; /* Căn giữa tiêu đề sách */
+                        padding: 10px;
+                        max-width: 220px; /* Đảm bảo không quá to */
+                    }
 
-.iamge_movies_main {
-    display: flex;
-    justify-content: center; /* Căn giữa hình ảnh */
-    flex-wrap: wrap;
-    gap: 20px; /* Tạo khoảng cách giữa các mục */
-}
+                    .iamge_movies_main {
+                        display: flex;
+                        justify-content: center; /* Căn giữa hình ảnh */
+                        flex-wrap: wrap;
+                        gap: 20px; /* Tạo khoảng cách giữa các mục */
+                    }
 
                 </style>

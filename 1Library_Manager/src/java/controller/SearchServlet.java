@@ -4,23 +4,21 @@
  */
 package controller;
 
-import dal.UsersDAO;
+import dal.BooksDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.Users;
+import java.util.List;
+import model.Books;
 
 /**
  *
- * @author BUI TUAN DAT
+ * @author SonLam29
  */
-@WebServlet(name = "changePassServlet", urlPatterns = {"/change"})
-public class changePassServlet extends HttpServlet {
+public class SearchServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +37,10 @@ public class changePassServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet changePassServlet</title>");
+            out.println("<title>Servlet SearchServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet changePassServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SearchServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,24 +58,40 @@ public class changePassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String user = request.getParameter("user");
-        String pass = request.getParameter("pass");
-        String opass = request.getParameter("opass");
-        UsersDAO ad = new UsersDAO();
-        Users a = ad.check(user, opass);
 
-        if (a == null) {
-            String ms = "Sai mk nhé!!Định bịp à";
-            request.setAttribute("error", ms);
-            request.getRequestDispatcher("changepassword.jsp").forward(request, response);
-        } else {
-            Users a1 = new Users(a.getUserId(), a.getName(), a.getUsername(), pass, a.getEmail(), a.getRole());
-            ad.change(a1);
-            HttpSession session = request.getSession();
-            session.setAttribute("account", a1);
+        BooksDAO booksDAO = new BooksDAO();
+        List<String> categories = booksDAO.getAllCategories();
+        request.setAttribute("categories", categories);
 
-            response.sendRedirect("home.jsp");
+        String keyword = request.getParameter("key");
+        String category = request.getParameter("category");
+
+        if (keyword == null) {
+            keyword = "";
         }
+        if (category != null && category.trim().isEmpty()) {
+            category = null;
+        }
+
+        List<Books> books = booksDAO.searchBooks(keyword, category);
+        request.setAttribute("library", books);
+
+        // Chuyển hướng đến library.jsp
+        request.getRequestDispatcher("library.jsp").forward(request, response);
+
+//        BooksDAO booksDAO = new BooksDAO();
+//
+//        // Lấy danh mục thể loại từ DB
+//        List<String> categories = booksDAO.getAllCategories();
+//
+//        // In ra console để kiểm tra
+//        System.out.println("Categories from DB: " + categories);
+//
+//        // Đưa danh mục vào requestScope
+//        request.setAttribute("categories", categories);
+//
+//        // Chuyển hướng đến trang JSP
+//        request.getRequestDispatcher("library.jsp").forward(request, response);
     }
 
     /**
@@ -91,7 +105,7 @@ public class changePassServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 
     /**

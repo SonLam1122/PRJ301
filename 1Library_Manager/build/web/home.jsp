@@ -68,27 +68,64 @@
                 display: block;
             }
             .product-item figure img {
-    width: 100%; /* Chiều rộng đầy đủ */
-    height: 400px; /* Đặt chiều cao cố định */
-    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
-    border-radius: 10px; /* Bo góc hình ảnh (tùy chỉnh) */
-}
+                width: 100%; /* Chiều rộng đầy đủ */
+                height: 400px; /* Đặt chiều cao cố định */
+                object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+                border-radius: 10px; /* Bo góc hình ảnh (tùy chỉnh) */
+            }
 
-.product-style img {
-    width: 100%;
-    height: 100px;
-    object-fit: cover;
-    
-}
-.grid {
-    display: flex;
-    justify-content: center; /* Căn giữa theo chiều ngang */
-    align-items: center; /* Căn giữa theo chiều dọc */
-    flex-wrap: wrap; /* Đảm bảo các phần tử không bị tràn */
-    gap: 20px; /* Tạo khoảng cách giữa các phần tử */
-    text-align: center; /* Căn giữa nội dung bên trong */
-    width: 100%; /* Chiếm toàn bộ chiều rộng */
-}
+            .product-style img {
+                width: 100%;
+                height: 100px;
+                object-fit: cover;
+
+            }
+            .grid {
+                display: flex;
+                justify-content: center; /* Căn giữa theo chiều ngang */
+                align-items: center; /* Căn giữa theo chiều dọc */
+                flex-wrap: wrap; /* Đảm bảo các phần tử không bị tràn */
+                gap: 20px; /* Tạo khoảng cách giữa các phần tử */
+                text-align: center; /* Căn giữa nội dung bên trong */
+                width: 100%; /* Chiếm toàn bộ chiều rộng */
+            }
+
+            form {
+                width: 100%;
+                max-width: 400px;
+                margin: 5px auto; 
+                padding: 0; 
+                display: flex; 
+                justify-content: space-between; 
+                align-items: center; 
+            }
+            input[type="text"] {
+                padding: 6px 10px; 
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 14px; 
+                height: 36px; 
+                box-sizing: border-box; 
+                width: 75%;
+                margin: 0; 
+            }
+            button {
+                padding: 6px 12px; 
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                font-size: 14px; 
+                cursor: pointer;
+                transition: background-color 0.3s;
+                height: 36px;
+                box-sizing: border-box;
+                margin-left: 8px; 
+            }
+
+            button:hover {
+                background-color: #0056b3;
+            }
 
         </style>
     </head>
@@ -101,20 +138,13 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="social-links">
-                                <ul>
-
-                                    <form id="f1" action="search">
-                                        <input type="text" name="key" placeholder="SEARCH"/><br/>
-                                        <input type="submit" value="Search"/>
-                                    </form>
-                                </ul>
-                            </div><!--social-links-->
+                            <div>
+                                <form id="f111" action="search" method="GET">
+                                    <input type="text" name="key" placeholder="Nhập tên sách" />
+                                    <button type="submit">SEARCH</button>
+                                </form>
+                            </div>
                         </div>
-
-
-
-
                         <div class="col-md-6">
                             <div class="right-element d-flex justify-content-end align-items-center" style="gap: 10px;">
                                 <% if (user == null) { %>
@@ -160,7 +190,7 @@
 
                         <div class="col-md-2">
                             <div class="main-logo">
-                                <a href="index.html"><img src="images/logo/main-logo.png" alt="logo"></a>
+                                <a href="home.jsp"><img src="images/logo/main-logo.png" alt="logo"></a>
                             </div>
 
                         </div>
@@ -171,10 +201,10 @@
                                 <div class="main-menu stellarnav">
                                     <ul class="menu-list">
                                         <li class="menu-item active"><a href="home.jsp">Home</a></li>
-                                        <li class="menu-item"><a href="library" class="nav-link">Library</a></li>
+                                        <li class="menu-item"><a href="search" class="nav-link">Library</a></li>
 
                                         <% if (user != null) { %>  <!-- Kiểm tra nếu đã đăng nhập -->
-                                        <li class="menu-item"><a href="borrow" class="nav-link">Borrow</a></li>
+                                        <li class="menu-item"><a href="borrow" class="nav-link">Borrow History</a></li>
                                         <li class="menu-item"><a href="borrowHistory" class="nav-link">Borrow History</a></li>
                                         <li class="menu-item"><a href="fines" class="nav-link">Fines</a></li>
                                         <li class="menu-item"><a href="payment" class="nav-link">Payments</a></li>
@@ -614,23 +644,23 @@
                                         </div>
                                     </div>
 
-                               
 
-                                <div class="col-md-3">
-                                    <div class="product-item">
-                                        <figure class="product-style">
-                                            <img src="images/book/damthatbai.jpg" alt="Books" class="product-item">
-                                            <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                            </button>
-                                        </figure>
-                                        <figcaption>
-                                            <h3>Dám thất bại</h3>
-                                            <span>Billi P.S. Lim</span>
 
-                                        </figcaption>
+                                    <div class="col-md-3">
+                                        <div class="product-item">
+                                            <figure class="product-style">
+                                                <img src="images/book/damthatbai.jpg" alt="Books" class="product-item">
+                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
+                                                </button>
+                                            </figure>
+                                            <figcaption>
+                                                <h3>Dám thất bại</h3>
+                                                <span>Billi P.S. Lim</span>
+
+                                            </figcaption>
+                                        </div>
                                     </div>
                                 </div>
-                                     </div>
                             </div>
 
 
@@ -663,7 +693,7 @@
                                             <figcaption>
                                                 <h3>Muôn kiếp nhân sinh</h3>
                                                 <span>Nguyên Phong</span>
-                                                
+
                                             </figcaption>
                                         </div>
                                     </div>
@@ -673,12 +703,12 @@
                                             <figure class="product-style">
                                                 <img src="images/book/bimatcuanuoc.jpg" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                 </button>
+                                                </button>
                                             </figure>
                                             <figcaption>
                                                 <h3>Bí mật của nước</h3>
                                                 <span>Masaru Emoto</span>
-                                               
+
                                             </figcaption>
                                         </div>
                                     </div>
@@ -693,7 +723,7 @@
                                             <figcaption>
                                                 <h3>Sức mạnh của hiện tại</h3>
                                                 <span>Eckhart Tolle</span>
-                                               
+
                                             </figcaption>
                                         </div>
                                     </div>
@@ -707,12 +737,12 @@
                                             <figure class="product-style">
                                                 <img src="images/book/tuduynhanhvacham.jpg" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                    </button>
+                                                </button>
                                             </figure>
                                             <figcaption>
                                                 <h3>Tư duy nhanh và chậm</h3>
                                                 <span>Daniel Kahneman</span>
-                                                
+
                                             </figcaption>
                                         </div>
                                     </div>
@@ -722,12 +752,12 @@
                                             <figure class="product-style">
                                                 <img src="images/book/loituduycuanguoithanhcong.jpg" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                    </button>
+                                                </button>
                                             </figure>
                                             <figcaption>
                                                 <h3>Lối tư duy của người thành công</h3>
                                                 <span>Carol S. Dweck</span>
-                                                
+
                                             </figcaption>
                                         </div>
                                     </div>
@@ -737,12 +767,12 @@
                                             <figure class="product-style">
                                                 <img src="images/book/bancosthedamphanbatcudieugi.png" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                    </button>
+                                                </button>
                                             </figure>
                                             <figcaption>
                                                 <h3>Bạn có thể đàm phán bất cứ điều gì</h3>
                                                 <span>Herb Cohen</span>
-                                               
+
                                             </figcaption>
                                         </div>
                                     </div>
@@ -752,31 +782,31 @@
                                             <figure class="product-style">
                                                 <img src="images/book/sucmanhcuathoiquen.jpg" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                    </button>
+                                                </button>
                                             </figure>
                                             <figcaption>
                                                 <h3>Sức mạnh của thói quen</h3>
                                                 <span>Charles Duhigg</span>
-                                               
+
                                             </figcaption>
                                         </div>
                                     </div>
-                                    
-                                     <div class="col-md-3">
+
+                                    <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
                                                 <img src="images/book/tamlyhocdamdong.jpg" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                    </button>
+                                                </button>
                                             </figure>
                                             <figcaption>
                                                 <h3>Tâm lý học đám đông</h3>
                                                 <span>Gustave Le Bon</span>
-                                               
+
                                             </figcaption>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
 
@@ -787,72 +817,72 @@
                                             <figure class="product-style">
                                                 <img src="images/book/onpiec.jpg" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                    </button>
+                                                </button>
                                             </figure>
                                             <figcaption>
                                                 <h3>One Piece</h3>
                                                 <span>Eiichiro Oda</span>
-                                               
+
                                             </figcaption>
                                         </div>
                                     </div>
-                                     <div class="col-md-3">
+                                    <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
                                                 <img src="images/book/doremon.jpg" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                    </button>
+                                                </button>
                                             </figure>
                                             <figcaption>
                                                 <h3>Doraemon</h3>
                                                 <span>Fujiko F. Fujio</span>
-                                               
+
                                             </figcaption>
                                         </div>
                                     </div>
-                                    
-                                      <div class="col-md-3">
+
+                                    <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
                                                 <img src="images/book/titan.jpg" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                    </button>
+                                                </button>
                                             </figure>
                                             <figcaption>
                                                 <h3>Attack on Titan</h3>
                                                 <span>Hajime Isayama</span>
-                                               
+
                                             </figcaption>
                                         </div>
                                     </div>
-                                    
-                                       <div class="col-md-3">
+
+                                    <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
                                                 <img src="images/book/daragon.jpg" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                    </button>
+                                                </button>
                                             </figure>
                                             <figcaption>
                                                 <h3>Dragon Ball</h3>
                                                 <span>Akira Toriyama</span>
-                                               
+
                                             </figcaption>
                                         </div>
                                     </div>
-                                    
+
 
                                     <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
                                                 <img src="images/book/naruto.jpg" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                 </button>
+                                                </button>
                                             </figure>
                                             <figcaption>
                                                 <h3>Naruto</h3>
                                                 <span>Masashi Kishimoto</span>
-                                               
+
                                             </figcaption>
                                         </div>
                                     </div>
@@ -866,12 +896,12 @@
                                             <figure class="product-style">
                                                 <img src="images/book/doremon.jpg" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                   </button>
+                                                </button>
                                             </figure>
                                             <figcaption>
                                                 <h3>Harry Potter và Hòn Đá Phù Thủy</h3>
                                                 <span>J.K. Rowling</span>
-                                            
+
                                             </figcaption>
                                         </div>
                                     </div>
@@ -881,60 +911,60 @@
                                             <figure class="product-style">
                                                 <img src="images/book/holmes.jpg" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                    </button>
+                                                </button>
                                             </figure>
                                             <figcaption>
                                                 <h3>Sherlock Holmes: Tập Truyện Ngắn</h3>
                                                 <span>Arthur Conan Doyle</span>
-                                              
+
                                             </figcaption>
                                         </div>
                                     </div>
-                                     <div class="col-md-3">
+                                    <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
                                                 <img src="images/book/doigiohu.jpg" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                    </button>
+                                                </button>
                                             </figure>
                                             <figcaption>
                                                 <h3>Đồi Gió Hú</h3>
                                                 <span>Emily Brontë</span>
-                                              
+
                                             </figcaption>
                                         </div>
                                     </div>
-                                    
-                                     <div class="col-md-3">
+
+                                    <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
                                                 <img src="images/book/kedocsach.jpg" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                    </button>
+                                                </button>
                                             </figure>
                                             <figcaption>
                                                 <h3>Kẻ Đọc Sách (The Reader)</h3>
                                                 <span>Bernhard Schlink</span>
-                                              
+
                                             </figcaption>
                                         </div>
                                     </div>
-                                    
-                                     <div class="col-md-3">
+
+                                    <div class="col-md-3">
                                         <div class="product-item">
                                             <figure class="product-style">
                                                 <img src="images/book/changvang.jpg" alt="Books" class="product-item">
                                                 <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                    </button>
+                                                </button>
                                             </figure>
                                             <figcaption>
                                                 <h3>Chạng Vạng (Twilight)</h3>
                                                 <span>Stephenie Meyer</span>
-                                              
+
                                             </figcaption>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
 
