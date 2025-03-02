@@ -4,22 +4,77 @@
  */
 package dal;
 
-import com.sun.jdi.connect.spi.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Users;
 import model.Borrow;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
-import model.BorrowHistory;
+import model.Books;
 
 /**
  *
  * @author BUI TUAN DAT
  */
 public class BorrowDAO extends DBContext {
+
+    public boolean rentBook(int userId, int bookId, Date borrowDate, Date dueDate) {
+        PreparedStatement pstmt = null;
+        PreparedStatement updateStmt = null;
+
+        try {
+            connection.setAutoCommit(false);
+
+            // Chèn vào bảng Borrow
+            String insertSql = "INSERT INTO Borrow (user_id, book_id, borrow_date, due_date,return_date, status) VALUES (?, ?, ?, ?, NULL,  'borrowed')";
+            pstmt = connection.prepareStatement(insertSql);
+            pstmt.setInt(1, userId);
+            pstmt.setInt(2, bookId);
+            pstmt.setDate(3, borrowDate);
+            pstmt.setDate(4, dueDate);
+            int rowsInserted = pstmt.executeUpdate();
+
+            if (rowsInserted > 0) {
+                // Giảm số lượng sách
+                String updateSql = "UPDATE Books SET quantity = quantity - 1 WHERE book_id = ? AND quantity > 0";
+                updateStmt = connection.prepareStatement(updateSql);
+                updateStmt.setInt(1, bookId);
+
+                int rowsUpdated = updateStmt.executeUpdate();
+
+                if (rowsUpdated > 0) {
+                    connection.commit();
+                    return true;
+                } else {
+                    connection.rollback();
+                }
+            } else {
+                connection.rollback();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        } finally {
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                if (updateStmt != null) {
+                    updateStmt.close();
+                }
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return false;
+    }
 
     public void insert(Borrow c) {
         String sql = "INSERT INTO Borrow (user_id, book_id, borrow_date, due_date, return_date, status) "

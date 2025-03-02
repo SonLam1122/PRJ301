@@ -93,7 +93,6 @@
                         <th>Ngày Đến Hạn</th>
                         <th>Ngày Trả</th>
                         <th>Trạng Thái</th>
-                        <th>Hành Động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -107,13 +106,6 @@
                                     <td>${borrow.dueDate}</td>
                                     <td>${borrow.returnDate != null ? borrow.returnDate : "Chưa trả"}</td>
                                     <td>${borrow.status}</td>
-                                    <td class="action-buttons">
-                                        <c:choose>
-                                            <c:when test="${borrow.status == 'borrowed' || borrow.status == 'late'}">
-                                                <a href="returnborrow?id=${borrow.borrowId}" class="btn btn-warning btn-sm">Return</a>
-                                            </c:when>
-                                        </c:choose>
-                                    </td>
                                 </tr>
                             </c:forEach>
                         </c:when>

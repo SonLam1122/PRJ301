@@ -3,7 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
+
 import java.util.Date;
+import java.util.List;
+
 /**
  *
  * @author SonLam29
@@ -20,6 +23,7 @@ public class Books {
     private int quantity;
     private Date createdAt;
     private Date updatedAt;
+    private List<Books> relatedBooks;
 
     public Books() {
     }
@@ -36,7 +40,7 @@ public class Books {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-    
+
     public Books(String title, String author, String publisher, String category, String description, String image, int quantity, Date createdAt, Date updatedAt) {
         this.title = title;
         this.author = author;
@@ -59,8 +63,6 @@ public class Books {
         this.image = image;
         this.quantity = quantity;
     }
-    
-    
 
     public int getBookId() {
         return bookId;
@@ -142,4 +144,11 @@ public class Books {
         this.updatedAt = updatedAt;
     }
 
+    public List<Books> getRelatedBooks() {
+        return relatedBooks;
+    }
+
+    public void setRelatedBooks(List<Books> relatedBooks) {
+        this.relatedBooks = relatedBooks;
+    }
 }

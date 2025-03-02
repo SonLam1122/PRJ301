@@ -15,14 +15,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
-import java.util.Calendar;
 import model.Borrow;
 
 /**
  *
  * @author BUI TUAN DAT
  */
-@WebServlet(name = "addCategoryServlet", urlPatterns = {"/addcategory"})
+@WebServlet(name = "addBorrowServlet", urlPatterns = {"/addcategory"})
 public class addBorrowServlet extends HttpServlet {
 
     /**
@@ -66,7 +65,7 @@ public class addBorrowServlet extends HttpServlet {
         String nameUser = request.getParameter("nameUser");
         String nameBook = request.getParameter("nameBook");
         String borrowDateStr = request.getParameter("borrowDate");
-        String numberOfDaysStr = request.getParameter("numberOfDays");  // Số ngày cho thuê từ form
+        String dueDateStr = request.getParameter("dueDate"); 
 
         int id;
         BorrowDAO borrowDAO = new BorrowDAO();
@@ -91,30 +90,15 @@ public class addBorrowServlet extends HttpServlet {
                 return;
             }
 
-            // Chuyển đổi borrowDate và numberOfDays
-            Date borrowDate = Date.valueOf(borrowDateStr);  // Chuyển borrowDate từ chuỗi sang Date
-            int numberOfDays = Integer.parseInt(numberOfDaysStr);  // Chuyển numberOfDays từ chuỗi sang int
-
-            // Tính toán dueDate bằng cách thêm numberOfDays vào borrowDate
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(borrowDate);
-            cal.add(Calendar.DAY_OF_YEAR, numberOfDays);  // Thêm số ngày mượn vào borrowDate
-            Date dueDate = new Date(cal.getTimeInMillis());
+            Date borrowDate = Date.valueOf(borrowDateStr); 
+            Date dueDate = Date.valueOf(dueDateStr); 
 
             Borrow newBorrow = new Borrow(userDAO.getUserIdByName(nameUser), bookDAO.getBookIdByTitle(nameBook), borrowDate, dueDate, null, "borrowed");
-            borrowDAO.insert(newBorrow);  // Gọi phương thức insert để thêm bản ghi mới
+            borrowDAO.insert(newBorrow);
 
             // Chuyển hướng sau khi thành công
             response.sendRedirect("bcrud");
-        } catch (NumberFormatException e) {
-            // Xử lý lỗi khi không thể chuyển đổi id hoặc numberOfDays thành số nguyên
-            request.setAttribute("error", "Invalid input format.");
-            request.getRequestDispatcher("bcrud").forward(request, response);
         } catch (Exception e) {
-            // Xử lý các lỗi khác
-            e.printStackTrace();
-            request.setAttribute("error", "An unexpected error occurred.");
-            request.getRequestDispatcher("bcrud").forward(request, response);
         }
     }
 

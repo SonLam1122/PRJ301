@@ -205,9 +205,6 @@
 
                                         <% if (user != null) { %>  <!-- Kiểm tra nếu đã đăng nhập -->
                                         <li class="menu-item"><a href="borrow" class="nav-link">Borrow History</a></li>
-                                        <li class="menu-item"><a href="borrowHistory" class="nav-link">Borrow History</a></li>
-                                        <li class="menu-item"><a href="fines" class="nav-link">Fines</a></li>
-                                        <li class="menu-item"><a href="payment" class="nav-link">Payments</a></li>
                                         <% } %>  <!-- Nếu chưa đăng nhập, chỉ hiển thị Home & Library -->
                                     </ul>
 

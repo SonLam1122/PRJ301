@@ -327,6 +327,7 @@
                                 <th>Return Date</th>
                                 <th>Status</th>
                                 <th>Action</th>
+                                <th>PayMent</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -349,17 +350,17 @@
                                     <td>${cl.dueDate}</td>
                                     <td>${cl.returnDate}</td>
                                     <td>${cl.status}</td>
-
                                     <td>
                                         <a href="updateborrow?id=${cl.borrowId}">Update</a>
                                         <a href="#" onclick="toDelete('${cl.borrowId}')">Delete</a>
                                     </td>
-
+                                    <td>
+                                        <c:if test="${cl.status eq 'late'}">
+                                            <a href="payment?id=${cl.borrowId}" class="btn btn-danger">Payment</a>
+                                        </c:if>
+                                    </td>
                                 </tr>
-
                             </c:forEach>
-
-
                         </tbody>
                     </table>
                     <div class="clearfix">

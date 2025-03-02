@@ -63,26 +63,6 @@
                         <input type="submit" value="Search"
                                style="height: 40px; font-size: 14px; padding: 0 15px; box-sizing: border-box; border: 1px solid #007bff; border-radius: 5px; background-color: #007bff; color: white; cursor: pointer; font-weight: bold; text-align: center;" />
                     </form>
-
-
-
-
-                    <c:if test="${not empty sessionScope.account}">
-                        <div class="search_icon"><a href="changepassword.jsp"><img src="images/notification-icon.png"><span class="padding_left_15">Change Password</span></a></div>
-                        <div class="search_icon"><a href="logout"><img src="images/eye-icon.png"><span class="padding_left_15">Logout</span></a></div>
-                        <div class="search_icon"><a href="#" onclick="show()"><img src="images/eye-icon.png"><span class="padding_left_15">Profile</span></a></div>
-                            </c:if> 
-                    <div id="profile" style="display: none">
-                        Username:${sessionScope.account.username}
-                        <br/>
-                        Name:${sessionScope.account.name}
-                        <br/>
-                        Amount:${sessionScope.account.amount}
-                    </div>
-
-                    <a href="show">
-                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                    </a>
                     </svg>
                 </div>
             </nav>
@@ -100,7 +80,7 @@
                                     <div class="image_3">
                                         <img src="${p.image}" class="image" style="width:100%">
                                         <div class="middle">
-                                            <div class="playnow_bt"><a href="detailproduct?pid=${p.bookId}">Borrow</a></div>
+                                            <div class="playnow_bt"><a href="detailbook?id=${p.bookId}">Borrow</a></div>
                                         </div>
                                     </div>
                                     <h1 class="code_text">${p.title}</h1>

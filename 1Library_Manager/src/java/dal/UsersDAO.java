@@ -185,7 +185,7 @@ public class UsersDAO extends DBContext {
     }
     
     public int getUserIdByName(String nameUser) {
-        String sql = "SELECT user_id FROM Users WHERE name = ?";
+        String sql = "SELECT user_id FROM Users WHERE username = ?";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, nameUser);  // Thiết lập tên người dùng vào câu truy vấn
 
@@ -196,6 +196,6 @@ public class UsersDAO extends DBContext {
         } catch (SQLException e) {
             System.out.println("Error in getUserIdByName: " + e.getMessage());
         }
-        return -1;  // Trả về -1 nếu không tìm thấy người dùng
+        return -1;  
     }
 }

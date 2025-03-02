@@ -315,55 +315,6 @@ public class BooksDAO extends DBContext {
         }
     }
 
-//    public void addOrder(Account c, Cart cart) {
-//        LocalDate currentDate = LocalDate.now();
-//
-//        String date = currentDate.toString();
-//
-//        try {
-//            // add vao bang ordertruoc
-//
-//            String sql = "insert into [order] values(?,?,?)";
-//            PreparedStatement st = connection.prepareStatement(sql);
-//
-//            st.setString(1, date);
-//            st.setInt(2, c.getAid());
-//            st.setDouble(3, cart.getTotalMoney());
-//
-//            st.executeUpdate();
-//            //lay ra id cua Order ben tren vua add
-//
-//            String sql1 = "select top 1 id from [order] order by id desc";
-//            PreparedStatement st1 = connection.prepareStatement(sql1);
-//
-//            ResultSet rs = st1.executeQuery();
-//
-//            //add bangOrderDetail
-//            if (rs.next()) {
-//                int oid = rs.getInt("id");
-//                for (Item i : cart.getItems()) {
-//                    String sql2 = "insert into [orderline] values(?,?,?,?)";
-//                    PreparedStatement st2 = connection.prepareStatement(sql2);
-//                    st2.setInt(1, oid);
-//                    st2.setInt(2, i.getProduct().getId());
-//                    st2.setInt(3, i.getQuantity());
-//                    st2.setDouble(4, i.getPrice());
-//
-//                    st2.executeUpdate();
-//                }
-//            }
-//            String sql3 = "update product set quantity=quantity-? where id=?";
-//            PreparedStatement st3 = connection.prepareStatement(sql3);
-//
-//            for (Item i : cart.getItems()) {
-//                st3.setInt(1, i.getQuantity());
-//                st3.setInt(2, i.getProduct().getId());
-//
-//                st3.executeUpdate();
-//            }
-//        } catch (SQLException e) {
-//        }
-//    }
     public List<Books> getBooksPerPage(int startIndex, int booksPerPage) {
         List<Books> books = new ArrayList<>();
         String sql = "SELECT [book_id], [title], [author], [publisher],[description],[image], [quantity] "
@@ -424,6 +375,58 @@ public class BooksDAO extends DBContext {
             System.out.println("Error in getBookIdByTitle: " + e.getMessage());
         }
         return -1;  // Trả về -1 nếu không tìm thấy sách
+    }
+
+    public String getCategoryByBookId(int bookId) {
+        String category = null;
+        String sql = "SELECT category FROM Books WHERE book_id = ?";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, bookId);
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()) {
+                category = rs.getString("category");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in getCategoryByBookId: " + e.getMessage());
+        }
+
+        return category;
+    }
+
+    public List<Books> getTop5BooksByCategoryExcludingId(String category, int bookId) {
+        List<Books> list = new ArrayList<>();
+        String sql = "SELECT TOP (5) [book_id], [title], [author], [publisher], [category], "
+                + "[description], [image], [quantity], [created_at], [updated_at] "
+                + "FROM [dbo].[Books] "
+                + "WHERE category = ? AND book_id <> ? "
+                + "ORDER BY book_id DESC";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, category);
+            st.setInt(2, bookId);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                Books book = new Books();
+                book.setBookId(rs.getInt("book_id"));
+                book.setTitle(rs.getString("title"));
+                book.setAuthor(rs.getString("author"));
+                book.setPublisher(rs.getString("publisher"));
+                book.setCategory(rs.getString("category"));
+                book.setDescription(rs.getString("description"));
+                book.setImage(rs.getString("image"));
+                book.setQuantity(rs.getInt("quantity"));
+                book.setCreatedAt(rs.getTimestamp("created_at"));
+                book.setUpdatedAt(rs.getTimestamp("updated_at"));
+                list.add(book);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in getTop5BooksByCategoryExcludingId: " + e.getMessage());
+        }
+
+        return list;
     }
 
 }
