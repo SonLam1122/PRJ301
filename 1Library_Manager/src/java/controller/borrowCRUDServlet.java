@@ -74,6 +74,7 @@ public class borrowCRUDServlet extends HttpServlet {
         request.setAttribute("size", n);        
         request.getRequestDispatcher("borrowcrud.jsp").forward(request, response);
     } 
+    
 
     /** 
      * Handles the HTTP <code>POST</code> method.

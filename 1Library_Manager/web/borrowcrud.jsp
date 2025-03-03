@@ -491,6 +491,22 @@
                     }
                 }
             };
+            
+            
+            
+<td>
+    <c:if test="${sessionScope.userRole eq 'admin' and cl.status eq 'late'}">
+        <a href="payment?id=${cl.borrowId}" class="btn btn-danger">Payment</a>
+    </c:if>
+    <c:if test="${cl.status eq 'paid'}">
+        <span class="text-success">Paid</span>
+    </c:if>
+</td>
+
+
+
+
+
         </script>
 
 

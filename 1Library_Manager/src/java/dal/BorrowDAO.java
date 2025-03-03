@@ -12,6 +12,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import model.Books;
 
 /**
@@ -164,31 +166,37 @@ public class BorrowDAO extends DBContext {
         return list;
     }
 
-    public Borrow getBorrowById(int borrowId) {
-        String sql = "SELECT * FROM Borrow WHERE borrow_id = ?";
+public Borrow getBorrowById(int borrowId) {
+    String sql = "SELECT b.borrow_id, b.user_id, b.book_id, b.borrow_date, b.due_date, "
+               + "b.return_date, b.status, u.name AS nameUser, bk.title AS nameBook "
+               + "FROM Borrow b "
+               + "JOIN Users u ON b.user_id = u.user_id "
+               + "JOIN Books bk ON b.book_id = bk.book_id "
+               + "WHERE b.borrow_id = ?";
 
-        // Sử dụng try-with-resources để tự động đóng resources
-        try (PreparedStatement st = connection.prepareStatement(sql)) {
-            st.setInt(1, borrowId);
-            try (ResultSet rs = st.executeQuery()) {
-                if (rs.next()) {
-                    Borrow borrow = new Borrow(
-                            rs.getInt("borrow_id"),
-                            rs.getInt("user_id"),
-                            rs.getInt("book_id"),
-                            rs.getDate("borrow_date"),
-                            rs.getDate("due_date"),
-                            rs.getDate("return_date"),
-                            rs.getString("status")
-                    );
-                    return borrow;
-                }
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setInt(1, borrowId);
+        try (ResultSet rs = st.executeQuery()) {
+            if (rs.next()) {
+                return new Borrow(
+                    rs.getInt("borrow_id"),
+                    rs.getInt("user_id"),
+                    rs.getInt("book_id"),
+                    rs.getDate("borrow_date"),
+                    rs.getDate("due_date"),
+                    rs.getDate("return_date"),
+                    rs.getString("status"),
+                    rs.getString("nameUser"),
+                    rs.getString("nameBook")
+                );
             }
-        } catch (SQLException e) {
         }
-
-        return null;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+    return null;
+}
+
 
     public List<Borrow> getAllBorrowsByUsername(String username) {
         List<Borrow> borrowList = new ArrayList<>();
@@ -223,5 +231,35 @@ public class BorrowDAO extends DBContext {
 
         return borrowList;
     }
+    
+
+
+public long calculateLateDays(Borrow borrow) {
+    if (borrow.getReturnDate() == null) {
+        LocalDate today = LocalDate.now();
+        LocalDate dueDate = borrow.getDueDate().toLocalDate(); // Chuyển từ java.sql.Date sang java.time.LocalDate
+
+        if (today.isAfter(dueDate)) {
+            return ChronoUnit.DAYS.between(dueDate, today);
+        }
+    }
+    return 0;
+}
+
+public boolean updatePaymentStatus(int borrowId) {
+    String sql = "UPDATE Borrow SET status = 'paid' WHERE borrow_id = ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, borrowId);
+        int rowsUpdated = ps.executeUpdate();
+        return rowsUpdated > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+
+
+
 
 }
