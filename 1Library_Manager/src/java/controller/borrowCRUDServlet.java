@@ -60,18 +60,14 @@ public class borrowCRUDServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        BorrowDAO ad = new BorrowDAO();
-        
-        List<Borrow> list = ad.getAllBorrow();
-        
+        BorrowDAO borrowDAO = new BorrowDAO();
+        borrowDAO.checkAndUpdateLateBorrows();
+        List<Borrow> list = borrowDAO.getAllBorrow();
         request.setAttribute("borrowlist", list);
-        int n;
-        if(list.size()>0){
-            n=list.size();
-        }else{
-            n=0;
-        }
-        request.setAttribute("size", n);        
+
+        int n = list.size();
+        request.setAttribute("size", n);
+
         request.getRequestDispatcher("borrowcrud.jsp").forward(request, response);
     } 
     

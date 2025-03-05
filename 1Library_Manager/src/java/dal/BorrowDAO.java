@@ -21,6 +21,42 @@ import model.Books;
  * @author BUI TUAN DAT
  */
 public class BorrowDAO extends DBContext {
+    
+    public void checkAndUpdateLateBorrows() {
+        String deletePaymentsSql = "DELETE FROM Payments";
+        String deleteFineSql = "DELETE FROM Fines";
+        String updateLateStatusSql = "UPDATE Borrow SET status = 'late' WHERE due_date < GETDATE() AND status = 'borrowed'";
+        String insertFineSql = "INSERT INTO Fines (borrow_id, user_id, amount, fine_reason, fine_date) "
+                + "SELECT borrow_id, user_id, DATEDIFF(DAY, due_date, GETDATE()) * 5000, 'Late return', GETDATE() "
+                + "FROM Borrow WHERE status = 'late'";
+
+        try {
+            // Tạo statement để thực hiện truy vấn
+            PreparedStatement deletePaymentsStmt = connection.prepareStatement(deletePaymentsSql);
+            PreparedStatement deleteFineStmt = connection.prepareStatement(deleteFineSql);
+            PreparedStatement updateStatusStmt = connection.prepareStatement(updateLateStatusSql);
+            PreparedStatement insertFineStmt = connection.prepareStatement(insertFineSql);
+
+            // Xóa dữ liệu trong Payments trước để tránh lỗi khóa ngoại
+            int deletedPayments = deletePaymentsStmt.executeUpdate();
+            int deletedFines = deleteFineStmt.executeUpdate();
+
+            // Cập nhật trạng thái 'late' cho những cuốn sách bị trả trễ
+            int updatedRows = updateStatusStmt.executeUpdate();
+
+            // Thêm mới toàn bộ tiền phạt
+            int insertedRows = insertFineStmt.executeUpdate();
+
+            // In ra log số bản ghi đã thay đổi
+            System.out.println("Deleted " + deletedPayments + " payments.");
+            System.out.println("Deleted " + deletedFines + " fines.");
+            System.out.println("Updated " + updatedRows + " borrow records to 'late' status.");
+            System.out.println("Inserted " + insertedRows + " new fines.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public boolean rentBook(int userId, int bookId, Date borrowDate, Date dueDate) {
         PreparedStatement pstmt = null;
