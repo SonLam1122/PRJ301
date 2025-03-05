@@ -25,29 +25,7 @@
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
                         <!-- User Account -->
-                        <li class="dropdown user-menu">
-                            <button class="dropdown-toggle nav-link ec-drop" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                <img src="assets/img/user/user.png" class="user-image" alt="User Image" />
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right ec-dropdown-menu">
-                                <!-- User image -->
-                                <li class="dropdown-header">
-                                    <img src="assets/img/user/user.png" class="img-circle" alt="User Image" />
-                                    <div class="d-inline-block">
-                                        John Deo <small class="pt-1">john.example@gmail.com</small>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="user-profile.html">
-                                        <i class="mdi mdi-account"></i> My Profile
-                                    </a>
-                                </li>
-                                <li class="dropdown-footer">
-                                    <a href="index.html"> <i class="mdi mdi-logout"></i> Log Out </a>
-                                </li>
-                            </ul>
-                        </li>
+                       
                     </ul>
                 </div>
             </nav>
