@@ -18,7 +18,7 @@
                 <div class="ec-brand">
                     <a href="home" title="Ekka">
                         <img class="ec-brand-icon" src="assets/img/logo/ec-site-logo.png" alt="" />
-                        <span class="ec-brand-name text-truncate">Ekka</span>
+                        <span class="ec-brand-name text-truncate">HOME</span>
                     </a>
                 </div>
 
