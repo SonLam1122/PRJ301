@@ -4,6 +4,7 @@
     Author     : MSI
 --%>
 <%@ page import="model.Users" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page session="true" %>
 <%
     Users user = (Users) session.getAttribute("user");
