@@ -291,6 +291,10 @@
                                 <div class="col">
                                     <a href="bcrud"><button class="btn btn-secondary"  >Borrow</button></a>
                                 </div>
+                                
+                                <div class="col" style="margin-left: 65px">
+                                    <a href="admin"><button class="btn btn-secondary"  >DashBoardAdmin</button></a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -299,8 +303,14 @@
                         <h1 style="text-align: center;">Trình quản lý dành cho Admin</h1>
                     </div>
                 </div>
-            </div>        
+            </div> 
+            
+            
         </div>
+        
+        
+
         <!-- Edit Modal HTML -->
     </body>
+
 </html>

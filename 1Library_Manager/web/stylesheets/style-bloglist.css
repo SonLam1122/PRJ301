@@ -1,0 +1,86 @@
+/* Import Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+
+/*Blog detail style*/
+.titleh1 {
+    text-align: center;
+}
+
+.authordiv{
+    display: flex;
+    justify-content: space-between;
+}
+
+.authorcolor{
+    color: #e03e2d;
+}
+
+/*Blog list style*/
+.listInfor{
+    display: flex; 
+    justify-content: space-between;
+    padding-top: 30px;
+}
+
+.thumbnail{
+    flex: 1;
+}
+
+.titleBloglist{
+    flex: 2; 
+    margin-left: 20px;
+}
+
+.blogInforUl{
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    font-size: 12px;
+}
+
+.blogauthor{
+    text-align: left;
+}
+
+.blogdate{
+    text-align: right;
+}
+
+/*Lastest blog right side*/
+
+.lastTitle{
+    display: flex;
+    margin: 10px 0px 10px 0px;
+    text-align: justify-all;
+}
+
+.lastThumbnail{
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.customLegend {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    border-radius: 3px;
+}
+
+.legend-label {
+    font-size: 14px;
+    color: #333;
+}

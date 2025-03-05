@@ -1,0 +1,88 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : May 22, 2024, 8:16:50 PM
+    Author     : PC
+*/
+
+.show-slider {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    background: #f0f0f0;
+}
+
+.slider {
+    margin: 20px 0;
+    position: relative;
+    width: 100%;
+    max-width: 80%;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    position: relative;
+    min-width: 100%;
+    height: 500px;
+    box-sizing: border-box;
+}
+
+.slide img {
+    position: absolute;
+    right: 0;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    /*border-radius: 50%;*/
+}
+
+.slide .title {
+    position: absolute;
+    top: 100px;
+    left: 8%;
+    z-index: 10000;
+}
+
+.slide button {
+     position: absolute;
+     bottom: 20%;
+     left: 8%;
+     background-color: #f28b00;
+     z-index: 10000;
+}
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+}

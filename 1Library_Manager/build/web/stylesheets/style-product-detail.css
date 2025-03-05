@@ -1,0 +1,374 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : May 19, 2024, 12:37:15 AM
+    Author     : PC
+*/
+
+.option {
+    margin-bottom: 15px;
+}
+
+.choose{
+    background-color: #f28b00;
+    border: 2px solid #f28b00;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.option-note {
+    font-weight: 800;
+}
+
+.option span:hover {
+    background-color: #f28b00;
+    border: 2px solid #f28b00;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.option span {
+    /*min-width: 70px;*/
+    display: inline-block;
+    border: 2px solid gray;
+    padding: 5px 15px;
+    margin: 5px 5px;
+    border-radius: 10px;
+}
+
+.popupNotification {
+    display: none;
+    position: fixed;
+    top: 10% !important;
+    left: 76% !important;
+    z-index: 99999999999;
+    left: 0;
+    top: 0;
+    width: 300px;
+    height: 80px;
+    overflow: auto;
+    border: 2px solid #f28b00;
+    border-radius: 15px;
+    background-color:  #ff6666;
+}
+
+.popupNotification div p {
+    margin-left: 3%;
+    margin-top: 7%;
+    color: white;
+}
+
+
+.popup-compare {
+    display: none;
+    position: fixed;
+    height: 150px;
+    width: 90%;
+    bottom: 0;
+    left: 6%;
+    z-index: 99999;
+    background-color: white;
+}
+
+.popup-compare > div{
+    border: 2px solid black;
+}
+
+.popup-compare img {
+    max-width: 100px;
+    height: auto;
+}
+
+
+#pop-compare-detail {
+    display: none;
+    position: fixed;
+    top: 8%;
+    left: 8%;
+    z-index: 999999;
+    height: 550px;
+    overflow: auto;
+    border: 2px solid black;
+    background-color: white;
+}
+
+#pop-compare-detail table tbody tr th{
+    /*width: 20px;*/
+}
+
+#popupNotification .close {
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 9999999;
+}
+
+.product {
+    position: relative !important;
+}
+
+.compare {
+    position: absolute !important;
+    top: 5px;
+    right: 5px;
+}
+
+.wishlist {
+    position: absolute !important;
+    top: 8px;
+    right: 35px;
+}
+
+
+.reivewss span:hover {
+    background-color: #f28b00;
+    border: 2px solid #f28b00;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.reivewss span {
+    /*min-width: 70px;*/
+    text-align: center;
+    display: inline-block;
+    border: 2px solid gray;
+    padding: 5px 15px;
+    margin: 5px 5px;
+    height: 50px;
+    min-width: 90px;
+    border-radius: 10px;
+}
+
+
+.box-suggestions {
+    max-height: 500px;
+    overflow: auto;
+    border-radius: 15px;
+}
+
+.table-compare tr th {
+    width: 5%!important;
+    padding-left: 20px !important;
+}
+
+.table-compare tr td {
+    width: 10%;
+}
+
+#nen-add-compare {
+    background-color: #454545;
+    width: 70%;
+    height: 60%;
+    position: fixed;
+    z-index: 999999999;
+    top: 10%;
+    left: 10%;
+    display: none;
+    border-radius: 15px;
+}
+
+
+.box-search-compare {
+    width: 70%;
+
+    /*background-color: white;*/
+}
+
+
+#nen-add-compare .search-suggestions {
+    display: none ;
+}
+
+
+#product-1 #product-2 #compareDelete #box-search-compare{
+    position: relative;
+
+}
+
+.buttonDelete {
+    position: absolute;
+    top: 3px;
+    right: 1px;
+    font-size: 25px;
+}
+
+#compareNow{
+    position: absolute;
+    margin-top: 8%;
+    left: 20px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#compareNow:hover{
+    background-color: #f28b00;
+}
+
+#deleteAll{
+    position: absolute;
+    bottom: 8%;
+    left: 20px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#deleteAll:hover{
+    background-color: #f28b00;
+}
+
+#close-popup {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+}
+
+#textSearchAddCompare {
+    position: absolute;
+    width: 50%;
+    top: 15%;
+    right: 24%;
+    color: white;
+}
+
+#search-suggestions  .box-suggestions{
+    position: absolute;
+    width: 50%;
+    top: 27%;
+    right: 24%;
+}
+
+
+#search-suggestions .box-suggestions{
+    max-height: 70%;
+}
+
+
+.slide-show {
+    display:flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.slide-item {
+    width: 1000px;
+    background-color: gray;
+    border: 2px solid #f28b00;
+}
+
+
+#pagination {
+    margin-left: 20% !important;
+}
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 999999999999999;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeIn 0.5s forwards, fadeOut 0.5s 4.5s forwards;
+    position: relative;
+}
+
+.toast:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.toast .progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    background: #76c7c0;
+    animation: progressBar 5s linear forwards;
+}
+
+.toast .close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes progressBar {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0%;
+    }
+}
+
+
+#loading-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100000;
+    display: none; /* Ẩn popup khi không cần thiết */
+}
+
+.loading-content {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
