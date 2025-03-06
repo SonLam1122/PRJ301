@@ -19,21 +19,19 @@ import model.ChartItem;
  *
  * @author MSI
  */
-@WebServlet(name = "ChartServlet", urlPatterns = {"/admin"})
+@WebServlet(name = "ChartServlet", urlPatterns = {"/crud"})
 public class ChartServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String dateRange = request.getParameter("dateRange");
+        String dateRange = request.getParameter("dateRange");
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
 
-        
-        
         ChartDAO d = new ChartDAO();
 
-       List<ChartItem> ci = null;
+        List<ChartItem> ci = null;
 
         // Check the selected date range and call the appropriate method in ChartDAO
         if ("yesterday".equals(dateRange)) {
@@ -50,15 +48,14 @@ public class ChartServlet extends HttpServlet {
         int totalPeople = d.getTotalPeopleWhoBorrowed();
         int totalUsers = d.getTotalUsers();
         double totalFines = d.getTotalFinesCollected();
-        
+
         request.setAttribute("dataChart1", ci);
         request.setAttribute("totalnumberbook", totalnumberbook);
         request.setAttribute("totalPeople", totalPeople);
         request.setAttribute("totalUsers", totalUsers);
         request.setAttribute("totalFines", totalFines);
-        
 
-        request.getRequestDispatcher("chart/dashboardadmin.jsp").forward(request, response);
+        request.getRequestDispatcher("crud.jsp").forward(request, response);
     }
 
     @Override

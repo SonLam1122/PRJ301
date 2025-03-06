@@ -1,38 +1,31 @@
 package model;
 
 import java.time.LocalDate;
+import java.sql.Date;
 
 public class Payment {
+
     private int paymentId;
-    private int userId;
-    private int fineId; // ID của khoản phạt (có thể là borrow_id)
+    private String userName;
+    private String bookTitle;
     private double amount;
-    private LocalDate paymentDate;
+    private Date paymentDate;
     private String paymentMethod;
-    private int status; // 0 = chưa trả, 1 = đã trả
+    private boolean status;
 
-    // Constructor đầy đủ
-    public Payment(int userId, int fineId, double amount, LocalDate paymentDate, String paymentMethod, int status) {
-        this.userId = userId;
-        this.fineId = fineId;
-        this.amount = amount;
-        this.paymentDate = paymentDate;
-        this.paymentMethod = paymentMethod;
-        this.status = status;
+    public Payment() {
     }
 
-    // Constructor có ID
-    public Payment(int paymentId, int userId, int fineId, double amount, LocalDate paymentDate, String paymentMethod, int status) {
+    public Payment(int paymentId, String userName, String bookTitle, double amount, Date paymentDate, String paymentMethod, boolean status) {
         this.paymentId = paymentId;
-        this.userId = userId;
-        this.fineId = fineId;
+        this.userName = userName;
+        this.bookTitle = bookTitle;
         this.amount = amount;
         this.paymentDate = paymentDate;
         this.paymentMethod = paymentMethod;
         this.status = status;
     }
 
-    // Getter và Setter
     public int getPaymentId() {
         return paymentId;
     }
@@ -41,20 +34,20 @@ public class Payment {
         this.paymentId = paymentId;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public int getFineId() {
-        return fineId;
+    public String getBookTitle() {
+        return bookTitle;
     }
 
-    public void setFineId(int fineId) {
-        this.fineId = fineId;
+    public void setBookTitle(String bookTitle) {
+        this.bookTitle = bookTitle;
     }
 
     public double getAmount() {
@@ -65,11 +58,11 @@ public class Payment {
         this.amount = amount;
     }
 
-    public LocalDate getPaymentDate() {
+    public Date getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(LocalDate paymentDate) {
+    public void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
     }
 
@@ -81,11 +74,12 @@ public class Payment {
         this.paymentMethod = paymentMethod;
     }
 
-    public int getStatus() {
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
+
 }

@@ -11,17 +11,13 @@ import model.Borrow;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import model.Books;
 
 /**
  *
  * @author BUI TUAN DAT
  */
 public class BorrowDAO extends DBContext {
-    
+
     public void checkAndUpdateLateBorrows() {
         String deletePaymentsSql = "DELETE FROM Payments";
         String deleteFineSql = "DELETE FROM Fines";
@@ -30,28 +26,22 @@ public class BorrowDAO extends DBContext {
                 + "SELECT borrow_id, user_id, DATEDIFF(DAY, due_date, GETDATE()) * 5000, 'Late return', GETDATE() "
                 + "FROM Borrow WHERE status = 'late'";
 
-        try {
-            // Tạo statement để thực hiện truy vấn
-            PreparedStatement deletePaymentsStmt = connection.prepareStatement(deletePaymentsSql);
-            PreparedStatement deleteFineStmt = connection.prepareStatement(deleteFineSql);
-            PreparedStatement updateStatusStmt = connection.prepareStatement(updateLateStatusSql);
-            PreparedStatement insertFineStmt = connection.prepareStatement(insertFineSql);
+        String insertPaymentSql = "INSERT INTO Payments (user_id, fine_id, amount, payment_method, payment_date, status) "
+                + "SELECT f.user_id, f.fine_id, f.amount, 'cash', GETDATE(), 0 FROM Fines f";
 
-            // Xóa dữ liệu trong Payments trước để tránh lỗi khóa ngoại
+        try (
+                PreparedStatement deletePaymentsStmt = connection.prepareStatement(deletePaymentsSql); PreparedStatement deleteFineStmt = connection.prepareStatement(deleteFineSql); PreparedStatement updateStatusStmt = connection.prepareStatement(updateLateStatusSql); PreparedStatement insertFineStmt = connection.prepareStatement(insertFineSql); PreparedStatement insertPaymentStmt = connection.prepareStatement(insertPaymentSql)) {
+
             int deletedPayments = deletePaymentsStmt.executeUpdate();
             int deletedFines = deleteFineStmt.executeUpdate();
-
-            // Cập nhật trạng thái 'late' cho những cuốn sách bị trả trễ
             int updatedRows = updateStatusStmt.executeUpdate();
-
-            // Thêm mới toàn bộ tiền phạt
-            int insertedRows = insertFineStmt.executeUpdate();
-
-            // In ra log số bản ghi đã thay đổi
+            int insertedFines = insertFineStmt.executeUpdate();
+            int insertedPayments = insertPaymentStmt.executeUpdate();
             System.out.println("Deleted " + deletedPayments + " payments.");
             System.out.println("Deleted " + deletedFines + " fines.");
             System.out.println("Updated " + updatedRows + " borrow records to 'late' status.");
-            System.out.println("Inserted " + insertedRows + " new fines.");
+            System.out.println("Inserted " + insertedFines + " new fines.");
+            System.out.println("Inserted " + insertedPayments + " new payment records.");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -116,17 +106,20 @@ public class BorrowDAO extends DBContext {
 
     public void insert(Borrow c) {
         String sql = "INSERT INTO Borrow (user_id, book_id, borrow_date, due_date, return_date, status) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+                + "VALUES (?, ?, ?, ?, NULL, 'borrowed')";
+
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, c.getUserId());
             st.setInt(2, c.getBookId());
+            st.setDate(3, new java.sql.Date(c.getBorrowDate().getTime()));
+            st.setDate(4, new java.sql.Date(c.getDueDate().getTime()));     
 
-            st.setDate(3, c.getBorrowDate() != null ? new java.sql.Date(c.getBorrowDate().getTime()) : null);
-            st.setDate(4, c.getDueDate() != null ? new java.sql.Date(c.getDueDate().getTime()) : null);
-            st.setDate(5, c.getReturnDate() != null ? new java.sql.Date(c.getReturnDate().getTime()) : null);
-
-            st.setString(6, c.getStatus()); // 'borrowed', 'returned', 'late'
+            System.out.println("Executing query: " + sql);
+            System.out.println("User ID: " + c.getUserId());
+            System.out.println("Book ID: " + c.getBookId());
+            System.out.println("Borrow Date: " + c.getBorrowDate());
+            System.out.println("Due Date: " + c.getDueDate());
 
             st.executeUpdate();
         } catch (SQLException e) {
@@ -135,21 +128,18 @@ public class BorrowDAO extends DBContext {
     }
 
     public void update(Borrow borrow) {
-        // Cập nhật câu lệnh SQL không bao gồm trường updated_at
         String sql = "UPDATE [dbo].[Borrow] "
                 + "SET [borrow_date] = ?, [due_date] = ?, [return_date] = ?, "
                 + "[status] = ? "
                 + "WHERE [borrow_id] = ?";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
-            // Set giá trị cho các tham số trong câu lệnh SQL
-            st.setDate(1, borrow.getBorrowDate());  // Cập nhật ngày mượn
-            st.setDate(2, borrow.getDueDate());     // Cập nhật ngày đến hạn
-            st.setDate(3, borrow.getReturnDate() != null ? borrow.getReturnDate() : null);  // Nếu có ngày trả, cập nhật; nếu không thì gán null
-            st.setString(4, borrow.getStatus());    // Cập nhật trạng thái
-            st.setInt(5, borrow.getBorrowId());     // Cập nhật theo borrowId
+            st.setDate(1, borrow.getBorrowDate());
+            st.setDate(2, borrow.getDueDate());
+            st.setDate(3, borrow.getReturnDate() != null ? borrow.getReturnDate() : null);
+            st.setString(4, borrow.getStatus());
+            st.setInt(5, borrow.getBorrowId());
 
-            // Thực thi câu lệnh SQL
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error in update: " + e.getMessage());
@@ -202,37 +192,31 @@ public class BorrowDAO extends DBContext {
         return list;
     }
 
-public Borrow getBorrowById(int borrowId) {
-    String sql = "SELECT b.borrow_id, b.user_id, b.book_id, b.borrow_date, b.due_date, "
-               + "b.return_date, b.status, u.name AS nameUser, bk.title AS nameBook "
-               + "FROM Borrow b "
-               + "JOIN Users u ON b.user_id = u.user_id "
-               + "JOIN Books bk ON b.book_id = bk.book_id "
-               + "WHERE b.borrow_id = ?";
+    public Borrow getBorrowById(int borrowId) {
+        String sql = "SELECT * FROM Borrow WHERE borrow_id = ?";
 
-    try (PreparedStatement st = connection.prepareStatement(sql)) {
-        st.setInt(1, borrowId);
-        try (ResultSet rs = st.executeQuery()) {
-            if (rs.next()) {
-                return new Borrow(
-                    rs.getInt("borrow_id"),
-                    rs.getInt("user_id"),
-                    rs.getInt("book_id"),
-                    rs.getDate("borrow_date"),
-                    rs.getDate("due_date"),
-                    rs.getDate("return_date"),
-                    rs.getString("status"),
-                    rs.getString("nameUser"),
-                    rs.getString("nameBook")
-                );
+        // Sử dụng try-with-resources để tự động đóng resources
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, borrowId);
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    Borrow borrow = new Borrow(
+                            rs.getInt("borrow_id"),
+                            rs.getInt("user_id"),
+                            rs.getInt("book_id"),
+                            rs.getDate("borrow_date"),
+                            rs.getDate("due_date"),
+                            rs.getDate("return_date"),
+                            rs.getString("status")
+                    );
+                    return borrow;
+                }
             }
+        } catch (SQLException e) {
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return null;
-}
 
+        return null;
+    }
 
     public List<Borrow> getAllBorrowsByUsername(String username) {
         List<Borrow> borrowList = new ArrayList<>();
@@ -267,35 +251,5 @@ public Borrow getBorrowById(int borrowId) {
 
         return borrowList;
     }
-    
-
-
-public long calculateLateDays(Borrow borrow) {
-    if (borrow.getReturnDate() == null) {
-        LocalDate today = LocalDate.now();
-        LocalDate dueDate = borrow.getDueDate().toLocalDate(); // Chuyển từ java.sql.Date sang java.time.LocalDate
-
-        if (today.isAfter(dueDate)) {
-            return ChronoUnit.DAYS.between(dueDate, today);
-        }
-    }
-    return 0;
-}
-
-public boolean updatePaymentStatus(int borrowId) {
-    String sql = "UPDATE Borrow SET status = 'paid' WHERE borrow_id = ?";
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setInt(1, borrowId);
-        int rowsUpdated = ps.executeUpdate();
-        return rowsUpdated > 0;
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false;
-    }
-}
-
-
-
-
 
 }

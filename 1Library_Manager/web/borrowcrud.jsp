@@ -383,7 +383,7 @@
         <div id="addEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="addcategory">
+                    <form action="addcategory" method="get">
 
                         <div class="modal-header">						
                             <h4 class="modal-title">Add Borrow</h4>
@@ -408,13 +408,11 @@
                                 <label>Number of Days for Borrow</label>
                                 <input type="number" class="form-control" required name="numberOfDays" id="numberOfDays" min="1">
                             </div>
-
                             <div class="form-group">
                                 <label>Due Date</label>
                                 <input type="date" class="form-control" required name="dueDate" id="dueDate" readonly>
                             </div>						
                         </div>
-
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                             <input type="submit" class="btn btn-success" value="Add">
@@ -491,22 +489,19 @@
                     }
                 }
             };
-            
-            
-            
-<td>
-    <c:if test="${sessionScope.userRole eq 'admin' and cl.status eq 'late'}">
-        <a href="payment?id=${cl.borrowId}" class="btn btn-danger">Payment</a>
-    </c:if>
-    <c:if test="${cl.status eq 'paid'}">
-        <span class="text-success">Paid</span>
-    </c:if>
-</td>
+        </script>
+        <script>
+            document.getElementById("numberOfDays").addEventListener("input", function () {
+                let borrowDate = document.getElementById("borrowDate").value;
+                let days = parseInt(this.value);
 
-
-
-
-
+                if (borrowDate && days > 0) {
+                    let date = new Date(borrowDate);
+                    date.setDate(date.getDate() + days);
+                    let dueDate = date.toISOString().split("T")[0];
+                    document.getElementById("dueDate").value = dueDate;
+                }
+            });
         </script>
 
 

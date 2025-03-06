@@ -22,7 +22,7 @@ public class ChartDAO extends DBContext {
 
     public List<ChartItem> getBorrowQuantity(String dateRange, String startDate, String endDate) {
         List<ChartItem> chart = new ArrayList<>();
-        
+
         // Determine which method to call based on the date range selection
         if (dateRange.equals("yesterday")) {
             chart = getBorrowedReturnedForYesterday();
@@ -33,7 +33,7 @@ public class ChartDAO extends DBContext {
         } else if (dateRange.equals("custom")) {
             chart = getBorrowedReturnedForCustomRange(startDate, endDate);
         }
-        
+
         return chart;
     }
 
@@ -47,9 +47,9 @@ public class ChartDAO extends DBContext {
                 + "WHERE borrow_date = CONVERT(DATE, GETDATE() - 1) "
                 + "GROUP BY CONVERT(DATE, borrow_date) "
                 + "ORDER BY date";
-        
+
         executeQuery(chart, sql);
-        
+
         return chart;
     }
 
@@ -63,9 +63,9 @@ public class ChartDAO extends DBContext {
                 + "WHERE borrow_date BETWEEN DATEADD(DAY, -7, GETDATE()) AND GETDATE() "
                 + "GROUP BY CONVERT(DATE, borrow_date) "
                 + "ORDER BY date";
-        
+
         executeQuery(chart, sql);
-        
+
         return chart;
     }
 
@@ -79,9 +79,9 @@ public class ChartDAO extends DBContext {
                 + "WHERE borrow_date BETWEEN DATEADD(DAY, -30, GETDATE()) AND GETDATE() "
                 + "GROUP BY CONVERT(DATE, borrow_date) "
                 + "ORDER BY date";
-        
+
         executeQuery(chart, sql);
-        
+
         return chart;
     }
 
@@ -95,9 +95,9 @@ public class ChartDAO extends DBContext {
                 + "WHERE borrow_date BETWEEN ? AND ? "
                 + "GROUP BY CONVERT(DATE, borrow_date) "
                 + "ORDER BY date";
-        
+
         executeQuery(chart, sql, startDate, endDate);
-        
+
         return chart;
     }
 
@@ -126,67 +126,59 @@ public class ChartDAO extends DBContext {
     }
 
     // Main method for testing
-   
+    public int getTotalBooksBorrowed() {
+        String sql = "SELECT SUM(CASE WHEN status = 'borrowed' THEN 1 ELSE 0 END) AS totalBooksBorrowed "
+                + "FROM Borrow";
 
-
-   public int getTotalBooksBorrowed() {
-    String sql = "SELECT SUM(CASE WHEN status = 'borrowed' THEN 1 ELSE 0 END) AS totalBooksBorrowed "
-               + "FROM Borrow";
-
-    try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
-        if (rs.next()) {
-            return rs.getInt("totalBooksBorrowed");
+        try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("totalBooksBorrowed");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in getTotalBooksBorrowed: " + e.getMessage());
         }
-    } catch (SQLException e) {
-        System.out.println("Error in getTotalBooksBorrowed: " + e.getMessage());
+        return 0;
     }
-    return 0;
-}
-
 
     public int getTotalPeopleWhoBorrowed() {
-    String sql = "SELECT COUNT(DISTINCT user_id) AS totalPeople "
-               + "FROM Borrow "
-               + "WHERE status = 'borrowed'";  // Ensuring we count only users who borrowed books
-
-    try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
-        if (rs.next()) {
-            return rs.getInt("totalPeople");
+        String sql = "SELECT COUNT(DISTINCT user_id) AS totalPeople FROM Borrow WHERE status = 'borrowed'";
+        try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                int total = rs.getInt("totalPeople");
+                System.out.println("Total people borrowed: " + total);
+                return total;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in getTotalPeopleWhoBorrowed: " + e.getMessage());
         }
-    } catch (SQLException e) {
-        System.out.println("Error in getTotalPeopleWhoBorrowed: " + e.getMessage());
+        return 0;
     }
-    return 0;
-}
 
+    public int getTotalUsers() {
+        String sql = "SELECT COUNT(user_id) AS totalUsers FROM Users";
 
-   public int getTotalUsers() {
-    String sql = "SELECT COUNT(user_id) AS totalUsers FROM Users";
-
-    try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
-        if (rs.next()) {
-            return rs.getInt("totalUsers");
+        try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("totalUsers");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in getTotalUsers: " + e.getMessage());
         }
-    } catch (SQLException e) {
-        System.out.println("Error in getTotalUsers: " + e.getMessage());
+        return 0;
     }
-    return 0;
-}
 
+    public double getTotalFinesCollected() {
+        String sql = "SELECT SUM(amount) AS totalFines FROM Payments";
 
-   public double getTotalFinesCollected() {
-    String sql = "SELECT SUM(amount) AS totalFines FROM Payments";
-
-    try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
-        if (rs.next()) {
-            return rs.getDouble("totalFines");
+        try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getDouble("totalFines");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in getTotalFinesCollected: " + e.getMessage());
         }
-    } catch (SQLException e) {
-        System.out.println("Error in getTotalFinesCollected: " + e.getMessage());
+        return 0.0;
     }
-    return 0.0;
-}
-
 
     public static void main(String[] args) {
         ChartDAO d = new ChartDAO();

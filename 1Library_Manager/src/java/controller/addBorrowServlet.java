@@ -65,40 +65,61 @@ public class addBorrowServlet extends HttpServlet {
         String nameUser = request.getParameter("nameUser");
         String nameBook = request.getParameter("nameBook");
         String borrowDateStr = request.getParameter("borrowDate");
-        String dueDateStr = request.getParameter("dueDate"); 
+        String dueDateStr = request.getParameter("dueDate");
 
-        int id;
         BorrowDAO borrowDAO = new BorrowDAO();
-        UsersDAO userDAO = new UsersDAO(); // Giả sử bạn có lớp UserDAO để thao tác với bảng users
-        BooksDAO bookDAO = new BooksDAO(); // Giả sử bạn có lớp BookDAO để thao tác với bảng books
+        UsersDAO userDAO = new UsersDAO();
+        BooksDAO bookDAO = new BooksDAO();
 
         try {
-
-            // Kiểm tra xem người dùng và sách có tồn tại không
-            boolean userExists = userDAO.isNameExist(nameUser);
-            boolean bookExists = bookDAO.isBookExist(nameBook);
-
-            if (!userExists) {
-                request.setAttribute("error", "User with name '" + nameUser + "' does not exist.");
+            if (!userDAO.isNameExist(nameUser)) {
+                request.setAttribute("error", "User '" + nameUser + "' does not exist.");
                 request.getRequestDispatcher("bcrud").forward(request, response);
                 return;
             }
 
-            if (!bookExists) {
-                request.setAttribute("error", "Book with name '" + nameBook + "' does not exist.");
+            if (!bookDAO.isBookExist(nameBook)) {
+                request.setAttribute("error", "Book '" + nameBook + "' does not exist.");
                 request.getRequestDispatcher("bcrud").forward(request, response);
                 return;
             }
 
-            Date borrowDate = Date.valueOf(borrowDateStr); 
-            Date dueDate = Date.valueOf(dueDateStr); 
+            if (borrowDateStr == null || borrowDateStr.isEmpty()) {
+                request.setAttribute("error", "Borrow date cannot be empty.");
+                request.getRequestDispatcher("bcrud").forward(request, response);
+                return;
+            }
 
-            Borrow newBorrow = new Borrow(userDAO.getUserIdByName(nameUser), bookDAO.getBookIdByTitle(nameBook), borrowDate, dueDate, null, "borrowed");
+            if (dueDateStr == null || dueDateStr.isEmpty()) {
+                request.setAttribute("error", "Due date cannot be empty.");
+                request.getRequestDispatcher("bcrud").forward(request, response);
+                return;
+            }
+
+            Date borrowDate = Date.valueOf(borrowDateStr);
+            Date dueDate = Date.valueOf(dueDateStr);
+
+            // 🔥 Log dữ liệu trước khi thêm vào database
+            System.out.println("User: " + nameUser);
+            System.out.println("Book: " + nameBook);
+            System.out.println("Borrow Date: " + borrowDate);
+            System.out.println("Due Date: " + dueDate);
+
+            Borrow newBorrow = new Borrow(userDAO.getUserIdByName(nameUser),
+                    bookDAO.getBookIdByTitle(nameBook),
+                    borrowDate,
+                    dueDate,
+                    null,
+                    "borrowed");
+
             borrowDAO.insert(newBorrow);
 
-            // Chuyển hướng sau khi thành công
             response.sendRedirect("bcrud");
+
         } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "An error occurred: " + e.getMessage());
+            request.getRequestDispatcher("bcrud").forward(request, response);
         }
     }
 

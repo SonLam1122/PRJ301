@@ -1,109 +1,70 @@
-<%-- 
-    Document   : payment.jsp
-    Created on : Mar 3, 2025, 3:59:59 PM
-    Author     : ASUS VIVOBOOK
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="model.Borrow, dal.BorrowDAO"%>
-<%@page import="java.time.LocalDate"%>
-<%
-    // Nhận borrowId từ request
-    String borrowIdParam = request.getParameter("id");
-    if (borrowIdParam == null) {
-        out.println("<p style='color:red;'>Error: borrowId is null</p>");
-        return;
-    }
-    
-    int borrowId = Integer.parseInt(borrowIdParam);
-    BorrowDAO borrowDAO = new BorrowDAO();
-    Borrow borrow = borrowDAO.getBorrowById(borrowId);
-
-    if (borrow == null) {
-        out.println("<p style='color:red;'>Error: Cannot find borrow record in DB</p>");
-        return;
-    }
-
-    long daysLate = borrowDAO.calculateLateDays(borrow);
-    double penaltyFee = daysLate * 5000;
-%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Payment Page</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <title>Payment Invoice</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <style>
-            body {
-                background-color: #f8f9fa;
-            }
-            .container {
+            .invoice-container {
                 max-width: 600px;
-                margin-top: 50px;
-                background: white;
-                padding: 30px;
+                margin: auto;
+                padding: 20px;
+                border: 1px solid #ddd;
                 border-radius: 10px;
-                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+                background: #f9f9f9;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
-            .btn-pay {
-                width: 100%;
-                font-size: 18px;
+            .invoice-header {
+                text-align: center;
+                margin-bottom: 20px;
+                font-weight: bold;
+            }
+            .invoice-item {
+                background: #fff;
+                border-radius: 10px;
+                padding: 15px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                margin-bottom: 10px;
+            }
+            .invoice-item label {
+                font-weight: bold;
             }
         </style>
     </head>
-    <body>
-        <div class="container">
-            <h2 class="text-center mb-4">Payment Details</h2>
-
-            <div class="mb-3">
-                <strong>Borrow ID:</strong> <%= borrowId %>
-            </div>
-            <div class="mb-3">
-                <strong>User:</strong> <%= borrow.getNameUser() %>
-            </div>
-            <div class="mb-3">
-                <strong>Book:</strong> <%= borrow.getNameBook() %>
-            </div>
-            <div class="mb-3">
-                <strong>Days Late:</strong> <%= daysLate %>
-            </div>
-            <div class="mb-3">
-                <strong>Penalty Fee:</strong> <span class="text-danger"><%= penaltyFee %> VND</span>
-            </div>
-
-            <form action="processPayment" method="POST" id="paymentForm">
-                <input type="hidden" name="borrowId" value="<%= borrowId %>">
-                <input type="hidden" name="amount" value="<%= penaltyFee %>">
-                <input type="hidden" name="userId" value="<%= borrow.getUserId() %>">
-
-                <label for="paymentMethod">Choose Payment Method:</label>
-                <select name="paymentMethod" class="form-control">
-                    <option value="cash">Cash</option>
-                    <option value="credit_card">Credit Card</option>
-                    <option value="paypal">PayPal</option>
-                </select>
-
-                <button type="submit" class="btn btn-success btn-lg btn-block" id="confirmPaymentBtn">Confirm Payment</button>
-            </form>
-
-            <script>
-                document.getElementById("paymentForm").onsubmit = function (event) {
-                    event.preventDefault();
-                    fetch("processPayment", {
-                        method: "POST",
-                        body: new FormData(this)
-                    }).then(response => {
-                        alert("Thanh toán thành công!");
-                        window.location.href = "home.jsp"; // Chuyển hướng về trang home
-                    }).catch(error => {
-                        alert("Lỗi trong quá trình thanh toán!");
-                    });
-                };
-            </script>
-
-
+    <body class="container mt-5">
+        <div class="invoice-container">
+            <h2 class="invoice-header">Payment Invoice</h2>
+            <c:if test="${not empty payment}">
+                <c:forEach var="p" items="${payment}">
+                    <div class="invoice-item">
+                        <p><label>Payment ID:</label> ${p.paymentId}</p>
+                        <p><label>User Name:</label> ${p.userName}</p>
+                        <p><label>Book Title:</label> ${p.bookTitle}</p>
+                        <p><label>Amount:</label> ${p.amount}</p>
+                        <p><label>Payment Date:</label> ${p.paymentDate}</p>
+                        <p><label>Payment Method:</label> ${p.paymentMethod}</p>
+                        <p><label>Status:</label>
+                            <span class="badge ${p.status ? 'bg-success' : 'bg-warning'}">
+                                ${p.status ? "Paid" : "Pending"}
+                            </span>
+                        </p>
+                        <c:if test="${!p.status}">
+                            <form action="processPayment" method="POST">
+                                <input type="hidden" name="paymentId" value="${p.paymentId}">
+                                <button type="submit" class="btn btn-primary">Pay Now</button>
+                            </form>
+                        </c:if>
+                    </div>
+                </c:forEach>
+            </c:if>
+            <c:if test="${empty payment}">
+                <p class="text-center text-muted">No payment records found.</p>
+            </c:if>
+            <c:if test="${not empty error}">
+                <p class="text-center text-danger">${error}</p>
+            </c:if>
         </div>
     </body>
 </html>
-

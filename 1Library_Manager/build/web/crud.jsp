@@ -1,10 +1,5 @@
-<%-- 
-    Document   : CRUD
-    Created on : Feb 29, 2024, 9:53:05 AM
-    Author     : BUI TUAN DAT
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -18,6 +13,8 @@
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link rel="images" href="${pageContext.request.contextPath}/images/icons/favicon.png">
         <style>
             body {
                 color: #566787;
@@ -243,12 +240,148 @@
             .modal form label {
                 font-weight: normal;
             }
+            /*css cho chart*/
+            /* Căn chỉnh toàn bộ thẻ card */
+            .card {
+                border: none !important;
+                border-radius: 20px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+            }
+
+            /* Tùy chỉnh card từng loại */
+            .card-mini {
+                padding: 15px;
+                background: linear-gradient(135deg, #6a11cb, #2575fc);
+                color: white;
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .card-mini:hover {
+                transform: scale(1.05);
+            }
+
+            /* Các màu khác nhau cho từng card */
+            .card-1 {
+                background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            }
+
+            .card-2 {
+                background: linear-gradient(135deg, #ffb347, #ffcc33);
+            }
+
+            .card-3 {
+                background: linear-gradient(135deg, #42e695, #3bb2b8);
+            }
+
+            .card-4 {
+                background: linear-gradient(135deg, #667eea, #764ba2);
+            }
+
+            /* Tùy chỉnh icon */
+            .card-mini span {
+                font-size: 40px;
+                display: block;
+                margin-top: 10px;
+            }
+
+            /* Căn giữa nội dung card */
+            .card-body {
+                text-align: center;
+            }
+
+            /* Bỏ border của bảng biểu đồ */
+            .card-default {
+                border: none !important;
+                border-radius: 20px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            /* Form chọn ngày */
+            .form-control {
+                border-radius: 10px;
+                border: none;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                padding: 8px 12px;
+            }
+
+            /* Button */
+            .btn-primary {
+                background-color: #007bff;
+                border: none;
+                border-radius: 10px;
+                padding: 8px 16px;
+            }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+            /* Link chi tiết */
+            .card-footer a {
+                color: #007bff;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+            .card-footer a:hover {
+                text-decoration: underline;
+            }
+
+            /* Tiêu đề lớn (User Activity) */
+            .card-header h2 {
+                font-size: 22px;
+                font-weight: bold;
+                color: #333;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            /* Nhãn (Select Date Range) */
+            .card-header label {
+                font-weight: 600;
+                color: #555;
+            }
+
+            /* Tùy chỉnh dropdown */
+            #dateRange {
+                background: white;
+                border-radius: 10px;
+                border: none;
+                padding: 8px 12px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            /* Tùy chỉnh input date */
+            #startDate, #endDate {
+                border-radius: 10px;
+                border: none;
+                padding: 8px 12px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            /* Căn chỉnh form */
+            .form-inline {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            /* Chỉnh lại chữ trong button */
+            .btn-primary {
+                font-weight: bold;
+                letter-spacing: 0.5px;
+            }
+
+
+
+
+
         </style>
         <script>
             $(document).ready(function () {
                 // Activate tooltip
                 $('[data-toggle="tooltip"]').tooltip();
-
                 // Select/Deselect checkboxes
                 var checkbox = $('table tbody input[type="checkbox"]');
                 $("#selectAll").click(function () {
@@ -268,7 +401,6 @@
                     }
                 });
             });
-
             function showModal(entityType) {
                 $('#add' + entityType + 'Modal').modal('show');
             }
@@ -291,26 +423,187 @@
                                 <div class="col">
                                     <a href="bcrud"><button class="btn btn-secondary"  >Borrow</button></a>
                                 </div>
-                                
-                                <div class="col" style="margin-left: 65px">
-                                    <a href="admin"><button class="btn btn-secondary"  >DashBoardAdmin</button></a>
-                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="clearfix">
-                        <div class="hint-text"><a href="home.jsp">Back to home</a></div>
+
                         <h1 style="text-align: center;">Trình quản lý dành cho Admin</h1>
+
+
+                        <div class="container-fluid">
+                            <!-- Card thống kê -->
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                                <div class="col">
+                                    <div class="card card-mini dash-card card-1 text-center">
+                                        <div class="card-body">
+                                            <h2 class="mb-1">${totalnumberbook}</h2>
+                                            <p>Book Borrowed</p>
+                                            <span class="mdi mdi-book"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card card-mini dash-card card-2 text-center">
+                                        <div class="card-body">
+                                            <h2 class="mb-1">${totalPeople}</h2>
+                                            <p>Total People Borrowed</p>
+                                            <span class="mdi mdi-account-clock"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card card-mini dash-card card-3 text-center">
+                                        <div class="card-body">
+                                            <h2 class="mb-1">${totalUsers}</h2>
+                                            <p>Total Users</p>
+                                            <span class="mdi mdi-account-multiple"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Biểu đồ hoạt động -->
+                            <div class="row mt-4">
+                                <div class="col-lg-10 mx-auto">
+                                    <div class="card card-default">
+                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                            <h2>User Activity</h2>
+                                            <form id="dateRangeForm" method="get" action="${pageContext.request.contextPath}/crud" class="form-inline">
+                                                <label for="dateRange" class="mr-2">Select Date Range:</label>
+                                                <select name="dateRange" id="dateRange" class="form-control mr-2" onchange="toggleCustomDateRange()">
+                                                    <option value="yesterday" ${param.dateRange == 'yesterday' ? 'selected' : ''}>Yesterday</option>
+                                                    <option value="last7days" ${param.dateRange == 'last7days' || param.dateRange == null ? 'selected' : ''}>Last 7 Days</option>
+                                                    <option value="last30days" ${param.dateRange == 'last30days' ? 'selected' : ''}>Last 30 Days</option>
+                                                </select>
+                                                <div id="customDateRange" style="display: none;">
+                                                    <input type="date" name="startDate" id="startDate" class="form-control mr-2" value="${param.startDate}">
+                                                    <input type="date" name="endDate" id="endDate" class="form-control mr-2" value="${param.endDate}">
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Apply</button>
+                                            </form>
+                                        </div>
+                                        <div class="card-body">
+                                            <canvas id="activity" class="chartjs"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            function toggleCustomDateRange() {
+                                var dateRange = document.getElementById('dateRange').value;
+                                var customDateRange = document.getElementById('customDateRange');
+                                if (dateRange === 'custom') {
+                                    customDateRange.style.display = 'block';
+                                } else {
+                                    customDateRange.style.display = 'none';
+                                }
+                            }
+                        </script>
+
+
+
+                        <div class="hint-text"><a href="home.jsp">Back to home</a></div>
                     </div>
                 </div>
-            </div> 
-            
-            
+            </div>        
         </div>
-        
-        
 
-        <!-- Edit Modal HTML -->
+
+        <!-- Import Chart.js -->
+        <!-- Import Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                console.log("Chart.js version:", Chart.version);
+
+                                var activity = document.getElementById("activity");
+                                if (!activity) {
+                                    console.error("Lỗi: Không tìm thấy canvas #activity!");
+                                    return;
+                                }
+
+                                var activityData = {
+                                first: [
+            <c:forEach var="map" items="${dataChart1}" varStatus="loop">
+                ${map.borrowedCount}<c:if test="${!loop.last}">,</c:if>
+            </c:forEach>
+                                ],
+                                        second: [
+            <c:forEach var="map" items="${dataChart1}" varStatus="loop">
+                ${map.returnedCount}<c:if test="${!loop.last}">,</c:if>
+            </c:forEach>
+                                        ]
+                                }
+                                ;
+
+                                var labels = [
+            <c:forEach var="map" items="${dataChart1}" varStatus="loop">
+                                "${map.date}"<c:if test="${!loop.last}">,</c:if>
+            </c:forEach>
+                                ];
+
+                                console.log("borrowedCount:", activityData.first);
+                                console.log("returnedCount:", activityData.second);
+                                console.log("labels:", labels);
+
+                                if (!activityData.first.length || !activityData.second.length) {
+                                    console.error("Dữ liệu biểu đồ trống!");
+                                            return;
+                                }
+
+                                var ctx = activity.getContext("2d");
+
+                                new Chart(ctx, {
+                                    type: "line",
+                                    data: {
+                                        labels: labels,
+                                        datasets: [
+                                            {
+                                                label: "Người mượn",
+                                                borderColor: "rgba(82, 136, 255, .8)",
+                                                data: activityData.first,
+                                                lineTension: 0,
+                                                pointRadius: 5
+                                            },
+                                            {
+                                                label: "Người trả",
+                                                borderColor: "rgba(255, 199, 15, .8)",
+                                                data: activityData.second,
+                                                lineTension: 0,
+                                                borderDash: [10, 5]
+                                            }
+                                        ]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        plugins: {
+                                            legend: {display: true}
+                                        },
+                                        scales: {
+                                            x: {grid: {display: false}},
+                                            y: {ticks: {stepSize: 50}}
+                                        }
+                                    }
+                                });
+                            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Kiểm tra nếu chưa có dateRange (lần đầu vào trang)
+                const urlParams = new URLSearchParams(window.location.search);
+                if (!urlParams.has('dateRange')) {
+                    document.getElementById("dateRange").value = "last7days"; // Chọn mặc định
+                    document.getElementById("dateRangeForm").submit(); // Tự động gửi form
+                }
+            });
+        </script>
+
+
+
     </body>
-
 </html>

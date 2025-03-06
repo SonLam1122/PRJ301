@@ -65,21 +65,15 @@ public class borrowServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
 
-        // Nếu chưa đăng nhập, chuyển hướng về login
         if (username == null || username.isEmpty()) {
             response.sendRedirect("login.jsp");
             return;
         }
 
-        // Lấy danh sách lịch sử mượn từ DAO
         BorrowDAO borrowDao = new BorrowDAO();
         List<Borrow> borrowList = borrowDao.getAllBorrowsByUsername(username);
 
-        // Đặt dữ liệu vào session để hiển thị trên JSP
         session.setAttribute("borrowList", borrowList);
-
-        // Chuyển hướng đến trang borrow.jsp
-        //response.sendRedirect("borrow.jsp");
         request.getRequestDispatcher("borrow.jsp").forward(request, response);
     }
 
