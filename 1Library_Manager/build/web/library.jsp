@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/snow/snow.css">
+        <script src="${pageContext.request.contextPath}/snow/snow.js" defer></script>
         <!-- basic -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">

@@ -10,6 +10,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/snow/snow.css">
+        <script src="${pageContext.request.contextPath}/snow/snow.js" defer></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Update Borrow</title>
         <style>
@@ -146,7 +148,7 @@
                         </div>
 
                         <div class="modal-footer">
-                             <input type="submit" class="btn btn-info" value="Update" style="margin-right: 10px;">
+                            <input type="submit" class="btn btn-info" value="Update" style="margin-right: 10px;">
                             <input type="button" class="btn btn-info" value="Cancel" onclick="window.history.back();">
                         </div>
 

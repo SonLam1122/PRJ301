@@ -9,6 +9,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/snow/snow.css">
+        <script src="${pageContext.request.contextPath}/snow/snow.js" defer></script>
+        
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Bootstrap CRUD Data Table for Database with Modal Form</title>
@@ -308,6 +312,9 @@
                                 <div class="col">
                                     <a href="bcrud"><button class="btn btn-secondary"  >Borrow(${requestScope.size})</button></a>
                                 </div>
+                                <div class="col">
+                                    <a href="crud"><button class="btn btn-secondary"  >Chart</button></a>
+                                </div>
                             </div>
 
 
@@ -395,8 +402,8 @@
         </div>
 
         <!-- Edit Modal HTML -->
-        
-        
+
+
         <div id="addEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">

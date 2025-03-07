@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/snow/snow.css">
+        <script src="${pageContext.request.contextPath}/snow/snow.js" defer></script>
         <meta charset="UTF-8">
         <title>Payment Invoice</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">

@@ -13,7 +13,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/snow/snow.css">
+        <script src="${pageContext.request.contextPath}/snow/snow.js" defer></script>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -93,34 +94,34 @@
             form {
                 width: 100%;
                 max-width: 400px;
-                margin: 5px auto; 
-                padding: 0; 
-                display: flex; 
-                justify-content: space-between; 
-                align-items: center; 
+                margin: 5px auto;
+                padding: 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
             }
             input[type="text"] {
-                padding: 6px 10px; 
+                padding: 6px 10px;
                 border: 1px solid #ccc;
                 border-radius: 4px;
-                font-size: 14px; 
-                height: 36px; 
-                box-sizing: border-box; 
+                font-size: 14px;
+                height: 36px;
+                box-sizing: border-box;
                 width: 75%;
-                margin: 0; 
+                margin: 0;
             }
             button {
-                padding: 6px 12px; 
+                padding: 6px 12px;
                 background-color: #007bff;
                 color: white;
                 border: none;
                 border-radius: 4px;
-                font-size: 14px; 
+                font-size: 14px;
                 cursor: pointer;
                 transition: background-color 0.3s;
                 height: 36px;
                 box-sizing: border-box;
-                margin-left: 8px; 
+                margin-left: 8px;
             }
 
             button:hover {

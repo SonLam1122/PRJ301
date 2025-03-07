@@ -10,6 +10,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/snow/snow.css">
+        <script src="${pageContext.request.contextPath}/snow/snow.js" defer></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Update User</title>
         <style>
