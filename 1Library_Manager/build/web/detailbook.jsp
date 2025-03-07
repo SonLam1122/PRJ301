@@ -35,6 +35,22 @@
         <link rel="stylesheet" href="css/owl.theme.default.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
         <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <style>
+            * {
+                font-family: 'Roboto', sans-serif !important;
+                font-weight: 400;
+            }
+
+            h1, h2, h3, h4, h5, h6 {
+                font-family: 'Roboto', sans-serif;
+                font-weight: 700;
+            }
+            body, p, span, a, li, label, button {
+                font-family: 'Roboto', sans-serif;
+                font-weight: 400;
+            }
+        </style>
 
         <style>
             .img-container {

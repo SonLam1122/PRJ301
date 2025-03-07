@@ -19,6 +19,22 @@
         <title>Borrow History</title>
         <!-- Thêm link tới Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <style>
+            * {
+                font-family: 'Roboto', sans-serif !important;
+                font-weight: 400;
+            }
+
+            h1, h2, h3, h4, h5, h6 {
+                font-family: 'Roboto', sans-serif;
+                font-weight: 700;
+            }
+            body, p, span, a, li, label, button {
+                font-family: 'Roboto', sans-serif;
+                font-weight: 400;
+            }
+        </style>
 
         <style>
             /* Tùy chỉnh thêm CSS */
@@ -122,7 +138,7 @@
 
             <!-- Nút quay lại Home -->
             <div class="back-btn">
-                <a href="home.jsp" class="btn btn-secondary btn-lg">Quay lại Home</a>
+                <a href="home" class="btn btn-secondary btn-lg">Quay lại Home</a>
             </div>
         </div>
 

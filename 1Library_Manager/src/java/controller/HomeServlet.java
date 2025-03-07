@@ -63,21 +63,19 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-
-//    if (session == null || session.getAttribute("user") == null) {
-//        response.sendRedirect("login.jsp");
-//        return; // Dừng ngay sau khi redirect
-//    }
-
-    // Lấy dữ liệu sách nổi bật
-    BooksDAO booksDAO = new BooksDAO();
-    List<Books> featuredBooks = booksDAO.fourbooknew();
+        String category = request.getParameter("category");
+        BooksDAO booksDAO = new BooksDAO();
+        List<Books> books;
+        books = booksDAO.getAllBooks(); 
+        
+        
+        List<String> categories = booksDAO.getAllCategories();
+        List<Books> featuredBooks = booksDAO.fourbooknew();
         System.out.println(featuredBooks);
-    request.setAttribute("featuredBooks", featuredBooks);
-
-    // Forward dữ liệu đã load vào home.jsp
-    request.getRequestDispatcher("home.jsp").forward(request, response);
-   
+        request.setAttribute("books", books);
+        request.setAttribute("categories", categories);
+        request.setAttribute("featuredBooks", featuredBooks);
+        request.getRequestDispatcher("home.jsp").forward(request, response);
 
     }
 
@@ -104,15 +102,15 @@ public class HomeServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-   public static void main(String[] args) {
-    BooksDAO booksDAO = new BooksDAO();
-    List<Books> featuredBooks = booksDAO.fourbooknew();
 
-    for (Books book : featuredBooks) {
-        System.out.println(book.toString());
+    public static void main(String[] args) {
+        String category = "Tâm Linh";
+        BooksDAO booksDAO = new BooksDAO();
+        List<Books> books = booksDAO.getBooksByCategory(category);
+
+        for (Books book : books) {
+            System.out.println(book.toString());
+        }
     }
-}
-
 
 }

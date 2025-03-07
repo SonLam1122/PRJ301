@@ -34,7 +34,24 @@
         <link rel="stylesheet" type="text/css" href="icomoon/icomoon.css">
         <link rel="stylesheet" type="text/css" href="css/vendor.css">
         <link rel="stylesheet" type="text/css" href="style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
         <style>
+            * {
+                font-family: 'Roboto', sans-serif !important;
+                font-weight: 400;
+            }
+
+            h1, h2, h3, h4, h5, h6 {
+                font-family: 'Roboto', sans-serif;
+                font-weight: 700;
+            }
+            body, p, span, a, li, label, button {
+                font-family: 'Roboto', sans-serif;
+                font-weight: 400;
+            }
+        </style>
+        <style>
+
             .user-info-container {
                 display: flex;
                 align-items: center;
@@ -315,7 +332,7 @@
                                                 <img src="${pageContext.request.contextPath}/${b.image}" 
                                                      alt="${b.title}" 
                                                      class="product-image">
-                                                <a href="detailbook?id=${b.bookId}" class="add-to-cart">Borrow Book</a>
+                                                <button type="button" class="add-to-cart" onclick="window.location.href = 'detailbook?id=${b.bookId}'">Borrow Book</button>
                                             </figure>
                                             <figcaption>
                                                 <h3>${b.title}</h3>
@@ -390,542 +407,83 @@
                     <div class="col-md-12">
 
                         <div class="section-header align-center">
-
                             <h2 class="section-title">Popular Book</h2>
                         </div>
 
                         <ul class="tabs">
-                            <li data-tab-target="#all-genre" class="active tab">ALL</li>
-                            <li data-tab-target="#business" class="tab">Kinh Doanh</li>
-                            <li data-tab-target="#technology" class="tab">Tâm Linh</li>
-                            <li data-tab-target="#romantic" class="tab">Tư Duy</li>
-                            <li data-tab-target="#adventure" class="tab">Truyện Tranh</li>
-                            <li data-tab-target="#fictional" class="tab">Tiểu Thuyết</li>
+                            <c:forEach var="c" items="${categories}" varStatus="status">
+                                <li class="tab ${status.first ? 'active' : ''}" data-category="${c}">${c}</li>
+                                </c:forEach>
                         </ul>
 
                         <div class="tab-content">
-                            <div id="all-genre" data-tab-content class="active">
-                                <div class="row">
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/nhagiakim.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">borrow it now
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Nhà giả kim</h3>
-                                                <span>Paulo Coelho</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/7thoiquenhieuqua.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">borrow it now
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>7 Thói Quen Hiệu QUả</h3>
-                                                <span>Stephen R. Covey</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/hanhtrinhvephuongdong.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">borrow it now
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Hành Trình Về Phương Đông</h3>
-                                                <span>Baird T. Spalding</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/bimatcuanuoc.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">borrow it now
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Bí Mật Của Nước</h3>
-                                                <span>Masaru Emoto</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/nghigiaulamgiau.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">borrow it now
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Nghĩ Giàu Làm Giàu</h3>
-                                                <span>Napoleon Hill</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/sucmanhcuathoiquen.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">borrow it now
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Sức Mạnh Của Thói Quen</h3>
-                                                <span>Charles Duhigg</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/tamlyhocdamdong.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">borrow it now
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Tâm Lý Học Đám Đông</h3>
-                                                <span>Gustave Le Bon</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/onpiece.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">borrow it now
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>One Piece</h3>
-                                                <span>Eiichiro Oda</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div id="business" data-tab-content>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/khoinghiemtinhgon.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Khởi nghiệp tinh gọn</h3>
-                                                <span>Eric Ries</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/zerotoone.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Zero to One</h3>
-                                                <span>Peter Thiel</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/nghigiaulamgiau.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                                    Cart</button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Nghĩ giàu làm giàu</h3>
-                                                <span>Napoleon Hill</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/cachmangcongnghiep.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Cách mạng công nghiệp 4.0</h3>
-                                                <span>Klaus Schwab</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/damthatbai.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Dám thất bại</h3>
-                                                <span>Billi P.S. Lim</span>
-
-                                            </figcaption>
-                                        </div>
+                            <c:forEach var="c" items="${categories}" varStatus="status">
+                                <div class="book-container ${status.first ? 'active' : ''}" data-category="${c}">
+                                    <div class="row">
+                                        <c:set var="count" value="0" />
+                                        <c:forEach var="book" items="${books}">
+                                            <c:if test="${book.category == c && count < 8}">
+                                                <c:set var="count" value="${count + 1}" />
+                                                <div class="col-md-3 book-item">
+                                                    <div class="product-item">
+                                                        <figure class="product-style">
+                                                            <img src="${not empty book.image ? book.image : 'images/book/default.jpg'}" 
+                                                                 alt="${book.title}" class="product-item">
+                                                            <button type="button" class="add-to-cart" data-product-tile="add-to-cart" onclick="window.location.href = 'detailbook?id=${book.bookId}'">Borrow</button>
+                                                        </figure>
+                                                        <figcaption>
+                                                            <h3>${book.title}</h3>
+                                                            <span>${book.author}</span>
+                                                        </figcaption>
+                                                    </div>
+                                                </div>
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:if test="${count == 0}">
+                                            <p class="no-books">Không có sách trong thể loại này.</p>
+                                        </c:if>
                                     </div>
                                 </div>
-                            </div>
-
-
-
-                            <div id="technology" data-tab-content>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/hanhtrinhvephuongdong.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Hành trình về phương Đông</h3>
-                                                <span>Baird T. Spalding</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/muonkiepnhansinh.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Muôn kiếp nhân sinh</h3>
-                                                <span>Nguyên Phong</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/bimatcuanuoc.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Bí mật của nước</h3>
-                                                <span>Masaru Emoto</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/tutotdenvidai.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                    Cart</button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Sức mạnh của hiện tại</h3>
-                                                <span>Eckhart Tolle</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="romantic" data-tab-content>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/tuduynhanhvacham.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Tư duy nhanh và chậm</h3>
-                                                <span>Daniel Kahneman</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/loituduycuanguoithanhcong.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Lối tư duy của người thành công</h3>
-                                                <span>Carol S. Dweck</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/bancosthedamphanbatcudieugi.png" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Bạn có thể đàm phán bất cứ điều gì</h3>
-                                                <span>Herb Cohen</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/sucmanhcuathoiquen.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Sức mạnh của thói quen</h3>
-                                                <span>Charles Duhigg</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/tamlyhocdamdong.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Tâm lý học đám đông</h3>
-                                                <span>Gustave Le Bon</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div id="adventure" data-tab-content>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/onpiec.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>One Piece</h3>
-                                                <span>Eiichiro Oda</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/doremon.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Doraemon</h3>
-                                                <span>Fujiko F. Fujio</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/titan.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Attack on Titan</h3>
-                                                <span>Hajime Isayama</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/daragon.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Dragon Ball</h3>
-                                                <span>Akira Toriyama</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/naruto.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Naruto</h3>
-                                                <span>Masashi Kishimoto</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="fictional" data-tab-content>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/doremon.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Harry Potter và Hòn Đá Phù Thủy</h3>
-                                                <span>J.K. Rowling</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/holmes.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Sherlock Holmes: Tập Truyện Ngắn</h3>
-                                                <span>Arthur Conan Doyle</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/doigiohu.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Đồi Gió Hú</h3>
-                                                <span>Emily Brontë</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/kedocsach.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Kẻ Đọc Sách (The Reader)</h3>
-                                                <span>Bernhard Schlink</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="product-item">
-                                            <figure class="product-style">
-                                                <img src="images/book/changvang.jpg" alt="Books" class="product-item">
-                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow
-                                                </button>
-                                            </figure>
-                                            <figcaption>
-                                                <h3>Chạng Vạng (Twilight)</h3>
-                                                <span>Stephenie Meyer</span>
-
-                                            </figcaption>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
+                            </c:forEach>
                         </div>
 
-                    </div><!--inner-tabs-->
 
+
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                const tabs = document.querySelectorAll(".tab");
+                                const bookContainers = document.querySelectorAll(".book-container");
+
+                                function showBooks(selectedCategory) {
+                                    bookContainers.forEach(container => {
+                                        if (container.dataset.category === selectedCategory) {
+                                            container.style.display = "block";
+                                        } else {
+                                            container.style.display = "none";
+                                        }
+                                    });
+                                }
+
+                                const firstTab = tabs[0];
+                                firstTab.classList.add("active");
+                                showBooks(firstTab.dataset.category);
+
+                                tabs.forEach(tab => {
+                                    tab.addEventListener("click", function () {
+                                        tabs.forEach(t => t.classList.remove("active"));
+                                        this.classList.add("active");
+                                        showBooks(this.dataset.category);
+                                    });
+                                });
+                            });
+                        </script>
+
+
+                    </div>
                 </div>
             </div>
         </section>
+
         <footer id="footer">
             <div class="container">
                 <div class="row">
@@ -1035,14 +593,14 @@
         <script src="js/plugins.js"></script>
         <script src="js/script.js"></script>
         <script>
-            function toggleProfile() {
-                var profileDiv = document.getElementById("profile");
-                if (profileDiv.style.display === "none" || profileDiv.style.display === "") {
-                    profileDiv.style.display = "block";
-                } else {
-                    profileDiv.style.display = "none";
-                }
-            }
+                            function toggleProfile() {
+                                var profileDiv = document.getElementById("profile");
+                                if (profileDiv.style.display === "none" || profileDiv.style.display === "") {
+                                    profileDiv.style.display = "block";
+                                } else {
+                                    profileDiv.style.display = "none";
+                                }
+                            }
         </script>
 
     </body>

@@ -20,6 +20,29 @@ import java.sql.Timestamp;
  */
 public class BooksDAO extends DBContext {
 
+    public List<Books> getBooksByCategory(String category) {
+        List<Books> books = new ArrayList<>();
+        String query = "SELECT TOP 8 * FROM Books WHERE category = ? ORDER BY updated_at DESC";
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, category);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Books book = new Books();
+                    book.setBookId(rs.getInt("book_id"));
+                    book.setTitle(rs.getString("title"));
+                    book.setAuthor(rs.getString("author"));
+                    book.setImage(rs.getString("image")); // Cột ảnh sách
+                    books.add(book);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return books;
+    }
+
     public void updateQuantity(int bookId, int amount) {
         String sql = "UPDATE Books SET quantity = quantity + ?, updated_at = GETDATE() WHERE book_id = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -45,33 +68,33 @@ public class BooksDAO extends DBContext {
         }
         return categories;
     }
-    public List<Books> fourbooknew() {
-    List<Books> books = new ArrayList<>();
-    String sql = "SELECT TOP 4 * FROM Books ORDER BY created_at DESC";
-    try {
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Books book = new Books(
-                rs.getInt("book_id"),
-                rs.getString("title"),
-                rs.getString("author"),
-                rs.getString("publisher"),
-                rs.getString("category"),
-                rs.getString("description"),
-                rs.getString("image"),
-                rs.getInt("quantity"),
-                rs.getDate("created_at"),
-                rs.getDate("updated_at")
-            );
-            books.add(book);
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return books;
-}
 
+    public List<Books> fourbooknew() {
+        List<Books> books = new ArrayList<>();
+        String sql = "SELECT TOP 4 * FROM Books ORDER BY created_at DESC";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Books book = new Books(
+                        rs.getInt("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getString("publisher"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("image"),
+                        rs.getInt("quantity"),
+                        rs.getDate("created_at"),
+                        rs.getDate("updated_at")
+                );
+                books.add(book);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return books;
+    }
 
     public List<Books> searchBooks(String keyword, String category) {
         List<Books> books = new ArrayList<>();
@@ -258,6 +281,7 @@ public class BooksDAO extends DBContext {
         return list;
     }
 
+
     public Books getTop1Book() {
         String sql = "SELECT TOP (1) [book_id], [title], [author], [publisher], [category], "
                 + "[description], [image], [quantity], [created_at], [updated_at] "
@@ -411,7 +435,7 @@ public class BooksDAO extends DBContext {
         } catch (SQLException e) {
             System.out.println("Error in getBookIdByTitle: " + e.getMessage());
         }
-        return -1; 
+        return -1;
     }
 
     public String getCategoryByBookId(int bookId) {

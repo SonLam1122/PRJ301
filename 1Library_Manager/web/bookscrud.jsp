@@ -22,6 +22,22 @@
 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/snow/snow.css">
         <script src="${pageContext.request.contextPath}/snow/snow.js" defer></script>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <style>
+            * {
+                font-family: 'Roboto', sans-serif !important;
+                font-weight: 400;
+            }
+
+            h1, h2, h3, h4, h5, h6 {
+                font-family: 'Roboto', sans-serif;
+                font-weight: 700;
+            }
+            body, p, span, a, li, label, button {
+                font-family: 'Roboto', sans-serif;
+                font-weight: 400;
+            }
+        </style>
         
         <style>
             body {
@@ -307,7 +323,7 @@
                             </div>
 
 
-                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Book</span></a>
+                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons"></i> <span>Add New Book</span></a>
                             <div class="col">
                                 <div class="col">
                                     <h2 style="color: red">${requestScope.error}</h2>
@@ -376,7 +392,7 @@
                         </tbody>
                     </table>
                     <!-- Pagination -->
-                    <div class="hint-text"><a href="home.jsp">Back to home</a></div>
+                    <div class="hint-text"><a href="home">Back to home</a></div>
 
                     <ul class="pagination">
                         <li class="page-item <c:if test="${currentPage == 1}">disabled</c:if>">

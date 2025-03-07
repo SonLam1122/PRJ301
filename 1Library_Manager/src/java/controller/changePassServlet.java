@@ -76,7 +76,7 @@ public class changePassServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("account", a1);
 
-            response.sendRedirect("home.jsp");
+            response.sendRedirect("home");
         }
     }
 
