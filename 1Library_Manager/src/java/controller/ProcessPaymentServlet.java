@@ -88,7 +88,7 @@ public class ProcessPaymentServlet extends HttpServlet {
         } else {
             request.setAttribute("error", "Payment ID is required.");
             request.getRequestDispatcher("bcrud").forward(request, response);
-        }
+        }   
     }
 
     /** 

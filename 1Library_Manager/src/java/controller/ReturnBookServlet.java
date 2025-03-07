@@ -13,15 +13,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
 import java.sql.Date;
 import model.Borrow;
 
 /**
  *
- * @author BUI TUAN DAT
+ * @author SonLam29
  */
-@WebServlet(name = "updateBorrowServlet", urlPatterns = {"/updateborrow"})
-public class updateBorrowServlet extends HttpServlet {
+@WebServlet(name = "ReturnBookServlet", urlPatterns = {"/return"})
+public class ReturnBookServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,31 +41,62 @@ public class updateBorrowServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet updateCategoryServlet</title>");
+            out.println("<title>Servlet ReturnBookServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet updateCategoryServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ReturnBookServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     }
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id_raw = request.getParameter("id");
-
-        BorrowDAO cd = new BorrowDAO();
-        try {
-            int id = Integer.parseInt(id_raw);
-            Borrow c = cd.getBorrowById(id);
-
-            request.setAttribute("cupdate", c);
-
-            request.getRequestDispatcher("updateborrow.jsp").forward(request, response);
-        } catch (NumberFormatException e) {
+        String borrowIdRaw = request.getParameter("id");
+        if (borrowIdRaw == null || borrowIdRaw.isEmpty()) {
+            response.sendRedirect("bcrud"); // Chuyển hướng nếu không có ID
+            return;
         }
 
+        int borrowId;
+        try {
+            borrowId = Integer.parseInt(borrowIdRaw);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendRedirect("bcrud");
+            return;
+        }
+
+        BorrowDAO borrowDAO = new BorrowDAO();
+        BooksDAO booksDAO = new BooksDAO();
+
+        try {
+            Borrow borrow = borrowDAO.getBorrowById(borrowId);
+            if (borrow != null) {
+                int bookId = borrow.getBookId();
+                LocalDate today = LocalDate.now();
+
+                // Cập nhật bảng Borrow
+                borrowDAO.updateReturnStatus(borrowId, Date.valueOf(today));
+
+                // Cập nhật số lượng sách
+                booksDAO.updateQuantity(bookId, 1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        response.sendRedirect("bcrud");
     }
 
     /**
@@ -78,44 +110,7 @@ public class updateBorrowServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id_raw = request.getParameter("id");
-        String borrowDateStr = request.getParameter("borrowdate");
-        String dueDateStr = request.getParameter("duedate");
-        String returnDateStr = request.getParameter("returndate");
-        String status = request.getParameter("status");
-
-        int id;
-        Date borrowDate = null, dueDate = null, returnDate = null;
-        BorrowDAO borrowDAO = new BorrowDAO();
-        BooksDAO bookDAO = new BooksDAO();
-
-        try {
-            id = Integer.parseInt(id_raw);
-            borrowDate = Date.valueOf(borrowDateStr);
-            dueDate = Date.valueOf(dueDateStr);
-            returnDate = (returnDateStr != null && !returnDateStr.isEmpty()) ? Date.valueOf(returnDateStr) : null;
-
-            Borrow borrow = borrowDAO.getBorrowById(id);
-            if (borrow != null) {
-                int bookId = borrow.getBookId();
-
-                if ("returned".equals(status)) {
-                    bookDAO.updateQuantity(bookId, 1);
-                } else if ("borrowed".equals(status)) {
-                    bookDAO.updateQuantity(bookId, -1);
-                } else if ("late".equals(status)) {
-                    bookDAO.updateQuantity(bookId, -1);
-                }
-            }
-            // Cập nhật bản ghi mượn trả
-            Borrow updatedBorrow = new Borrow(id, borrowDate, dueDate, returnDate, status);
-            borrowDAO.update(updatedBorrow);
-
-            response.sendRedirect("bcrud");
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-
+        processRequest(request, response);
     }
 
     /**

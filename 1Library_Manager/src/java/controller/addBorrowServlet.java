@@ -21,7 +21,7 @@ import model.Borrow;
  *
  * @author BUI TUAN DAT
  */
-@WebServlet(name = "addBorrowServlet", urlPatterns = {"/addcategory"})
+@WebServlet(name = "addBorrowServlet", urlPatterns = {"/addborrow"})
 public class addBorrowServlet extends HttpServlet {
 
     /**
@@ -66,6 +66,7 @@ public class addBorrowServlet extends HttpServlet {
         String nameBook = request.getParameter("nameBook");
         String borrowDateStr = request.getParameter("borrowDate");
         String dueDateStr = request.getParameter("dueDate");
+        String status = request.getParameter("status");
 
         BorrowDAO borrowDAO = new BorrowDAO();
         UsersDAO userDAO = new UsersDAO();
@@ -95,25 +96,21 @@ public class addBorrowServlet extends HttpServlet {
                 request.getRequestDispatcher("bcrud").forward(request, response);
                 return;
             }
+            
+            int bookId = bookDAO.getBookIdByTitle(nameBook);
 
             Date borrowDate = Date.valueOf(borrowDateStr);
             Date dueDate = Date.valueOf(dueDateStr);
-
-            // 🔥 Log dữ liệu trước khi thêm vào database
-            System.out.println("User: " + nameUser);
-            System.out.println("Book: " + nameBook);
-            System.out.println("Borrow Date: " + borrowDate);
-            System.out.println("Due Date: " + dueDate);
 
             Borrow newBorrow = new Borrow(userDAO.getUserIdByName(nameUser),
                     bookDAO.getBookIdByTitle(nameBook),
                     borrowDate,
                     dueDate,
                     null,
-                    "borrowed");
+                    status);
 
             borrowDAO.insert(newBorrow);
-
+            bookDAO.updateQuantity(bookId, -1);
             response.sendRedirect("bcrud");
 
         } catch (Exception e) {

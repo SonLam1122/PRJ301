@@ -51,16 +51,24 @@ public class PaymentDAO extends DBContext {
         }
         return payments;
     }
-    
+
     public boolean processPayment(int paymentId) {
         String updatePaymentSQL = "UPDATE Payments SET status = 1 WHERE payment_id = ?";
         String updateBorrowSQL = """
-            UPDATE Borrow 
-            SET status = 'returned', return_date = ? 
-            WHERE borrow_id = (SELECT f.borrow_id FROM Fines f 
-                               JOIN Payments p ON f.fine_id = p.fine_id 
-                               WHERE p.payment_id = ?)
-        """;
+        UPDATE Borrow 
+        SET status = 'returned', return_date = ? 
+        WHERE borrow_id = (SELECT f.borrow_id FROM Fines f 
+                           JOIN Payments p ON f.fine_id = p.fine_id 
+                           WHERE p.payment_id = ?)
+    """;
+        String updateBookQuantitySQL = """
+        UPDATE Books 
+        SET quantity = quantity + 1, updated_at = GETDATE() 
+        WHERE book_id = (SELECT b.book_id FROM Borrow b 
+                         JOIN Fines f ON b.borrow_id = f.borrow_id 
+                         JOIN Payments p ON f.fine_id = p.fine_id 
+                         WHERE p.payment_id = ?)
+    """;
 
         try {
             connection.setAutoCommit(false);
@@ -74,6 +82,11 @@ public class PaymentDAO extends DBContext {
                 stmt2.setDate(1, Date.valueOf(LocalDate.now()));
                 stmt2.setInt(2, paymentId);
                 stmt2.executeUpdate();
+            }
+
+            try (PreparedStatement stmt3 = connection.prepareStatement(updateBookQuantitySQL)) {
+                stmt3.setInt(1, paymentId);
+                stmt3.executeUpdate();
             }
 
             connection.commit();

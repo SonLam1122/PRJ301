@@ -185,7 +185,7 @@ public class UsersDAO extends DBContext {
     }
     
     public int getUserIdByName(String nameUser) {
-        String sql = "SELECT user_id FROM Users WHERE username = ?";
+        String sql = "SELECT user_id FROM Users WHERE name = ?";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, nameUser);  // Thiết lập tên người dùng vào câu truy vấn
 

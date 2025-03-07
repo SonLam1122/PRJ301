@@ -20,6 +20,17 @@ import java.sql.Timestamp;
  */
 public class BooksDAO extends DBContext {
 
+    public void updateQuantity(int bookId, int amount) {
+        String sql = "UPDATE Books SET quantity = quantity + ?, updated_at = GETDATE() WHERE book_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, amount);
+            ps.setInt(2, bookId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<String> getAllCategories() {
         List<String> categories = new ArrayList<>();
         String sql = "SELECT DISTINCT category FROM Books WHERE category IS NOT NULL";
@@ -365,16 +376,15 @@ public class BooksDAO extends DBContext {
     public int getBookIdByTitle(String title) {
         String sql = "SELECT book_id FROM Books WHERE title = ?";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
-            st.setString(1, title);  // Thiết lập tiêu đề sách vào câu truy vấn
-
+            st.setNString(1, title);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                return rs.getInt("book_id");  // Trả về book_id nếu tìm thấy
+                return rs.getInt("book_id");
             }
         } catch (SQLException e) {
             System.out.println("Error in getBookIdByTitle: " + e.getMessage());
         }
-        return -1;  // Trả về -1 nếu không tìm thấy sách
+        return -1; 
     }
 
     public String getCategoryByBookId(int bookId) {

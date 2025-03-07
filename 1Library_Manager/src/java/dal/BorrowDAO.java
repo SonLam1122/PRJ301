@@ -18,6 +18,17 @@ import java.sql.SQLException;
  */
 public class BorrowDAO extends DBContext {
 
+    public void updateReturnStatus(int borrowId, Date returnDate) {
+        String sql = "UPDATE Borrow SET return_date = ?, status = 'returned' WHERE borrow_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setDate(1, returnDate);
+            ps.setInt(2, borrowId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void checkAndUpdateLateBorrows() {
         String deletePaymentsSql = "DELETE FROM Payments";
         String deleteFineSql = "DELETE FROM Fines";
@@ -106,22 +117,16 @@ public class BorrowDAO extends DBContext {
 
     public void insert(Borrow c) {
         String sql = "INSERT INTO Borrow (user_id, book_id, borrow_date, due_date, return_date, status) "
-                + "VALUES (?, ?, ?, ?, NULL, 'borrowed')";
+                + "VALUES (?, ?, ?, ?, NULL, ?)";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
 
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, c.getUserId());
             st.setInt(2, c.getBookId());
             st.setDate(3, new java.sql.Date(c.getBorrowDate().getTime()));
-            st.setDate(4, new java.sql.Date(c.getDueDate().getTime()));     
+            st.setDate(4, new java.sql.Date(c.getDueDate().getTime()));
+            st.setString(5, c.getStatus());
 
-            System.out.println("Executing query: " + sql);
-            System.out.println("User ID: " + c.getUserId());
-            System.out.println("Book ID: " + c.getBookId());
-            System.out.println("Borrow Date: " + c.getBorrowDate());
-            System.out.println("Due Date: " + c.getDueDate());
-
-            st.executeUpdate();
+            int rowsAffected = st.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

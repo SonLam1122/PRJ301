@@ -245,6 +245,17 @@
                 font-weight: normal;
             }
         </style>
+
+        <style>
+            .btn-payment {
+                background-color: red; /* Màu cam */
+                color: white;
+            }
+            .btn-return {
+                background-color: #ff9800; /* Màu xanh */
+                color: white;
+            }
+        </style>
         <script>
             $(document).ready(function () {
                 // Activate tooltip
@@ -327,7 +338,7 @@
                                 <th>Return Date</th>
                                 <th>Status</th>
                                 <th>Action</th>
-                                <th>PayMent</th>
+                                <th>Return</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -356,8 +367,12 @@
                                     </td>
                                     <td>
                                         <c:if test="${cl.status eq 'late'}">
-                                            <a href="payment?id=${cl.borrowId}" class="btn btn-danger">Payment</a>
+                                            <a href="payment?id=${cl.borrowId}" class="btn btn-payment">Payment</a>
                                         </c:if>
+                                        <c:if test="${cl.status eq 'borrowed'}">
+                                            <a href="return?id=${cl.borrowId}" class="btn btn-return">Return</a>
+                                        </c:if>
+
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -380,10 +395,12 @@
         </div>
 
         <!-- Edit Modal HTML -->
+        
+        
         <div id="addEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="addcategory" method="get">
+                    <form action="addborrow" method="GET">
 
                         <div class="modal-header">						
                             <h4 class="modal-title">Add Borrow</h4>
@@ -403,7 +420,6 @@
                                 <label>Borrow Date</label>
                                 <input type="date" class="form-control" required name="borrowDate" id="borrowDate">
                             </div>
-
                             <div class="form-group">
                                 <label>Number of Days for Borrow</label>
                                 <input type="number" class="form-control" required name="numberOfDays" id="numberOfDays" min="1">
@@ -411,7 +427,11 @@
                             <div class="form-group">
                                 <label>Due Date</label>
                                 <input type="date" class="form-control" required name="dueDate" id="dueDate" readonly>
-                            </div>						
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <input type="text" class="form-control" required name="status" id="status" readonly value="borrowed">
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -421,7 +441,7 @@
                 </div>
             </div>
         </div>
-        <!-- Edit Modal HTML -->
+
 
         <!-- Delete Modal HTML -->
         <div id="deleteEmployeeModal" class="modal fade">
