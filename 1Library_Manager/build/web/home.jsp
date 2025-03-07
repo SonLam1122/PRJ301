@@ -9,7 +9,10 @@
     Users user = (Users) session.getAttribute("user");
 %>
 
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -300,94 +303,44 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-
                         <div class="section-header align-center">
-
                             <h2 class="section-title">Sách Nổi Bật</h2>
                         </div>
-
                         <div class="product-list" data-aos="fade-up">
                             <div class="row">
-
-                                <div class="col-md-3">
-                                    <div class="product-item">
-                                        <figure class="product-style">
-                                            <img src="images/book/bo_gia.jpg" alt="Books" class="product-item">
-                                            <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow Book
-                                            </button>
-                                        </figure>
-                                        <figcaption>
-                                            <h3>Bố Già</h3>
-                                            <span>Mario Puzo</span>
-
-                                        </figcaption>
+                                <c:forEach var="b" items="${featuredBooks}">
+                                    <div class="col-md-3">
+                                        <div class="product-item">
+                                            <figure class="product-style">
+                                                <img src="${pageContext.request.contextPath}/${b.image}" 
+                                                     alt="${b.title}" 
+                                                     class="product-image">
+                                                <a href="detailbook?id=${b.bookId}" class="add-to-cart">Borrow Book</a>
+                                            </figure>
+                                            <figcaption>
+                                                <h3>${b.title}</h3>
+                                                <span>${b.author}</span>
+                                            </figcaption>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="product-item">
-                                        <figure class="product-style">
-                                            <img src="images/book/dacnhantam.jpg" alt="Books" class="product-item">
-                                            <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow Book
-                                            </button>
-                                        </figure>
-                                        <figcaption>
-                                            <h3>Đắc Nhân Tâm</h3>
-                                            <span>Dale Carnegie</span>
-
-                                        </figcaption>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="product-item">
-                                        <figure class="product-style">
-                                            <img src="images/book/doremon.jpg" alt="Books" class="product-item">
-                                            <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow Book
-                                            </button>
-                                        </figure>
-                                        <figcaption>
-                                            <h3>Doremon</h3>
-                                            <span>Fujiko F. Fujio</span>
-
-                                        </figcaption>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="product-item">
-                                        <figure class="product-style">
-                                            <img src="images/book/hanhtrinhvephuongdong.jpg" alt="Books" class="product-item">
-                                            <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Borrow Book
-                                            </button>
-                                        </figure>
-                                        <figcaption>
-                                            <h3>Hành trình về phương Đông</h3>
-                                            <span>Baird T. Spalding</span>
-
-                                        </figcaption>
-                                    </div>
-                                </div>
-
-                            </div><!--ft-books-slider-->
-                        </div><!--grid-->
-
-
-                    </div><!--inner-content-->
+                                </c:forEach>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-12">
-
                         <div class="btn-wrap align-right">
-                            <a href="library" class="btn-accent-arrow">View all products <i
-                                    class="icon icon-ns-arrow-right"></i></a>
+                            <a href="library" class="btn-accent-arrow">
+                                View all products <i class="icon icon-ns-arrow-right"></i>
+                            </a>
                         </div>
-
                     </div>
                 </div>
             </div>
         </section>
+
+
 
         <section id="best-selling" class="leaf-pattern-overlay">
             <div class="corner-pattern-overlay"></div>

@@ -105,9 +105,9 @@ public class loginServlet extends HttpServlet {
             session.setAttribute("username", user);
             session.setAttribute("userId", ad.getUserIdByName(user));
             if ("admin".equalsIgnoreCase(a.getRole())) { 
-                request.getRequestDispatcher("home.jsp").forward(request, response);
+                response.sendRedirect("home");
             } else {
-                response.sendRedirect("home.jsp");
+                response.sendRedirect("home");
             }
         }
 

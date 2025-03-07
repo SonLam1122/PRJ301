@@ -4,6 +4,8 @@
  */
 package controller;
 
+import dal.BooksDAO;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +14,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.Books;
 
 /**
  *
@@ -58,15 +62,23 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false); // Lấy session nhưng không tạo mới
+        HttpSession session = request.getSession(false);
 
-        if (session != null && session.getAttribute("user") != null) {
-            // Đã đăng nhập -> chuyển hướng đến trang chính
-            request.getRequestDispatcher("home.jsp").forward(request, response);
-        } else {
-            // Chưa đăng nhập -> chuyển hướng đến trang login
-            response.sendRedirect("login.jsp");
-        }
+//    if (session == null || session.getAttribute("user") == null) {
+//        response.sendRedirect("login.jsp");
+//        return; // Dừng ngay sau khi redirect
+//    }
+
+    // Lấy dữ liệu sách nổi bật
+    BooksDAO booksDAO = new BooksDAO();
+    List<Books> featuredBooks = booksDAO.fourbooknew();
+        System.out.println(featuredBooks);
+    request.setAttribute("featuredBooks", featuredBooks);
+
+    // Forward dữ liệu đã load vào home.jsp
+    request.getRequestDispatcher("home.jsp").forward(request, response);
+   
+
     }
 
     /**
@@ -92,5 +104,15 @@ public class HomeServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+   public static void main(String[] args) {
+    BooksDAO booksDAO = new BooksDAO();
+    List<Books> featuredBooks = booksDAO.fourbooknew();
+
+    for (Books book : featuredBooks) {
+        System.out.println(book.toString());
+    }
+}
+
 
 }

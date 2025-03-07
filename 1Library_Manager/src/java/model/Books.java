@@ -151,4 +151,10 @@ public class Books {
     public void setRelatedBooks(List<Books> relatedBooks) {
         this.relatedBooks = relatedBooks;
     }
+
+    @Override
+    public String toString() {
+        return "Books{" + "bookId=" + bookId + ", title=" + title + ", author=" + author + ", publisher=" + publisher + ", category=" + category + ", description=" + description + ", image=" + image + ", quantity=" + quantity + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", relatedBooks=" + relatedBooks + '}';
+    }
+    
 }

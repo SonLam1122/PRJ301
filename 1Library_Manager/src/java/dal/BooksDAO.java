@@ -45,6 +45,33 @@ public class BooksDAO extends DBContext {
         }
         return categories;
     }
+    public List<Books> fourbooknew() {
+    List<Books> books = new ArrayList<>();
+    String sql = "SELECT TOP 4 * FROM Books ORDER BY created_at DESC";
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Books book = new Books(
+                rs.getInt("book_id"),
+                rs.getString("title"),
+                rs.getString("author"),
+                rs.getString("publisher"),
+                rs.getString("category"),
+                rs.getString("description"),
+                rs.getString("image"),
+                rs.getInt("quantity"),
+                rs.getDate("created_at"),
+                rs.getDate("updated_at")
+            );
+            books.add(book);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return books;
+}
+
 
     public List<Books> searchBooks(String keyword, String category) {
         List<Books> books = new ArrayList<>();

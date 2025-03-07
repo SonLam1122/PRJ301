@@ -477,6 +477,7 @@
                                                     <option value="yesterday" ${param.dateRange == 'yesterday' ? 'selected' : ''}>Yesterday</option>
                                                     <option value="last7days" ${param.dateRange == 'last7days' || param.dateRange == null ? 'selected' : ''}>Last 7 Days</option>
                                                     <option value="last30days" ${param.dateRange == 'last30days' ? 'selected' : ''}>Last 30 Days</option>
+                                                    <option value="custom" ${param.dateRange == 'custom' ? 'selected' : ''}>From-To</option>
                                                 </select>
                                                 <div id="customDateRange" style="display: none;">
                                                     <input type="date" name="startDate" id="startDate" class="form-control mr-2" value="${param.startDate}">

@@ -29,7 +29,7 @@
         <url-pattern>/payment</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
-        <welcome-file>home.jsp</welcome-file>
+        <welcome-file>home</welcome-file>
     </welcome-file-list>
     <servlet-mapping>
         <servlet-name>ProcessPaymentServlet</servlet-name>
