@@ -26,7 +26,7 @@ public class UsersDAO extends DBContext {
     }
 
     public boolean isNameExist(String name) {
-        String sql = "SELECT user_id FROM Users WHERE name = ?";
+        String sql = "SELECT user_id FROM Users WHERE username = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, name);  // Giả sử bạn muốn kiểm tra tên người dùng trong bảng Users
@@ -185,7 +185,7 @@ public class UsersDAO extends DBContext {
     }
     
     public int getUserIdByName(String nameUser) {
-        String sql = "SELECT user_id FROM Users WHERE name = ?";
+        String sql = "SELECT user_id FROM Users WHERE username = ?";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, nameUser);  // Thiết lập tên người dùng vào câu truy vấn
 
