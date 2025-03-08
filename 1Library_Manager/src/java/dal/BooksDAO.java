@@ -20,6 +20,29 @@ import java.sql.Timestamp;
  */
 public class BooksDAO extends DBContext {
 
+    public Books getBookWithLowestQuantity() {
+        Books book = null;
+        String sql = "SELECT TOP 1 * FROM Books ORDER BY quantity ASC"; 
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                book = new Books();
+                book.setBookId(rs.getInt("book_id"));
+                book.setTitle(rs.getString("title"));
+                book.setAuthor(rs.getString("author"));
+                book.setPublisher(rs.getString("publisher"));
+                book.setCategory(rs.getString("category"));
+                book.setDescription(rs.getString("description"));
+                book.setImage(rs.getString("image"));
+                book.setQuantity(rs.getInt("quantity"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in getBookWithLowestQuantity: " + e.getMessage());
+        }
+        return book;
+    }
+
     public List<Books> getBooksByCategory(String category) {
         List<Books> books = new ArrayList<>();
         String query = "SELECT TOP 8 * FROM Books WHERE category = ? ORDER BY updated_at DESC";
@@ -280,7 +303,6 @@ public class BooksDAO extends DBContext {
 
         return list;
     }
-
 
     public Books getTop1Book() {
         String sql = "SELECT TOP (1) [book_id], [title], [author], [publisher], [category], "

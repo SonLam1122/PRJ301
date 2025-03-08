@@ -62,19 +62,23 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        String category = request.getParameter("category");
         BooksDAO booksDAO = new BooksDAO();
-        List<Books> books;
-        books = booksDAO.getAllBooks(); 
-        
-        
+
+        // Fetch books and categories
+        List<Books> books = booksDAO.getAllBooks();
         List<String> categories = booksDAO.getAllCategories();
         List<Books> featuredBooks = booksDAO.fourbooknew();
-        System.out.println(featuredBooks);
+
+        // Fetch the book with the lowest quantity
+        Books lowestBook = booksDAO.getBookWithLowestQuantity();
+        System.out.println("Lowest Quantity Book: " + lowestBook); // Debugging
+
+        // Pass attributes to JSP
         request.setAttribute("books", books);
         request.setAttribute("categories", categories);
         request.setAttribute("featuredBooks", featuredBooks);
+        request.setAttribute("lowestBook", lowestBook); // Pass the lowest quantity book
+
         request.getRequestDispatcher("home.jsp").forward(request, response);
 
     }

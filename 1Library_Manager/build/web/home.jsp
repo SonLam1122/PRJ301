@@ -357,46 +357,32 @@
             </div>
         </section>
 
-
-
         <section id="best-selling" class="leaf-pattern-overlay">
             <div class="corner-pattern-overlay"></div>
             <div class="container">
                 <div class="row justify-content-center">
-
                     <div class="col-md-8">
-
                         <div class="row">
-
                             <div class="col-md-6">
                                 <figure class="products-thumb">
-                                    <img width="500px" src="images/book/sachtotnhat.jpg" alt="book" class="single-image">
+                                    <img width="500px" src="${pageContext.request.contextPath}/${lowestBook.image}" alt="book" class="single-image">
                                 </figure>
                             </div>
-
                             <div class="col-md-6">
                                 <div class="product-entry">
                                     <h2 class="section-title divider">Best Selling Book</h2>
-
                                     <div class="products-content">
-                                        <div class="author-name">By Carol S. Dweck</div>
-                                        <h3 class="item-title">Lối tư duy của người thành công</h3>
-                                        <p>Tư duy là nền tảng của sự thành công trong cuộc sống và lãnh đạo.</p>
-
+                                        <div class="author-name">By ${lowestBook.author}</div>
+                                        <h3 class="item-title">${lowestBook.title}</h3>
+                                        <p>${lowestBook.description}</p>
                                         <div class="btn-wrap">
-                                            <a href="#" class="btn-accent-arrow">borrow it now <i
-                                                    class="icon icon-ns-arrow-right"></i></a>
+                                            <a href="detailbook?id=${lowestBook.bookId}" class="btn-accent-arrow">borrow it now <i class="icon icon-ns-arrow-right"></i></a>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-
                         </div>
-                        <!-- / row -->
-
                     </div>
-
                 </div>
             </div>
         </section>
