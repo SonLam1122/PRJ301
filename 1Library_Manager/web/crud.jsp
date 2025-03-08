@@ -390,11 +390,6 @@
                 font-weight: bold;
                 letter-spacing: 0.5px;
             }
-
-
-
-
-
         </style>
         <script>
             $(document).ready(function () {
@@ -430,7 +425,6 @@
                 <div class="table-wrapper">
                     <div class="table-title">
                         <div class="row">
-
                             <div class="row">
                                 <div class="col">
                                     <a href="acrud"><button class="btn btn-secondary"  >Account</button></a>
@@ -486,7 +480,6 @@
                                 <div class="col-lg-10 mx-auto">
                                     <div class="card card-default">
                                         <div class="card-header d-flex justify-content-between align-items-center">
-                                            <h2>User Activity</h2>
                                             <form id="dateRangeForm" method="get" action="${pageContext.request.contextPath}/crud" class="form-inline">
                                                 <label for="dateRange" class="mr-2">Select Date Range:</label>
                                                 <select name="dateRange" id="dateRange" class="form-control mr-2" onchange="toggleCustomDateRange()">

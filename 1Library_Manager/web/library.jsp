@@ -117,58 +117,55 @@
                         </div>
                     </div>
                 </div>
-                <div class="clearfix">
-                    <ul class="pagination">                          
-                        <c:forEach begin="1" end="${totalPages}" var="pageNumber">
-                            <li class="page-item"><a class="page-link" href="library?page=${pageNumber}">${pageNumber}</a></li>
-                            </c:forEach>   
-                    </ul>
-                </div>
-                <script>
-                    $('#datepicker').datepicker({
-                        uiLibrary: 'bootstrap4'
-                    });
-                    //                            function change() {
-                    //                                document.getElementById("f1").submit();
-                    //                            }
-
-                    function show() {
-                        var x = document.getElementById("profile");
-                        if (x.style.display == "none") {
-                            x.style.display = "block";
-                        } else {
-                            x.style.display = "none";
-                        }
+            </div>
+            <div class="clearfix">
+                <ul class="pagination">                          
+                    <c:forEach begin="1" end="${totalPages}" var="pageNumber">
+                        <li class="page-item"><a class="page-link" href="library?page=${pageNumber}">${pageNumber}</a></li>
+                        </c:forEach>   
+                </ul>
+            </div>
+            <script>
+                $('#datepicker').datepicker({
+                    uiLibrary: 'bootstrap4'
+                });
+                function show() {
+                    var x = document.getElementById("profile");
+                    if (x.style.display == "none") {
+                        x.style.display = "block";
+                    } else {
+                        x.style.display = "none";
                     }
-                </script>
-                </body>
-                </html>
+                }
+            </script>
+    </body>
+</html>
 
-                <style>
-                    .iamge_movies_main {
-                        display: flex;
-                        flex-wrap: wrap;
-                    }
-                    .image_3 img {
-                        width: 200px; /* Đặt chiều rộng cố định */
-                        height: 300px; /* Đặt chiều cao cố định */
-                        object-fit: cover; /* Giữ nguyên tỷ lệ và cắt ảnh để vừa khung */
-                        border-radius: 10px; /* Bo góc ảnh (tùy chỉnh) */
-                        display: block;
-                        margin: 0 auto; /* Căn giữa hình ảnh */
-                    }
+<style>
+    .iamge_movies_main {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .image_3 img {
+        width: 200px; /* Đặt chiều rộng cố định */
+        height: 300px; /* Đặt chiều cao cố định */
+        object-fit: cover; /* Giữ nguyên tỷ lệ và cắt ảnh để vừa khung */
+        border-radius: 10px; /* Bo góc ảnh (tùy chỉnh) */
+        display: block;
+        margin: 0 auto; /* Căn giữa hình ảnh */
+    }
 
-                    .iamge_movies {
-                        text-align: center; /* Căn giữa tiêu đề sách */
-                        padding: 10px;
-                        max-width: 220px; /* Đảm bảo không quá to */
-                    }
+    .iamge_movies {
+        text-align: center; /* Căn giữa tiêu đề sách */
+        padding: 10px;
+        max-width: 220px; /* Đảm bảo không quá to */
+    }
 
-                    .iamge_movies_main {
-                        display: flex;
-                        justify-content: center; /* Căn giữa hình ảnh */
-                        flex-wrap: wrap;
-                        gap: 20px; /* Tạo khoảng cách giữa các mục */
-                    }
+    .iamge_movies_main {
+        display: flex;
+        justify-content: center; /* Căn giữa hình ảnh */
+        flex-wrap: wrap;
+        gap: 20px; /* Tạo khoảng cách giữa các mục */
+    }
 
-                </style>
+</style>

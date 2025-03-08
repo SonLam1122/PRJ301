@@ -38,7 +38,7 @@
                 font-weight: 400;
             }
         </style>
-        
+
         <style>
             body {
                 color: #566787;
@@ -312,7 +312,7 @@
                                     <a href="acrud"><button class="btn btn-secondary"  >Account</button></a>
                                 </div>
                                 <div class="col">
-                                    <a href="lcrud"><button class="btn btn-secondary"  >Library(${requestScope.size})</button></a>
+                                    <a href="lcrud"><button class="btn btn-secondary"  >Library</button></a>
                                 </div>
                                 <div class="col">
                                     <a href="bcrud"><button class="btn btn-secondary"  >Borrow</button></a>
@@ -385,29 +385,38 @@
                                     </td>
 
                                 </tr>
-
                             </c:forEach>
 
 
                         </tbody>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <input type="text" id="searchInput" class="form-control" placeholder="Tìm theo Title hoặc Author...">
+                            </div>
+                        </div>
+                        <div>Tổng số Books: ${requestScope.size}</div>
+                        <script>
+                            document.getElementById("searchInput").addEventListener("keyup", function () {
+                                let input = this.value.toLowerCase();
+                                let rows = document.querySelectorAll("table tbody tr");
+
+                                rows.forEach(row => {
+                                    let title = row.cells[2].textContent.toLowerCase();
+                                    let author = row.cells[3].textContent.toLowerCase();
+
+                                    if (title.includes(input) || author.includes(input)) {
+                                        row.style.display = "";
+                                    } else {
+                                        row.style.display = "none";
+                                    }
+                                });
+                            });
+                        </script>
                     </table>
                     <!-- Pagination -->
-                    <div class="hint-text"><a href="home">Back to home</a></div>
-
-                    <ul class="pagination">
-                        <li class="page-item <c:if test="${currentPage == 1}">disabled</c:if>">
-                            <a class="page-link" href="lcrud?page=${currentPage - 1}">Previous</a>
-                        </li>
-                        <c:forEach begin="1" end="${totalPages}" var="page">
-                            <li class="page-item <c:if test="${currentPage == page}">active</c:if>">
-                                <a class="page-link" href="lcrud?page=${page}">${page}</a>
-                            </li>
-                        </c:forEach>
-                        <li class="page-item <c:if test="${currentPage == totalPages}">disabled</c:if>">
-                            <a class="page-link" href="lcrud?page=${currentPage + 1}">Next</a>
-                        </li>
-                    </ul>
-
+                    <div class="clearfix">
+                        <div class="hint-text"><a href="home">Back to home</a></div>
+                    </div>
                 </div>
             </div>        
         </div>

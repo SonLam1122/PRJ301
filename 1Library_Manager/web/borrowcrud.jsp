@@ -12,7 +12,7 @@
 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/snow/snow.css">
         <script src="${pageContext.request.contextPath}/snow/snow.js" defer></script>
-        
+
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Bootstrap CRUD Data Table for Database with Modal Form</title>
@@ -326,7 +326,7 @@
                                     <a href="lcrud"><button class="btn btn-secondary"  >Library</button></a>
                                 </div>
                                 <div class="col">
-                                    <a href="bcrud"><button class="btn btn-secondary"  >Borrow(${requestScope.size})</button></a>
+                                    <a href="bcrud"><button class="btn btn-secondary"  >Borrow</button></a>
                                 </div>
                                 <div class="col">
                                     <a href="crud"><button class="btn btn-secondary"  >Chart</button></a>
@@ -342,8 +342,30 @@
                             </div>
                         </div>
                     </div>
-                    <!--                    su dung for-->
                     <table class="table table-striped table-hover">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <input type="text" id="searchInput" class="form-control" placeholder="Tìm theo User hoặc Book...">
+                            </div>
+                        </div>
+                        <div>Tổng số Borrow: ${requestScope.size}</div>
+                        <script>
+                            document.getElementById("searchInput").addEventListener("keyup", function () {
+                                let input = this.value.toLowerCase();
+                                let rows = document.querySelectorAll("table tbody tr");
+
+                                rows.forEach(row => {
+                                    let user = row.cells[2].textContent.toLowerCase(); 
+                                    let book = row.cells[3].textContent.toLowerCase(); 
+
+                                    if (user.includes(input) || book.includes(input)) {
+                                        row.style.display = "";
+                                    } else {
+                                        row.style.display = "none";
+                                    }
+                                });
+                            });
+                        </script>
                         <thead>
                             <tr>
                                 <th>
@@ -403,15 +425,6 @@
                     </table>
                     <div class="clearfix">
                         <div class="hint-text"><a href="home">Back to home</a></div>
-                        <ul class="pagination">
-                            <li class="page-item disabled"><a href="#">Previous</a></li>
-                            <li class="page-item"><a href="#" class="page-link">1</a></li>
-                            <li class="page-item"><a href="#" class="page-link">2</a></li>
-                            <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                            <li class="page-item"><a href="#" class="page-link">4</a></li>
-                            <li class="page-item"><a href="#" class="page-link">5</a></li>
-                            <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                        </ul>
                     </div>
                 </div>
             </div>        

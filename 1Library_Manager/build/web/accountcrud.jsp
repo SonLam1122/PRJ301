@@ -32,8 +32,10 @@
                 font-family: 'Roboto', sans-serif;
                 font-weight: 400;
             }
+
+
         </style>
-        
+
         <style>
             body {
                 color: #566787;
@@ -304,7 +306,9 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <a href="acrud"><button class="btn btn-secondary"  >Account(${requestScope.size})</button></a>
+                                    <div class="col text-center">
+                                        <a href="acrud"><button class="btn btn-secondary">Account</button></a>
+                                    </div>
                                 </div>
                                 <div class="col">
                                     <a href="lcrud"><button class="btn btn-secondary"  >Library</button></a>
@@ -328,6 +332,28 @@
                     </div>
                     <!--                    su dung for-->
 
+                    <div class="row mb-3">
+                        <div class="col">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Tìm username...">
+                        </div>
+                    </div>
+                    <div>Tổng số User: ${requestScope.size}</div>
+
+                    <script>
+                        document.getElementById("searchInput").addEventListener("keyup", function () {
+                            let input = this.value.toLowerCase();
+                            let rows = document.querySelectorAll("table tbody tr");
+
+                            rows.forEach(row => {
+                                let username = row.cells[2].textContent.toLowerCase();
+                                if (username.includes(input)) {
+                                    row.style.display = "";
+                                } else {
+                                    row.style.display = "none";
+                                }
+                            });
+                        });
+                    </script>
 
                     <table class="table table-striped table-hover">
                         <tr>
@@ -360,15 +386,6 @@
                     </table>
                     <div class="clearfix">
                         <div class="hint-text"><a href="home">Back to home</a></div>
-                        <ul class="pagination">
-                            <li class="page-item disabled"><a href="#">Previous</a></li>
-                            <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                            <li class="page-item"><a href="#" class="page-link">2</a></li>
-                            <li class="page-item"><a href="#" class="page-link">3</a></li>
-                            <li class="page-item"><a href="#" class="page-link">4</a></li>
-                            <li class="page-item"><a href="#" class="page-link">5</a></li>
-                            <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                        </ul>
                     </div>
                 </div>
             </div>        

@@ -211,7 +211,7 @@
 
                         <div class="col-md-2">
                             <div class="main-logo">
-                                <a href="home.jsp"><img src="images/logo/main-logo.png" alt="logo"></a>
+                                <a href="home"><img src="images/logo/main-logo.png" alt="logo"></a>
                             </div>
 
                         </div>
@@ -221,7 +221,7 @@
                             <nav id="navbar">
                                 <div class="main-menu stellarnav">
                                     <ul class="menu-list">
-                                        <li class="menu-item active"><a href="home.jsp">Home</a></li>
+                                        <li class="menu-item active"><a href="home">Home</a></li>
                                         <li class="menu-item"><a href="search" class="nav-link">Library</a></li>
 
                                         <% if (user != null) { %>  <!-- Kiểm tra nếu đã đăng nhập -->
@@ -267,7 +267,7 @@
                                         xây dựng một tư duy đúng đắn và chiến lược kinh doanh phù hợp. </p>
 
                                 </div><!--banner-content-->
-                                <img width="400px" height="50px" src="images/banner/main-banner1.jpg" alt="banner" class="banner-image">
+                                <img width="400px" height="50px" src="images/banner/banner1.jpg" alt="banner" class="banner-image">
                             </div><!--slider-item-->
 
                             <div class="slider-item">
@@ -283,7 +283,7 @@
                                         cũng như trải nghiệm của bản thân, tôi viết cuốn sách này.</p>
 
                                 </div><!--banner-content-->
-                                <img width="500px"  src="images/banner/main-banner2.jpg" alt="banner" class="banner-image">
+                                <img width="500px"  src="images/banner/banner2.jpg" alt="banner" class="banner-image">
                             </div><!--slider-item-->
 
                         </div><!--slider-->

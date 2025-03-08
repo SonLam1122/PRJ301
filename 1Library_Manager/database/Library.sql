@@ -1,4 +1,4 @@
-﻿
+﻿--Create database Library
 
 -- 1. Bảng Users - Thông tin người dùng
 CREATE TABLE Users (
@@ -89,7 +89,7 @@ VALUES
 
 INSERT INTO Books (title, author, publisher, category, description, image, quantity)
 VALUES
-(N'One Piece2', N'Eiichiro Oda', N'Shueisha2', N'Truyện tranh', N'Hành trình trở thành Vua Hải Tặc của Luffy và đồng đội.', 'images/book/onpiece2.jpg', 10),
+
 -- Truyện tranh
 (N'One Piece', N'Eiichiro Oda', N'Shueisha', N'Truyện tranh', N'Hành trình trở thành Vua Hải Tặc của Luffy và đồng đội.', 'images/book/onpiec.jpg', 10),
 (N'Naruto', N'Masashi Kishimoto', N'Shueisha', N'Truyện tranh', N'Câu chuyện về ninja Naruto và hành trình trưởng thành.', 'images/book/naruto.jpg', 8),
@@ -160,35 +160,3 @@ SELECT
     GETDATE(),
     0 -- Mặc định chưa thanh toán
 FROM Fines f;
-
-CREATE TRIGGER trg_UpdateBorrowStatus
-ON Payments
-AFTER UPDATE
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    -- Nếu status của Payments chuyển từ 0 -> 1 thì update Borrow
-    UPDATE Borrow
-    SET status = 'returned',
-        return_date = GETDATE()
-    WHERE borrow_id IN (
-        SELECT f.borrow_id
-        FROM Fines f
-        JOIN inserted i ON f.fine_id = i.fine_id
-        WHERE i.status = 1
-    );
-END;
-
-UPDATE Payments
-SET status = 1
-WHERE payment_id = 3;
-
-SELECT * FROM Payments;
-SELECT * FROM Fines;
-SELECT * FROM Borrow;
-SELECT * FROM Books;
-SELECT * FROM Users;
-SELECT TOP 4 *
-FROM Books
-ORDER BY created_at DESC;

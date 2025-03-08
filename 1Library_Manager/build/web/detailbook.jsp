@@ -128,18 +128,6 @@
                             <h1 class="title text-dark">
                                 ${book.title}
                             </h1>
-                            <div class="d-flex flex-row my-3">
-                                <div class="text-warning mb-1 me-2">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                    <span class="ms-1">
-                                        4.5
-                                    </span>
-                                </div>
-                            </div>
                         </div>
                         <div class="row">
                             <dt class="col-3">Category</dt>
