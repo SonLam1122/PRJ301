@@ -149,6 +149,98 @@
             }
 
         </style>
+        <style>
+            /* Định dạng form */
+            #f111 {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            #searchInput {
+                height: 40px;
+                font-size: 14px;
+                padding: 0 10px;
+                width: 200px;
+                box-sizing: border-box;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            /* Dropdown chọn ngôn ngữ */
+            .language-dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .language-btn {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                background: white;
+                border: 1px solid #ccc;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                width: 110px;
+                font-size: 14px;
+            }
+
+            .language-btn img {
+                width: 20px;
+                height: 15px;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background: white;
+                border: 1px solid #ccc;
+                min-width: 110px;
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+                z-index: 1000;
+            }
+
+            .dropdown-content div {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                padding: 8px;
+                cursor: pointer;
+                font-size: 14px;
+            }
+
+            .dropdown-content div:hover {
+                background: #f1f1f1;
+            }
+
+            .dropdown-content img {
+                width: 20px;
+                height: 15px;
+            }
+
+            /* Nút tìm kiếm và micro */
+            #voiceSearchBtn, #searchButton {
+                height: 40px;
+                font-size: 14px;
+                padding: 0 10px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            #voiceSearchBtn {
+                background-color: #28a745;
+                color: white;
+            }
+
+            #searchButton {
+                background-color: #007bff;
+                color: white;
+                font-weight: bold;
+            }
+        </style>
     </head>
 
     <body data-bs-spy="scroll" data-bs-target="#header" tabindex="0">
@@ -161,10 +253,28 @@
                         <div class="col-md-6">
                             <div>
                                 <form id="f111" action="search" method="GET">
-                                    <input type="text" name="key" placeholder="Nhập tên sách" />
-                                    <button type="submit">SEARCH</button>
+                                    <input type="text" id="searchInput" name="key" placeholder="Nhập tên sách" />
+
+                                    <!-- Dropdown chọn ngôn ngữ -->
+                                    <div class="language-dropdown">
+                                        <div class="language-btn" id="selectedLanguage">
+                                            <img src="images/logo/covietnam.jpg" alt="Vietnamese Flag"> 🇻🇳 
+                                        </div>
+                                        <div class="dropdown-content" id="languageDropdown">
+                                            <div data-lang="vi-VN">
+                                                <img src="images/logo/covietnam.jpg" alt="Vietnamese Flag"> 🇻🇳 
+                                            </div>
+                                            <div data-lang="en-US">
+                                                <img src="images/logo/nuocanh.jpg" alt="UK Flag"> ENG 
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" id="voiceSearchBtn">🎤</button>
+                                    <button type="submit" id="searchButton">SEARCH</button>
                                 </form>
                             </div>
+
                         </div>
                         <div class="col-md-6">
                             <div class="right-element d-flex justify-content-end align-items-center" style="gap: 10px;">
@@ -588,6 +698,76 @@
                                 }
                             }
         </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const voiceSearchBtn = document.getElementById("voiceSearchBtn");
+                const searchInput = document.getElementById("searchInput");
+                const searchForm = document.getElementById("f111");
+
+                // Dropdown chọn ngôn ngữ
+                const langBtn = document.getElementById("selectedLanguage");
+                const langDropdown = document.getElementById("languageDropdown");
+                let selectedLang = "vi-VN"; // Ngôn ngữ mặc định là tiếng Việt
+
+                // Hiển thị menu khi click
+                langBtn.addEventListener("click", function () {
+                    langDropdown.style.display = langDropdown.style.display === "block" ? "none" : "block";
+                });
+
+                // Chọn ngôn ngữ
+                langDropdown.querySelectorAll("div").forEach(item => {
+                    item.addEventListener("click", function () {
+                        selectedLang = this.getAttribute("data-lang"); // Lấy giá trị ngôn ngữ
+                        langBtn.innerHTML = this.innerHTML; // Cập nhật giao diện
+                        langDropdown.style.display = "none"; // Ẩn menu
+                    });
+                });
+
+                // Đóng menu nếu click bên ngoài
+                document.addEventListener("click", function (event) {
+                    if (!langBtn.contains(event.target) && !langDropdown.contains(event.target)) {
+                        langDropdown.style.display = "none";
+                    }
+                });
+
+                // Kiểm tra trình duyệt có hỗ trợ Web Speech API không
+                if (!('webkitSpeechRecognition' in window)) {
+                    alert("Trình duyệt của bạn không hỗ trợ nhận diện giọng nói.");
+                    return;
+                }
+
+                // Khởi tạo đối tượng nhận diện giọng nói
+                const recognition = new webkitSpeechRecognition();
+                recognition.continuous = false; // Không lắng nghe liên tục
+                recognition.interimResults = false; // Chỉ lấy kết quả cuối cùng
+
+                // Xử lý kết quả khi nhận diện giọng nói xong
+                recognition.onresult = function (event) {
+                    let transcript = event.results[0][0].transcript.trim(); // Lấy nội dung và xóa khoảng trắng thừa
+
+                    // Loại bỏ dấu chấm cuối câu nếu có
+                    if (transcript.endsWith(".")) {
+                        transcript = transcript.slice(0, -1);
+                    }
+
+                    searchInput.value = transcript; // Điền vào ô tìm kiếm
+                    searchForm.submit(); // Tự động gửi form tìm kiếm
+                };
+
+                // Xử lý lỗi (nếu có)
+                recognition.onerror = function (event) {
+                    console.error("Lỗi nhận diện giọng nói:", event.error);
+                };
+
+                // Khi nhấn nút micro, đặt ngôn ngữ đã chọn rồi bắt đầu nhận diện giọng nói
+                voiceSearchBtn.addEventListener("click", function () {
+                    recognition.lang = selectedLang;
+                    recognition.start();
+                });
+            });
+        </script>
+
+
 
     </body>
 
